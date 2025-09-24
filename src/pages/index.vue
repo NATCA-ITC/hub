@@ -188,17 +188,74 @@
                     <span v-if="memberStore.loading">Loading...</span>
                     <span v-else>{{ memberStore.username || user?.email?.split('@')[0] || 'N/A' }}</span>
                   </p>
-                  <p class="mb-1 text-caption">
-                    <strong>Email:</strong>
-                    <span v-if="memberStore.mynatcaLoading">Loading...</span>
-                    <span v-else>{{ memberStore.primaryEmail || user?.email || 'N/A' }}</span>
-                  </p>
-                  <p class="mb-1 text-caption">
-                    <strong>Phone:</strong>
-                    <span v-if="mynatcaLoading">Loading...</span>
-                    <span v-else-if="mynatcaData">{{ mynatcaData.phone || 'N/A' }}</span>
-                    <span v-else>N/A</span>
-                  </p>
+                  <!-- Email Addresses -->
+                  <div class="mb-2">
+                    <p class="text-caption mb-1"><strong>Email Addresses:</strong></p>
+                    <div v-if="mynatcaLoading" class="text-caption text-medium-emphasis">
+                      Loading...
+                    </div>
+                    <div v-else-if="mynatcaData?.emails?.length > 0" class="d-flex flex-column ga-1">
+                      <div
+                        v-for="email in mynatcaData.emails"
+                        :key="email.id"
+                        class="d-flex align-center text-caption"
+                      >
+                        <VIcon
+                          v-if="email.isprimary"
+                          icon="mdi-star"
+                          size="12"
+                          color="warning"
+                          class="me-1"
+                        />
+                        <VIcon
+                          v-else
+                          icon="mdi-star-outline"
+                          size="12"
+                          color="grey"
+                          class="me-1"
+                        />
+                        <span>{{ email.emailaddress }}</span>
+                      </div>
+                    </div>
+                    <div v-else class="text-caption text-medium-emphasis">
+                      {{ user?.email || 'N/A' }}
+                    </div>
+                  </div>
+
+                  <!-- Phone Numbers -->
+                  <div class="mb-2">
+                    <p class="text-caption mb-1"><strong>Phone Numbers:</strong></p>
+                    <div v-if="mynatcaLoading" class="text-caption text-medium-emphasis">
+                      Loading...
+                    </div>
+                    <div v-else-if="mynatcaData?.phonenumbers?.length > 0" class="d-flex flex-column ga-1">
+                      <div
+                        v-for="phone in mynatcaData.phonenumbers"
+                        :key="phone.id"
+                        class="d-flex align-center text-caption"
+                      >
+                        <VIcon
+                          v-if="phone.isprimary"
+                          icon="mdi-star"
+                          size="12"
+                          color="warning"
+                          class="me-1"
+                        />
+                        <VIcon
+                          v-else
+                          icon="mdi-star-outline"
+                          size="12"
+                          color="grey"
+                          class="me-1"
+                        />
+                        <span>{{ phone.phonenumber }}</span>
+                        <span v-if="phone.type" class="text-medium-emphasis ms-1">({{ phone.type }})</span>
+                      </div>
+                    </div>
+                    <div v-else class="text-caption text-medium-emphasis">
+                      N/A
+                    </div>
+                  </div>
                   <p class="mb-1 text-caption">
                     <strong>MyNATCA Status:</strong>
                     <span v-if="mynatcaLoading">Loading...</span>
@@ -395,7 +452,7 @@ const fetchMyNATCAData = async (natcaId, idToken) => {
     console.log('🚀 Fetching MyNATCA data for NATCA ID:', natcaId)
     console.log('🔑 Using ID token:', idToken.substring(0, 50) + '...')
 
-    const response = await fetch(`https://dev.my.natca.org/api/Member/${natcaId}`, {
+    const response = await fetch(`/api/Member/${natcaId}`, {
       headers: {
         'Authorization': `Bearer ${idToken}`,
         'Content-Type': 'application/json'
@@ -438,9 +495,8 @@ watch([isAuthenticated, memberNumber], async () => {
 
       // Only fetch from MyNATCA API using the ID token you specified
       if (natcaId) {
-        // Get the raw ID token string from localStorage or Auth0
-        const idTokenString = localStorage.getItem('id_token') ||
-                             'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjcyaWg4UExyRWdxbFlVU1dfbHJEMCJ9.eyJodHRwczovL25hdGNhSW5mby5uZXQvbmF0Y2FfaWQiOjEyOTg1LCJodHRwczovL25hdGNhSW5mby5uZXQvdXNlcm5hbWUiOiJqZG9zcyIsImh0dHBzOi8vbmF0Y2FJbmZvLm5ldC9yZWdpb25faWQiOjIsImh0dHBzOi8vbmF0Y2FJbmZvLm5ldC9maXJzdG5hbWUiOiJKYXNvbiIsImh0dHBzOi8vbmF0Y2FJbmZvLm5ldC9sYXN0bmFtZSI6IkRvc3MiLCJodHRwczovL25hdGNhSW5mby5uZXQvbmlja25hbWUiOiIiLCJodHRwczovL25hdGNhSW5mby5uZXQvbWVtYmVyX25vIjoiNDAxNjIiLCJnaXZlbl9uYW1lIjoiSmFzb24iLCJmYW1pbHlfbmFtZSI6IkRvc3MiLCJuaWNrbmFtZSI6Imphc29uIiwibmFtZSI6Ikphc29uIERvc3MiLCJwaWN0dXJlIjoiaHR0cHM6Ly9zLmdyYXZhdGFyLmNvbS9hdmF0YXIvNjAwM2I4OWY4NTMwNWFmODBkZjgzNzYwNTg1MjBlZWI_cz00ODAmcj1wZyZkPWh0dHBzJTNBJTJGJTJGY2RuLmF1dGgwLmNvbSUyRmF2YXRhcnMlMkZqai5wbmciLCJ1cGRhdGVkX2F0IjoiMjAyNS0wOS0yMVQxODo1MDoxMy41MzNaIiwiZW1haWwiOiJqZG9zc0BuYXRjYS5vcmciLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6Ly9uYXRjYS1kZXYudXMuYXV0aDAuY29tLyIsImF1ZCI6IjNvTUtGWGVxM0w0cnFuMW1oZkh2eU1vMHV5dG9vMnJNIiwic3ViIjoiYXV0aDB8NjY5NmRjZDY3YTJhYjA1YjY5YThlZTVlIiwiaWF0IjoxNzU4NDgxNDQ3LCJleHAiOjE3NTg1MTc0NDcsInNpZCI6InhhRHJxU1NBMVNmeGZkVGZ5UDIxdm1QZ0lpeG12S3A2Iiwibm9uY2UiOiJjR3BSZTU5aVZUTndUVlJSWjFwS1JqY3daVXQzU25kT01EZFdiRzk+Y0hsRFZYSlhZVTAyVXk0d05RPT0ifQ.Cpmp-Ejm69g1FZcRWYWxdDxvhJRMICbci6VcQ__H_WFawGsH2VFl4tLc1XzhZJpHDMjvgMvm1NSn5YpikGLbKTgd2AtPiWBUZi93es2QEfyjZK1eYzaPjD2IPhCu4vptGEbVAgJqtfhiJKX8_HxlxfeKZ_tODhUJvFqbvsD56kJx73lVP3DVTiSmVCM8zZ5ABdwoDSAFSYhbexgjmUVrnRQ6ubXSevG8xNz0k4kgqr20r6i7Fv-ekt9uwYgRSGOZhrNLP0SCFN1o2EP0HGCTxorSObbtVUZv2_MHa1y1hmLY6vY4c4SNh0_knnuZQ-FxUeHErD_KX5SAg3dR6eKx7A'
+      // Fetch from both Supabase and MyNATCA API
+      await memberStore.fetchMemberData(memberNumber.value, natcaId)
 
         await fetchMyNATCAData(natcaId, idToken.value)
       }
