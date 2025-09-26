@@ -69,7 +69,7 @@
               <VBtn
                 color="primary"
                 size="large"
-                @click="login"
+                @click="() => login()"
               >
                 <VIcon icon="mdi-login" class="me-2" />
                 Log In with Auth0

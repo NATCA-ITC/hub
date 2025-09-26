@@ -16,11 +16,15 @@ export class MemberService {
       if (memberError) throw memberError
       if (!member) return null
 
+      // Default member_type_id to 6 (Current Member) if not set
+      const memberTypeId = member.member_type_id || 6;
+      console.log(`🔍 Member ${memberNumber} member_type_id: ${member.member_type_id} -> using: ${memberTypeId}`);
+
       // Get related data in parallel
       const [facilityResult, regionResult, memberTypeResult] = await Promise.allSettled([
         this.getFacilityById(member.facility_id),
         this.getRegionById(member.region_id),
-        this.getMemberTypeById(member.member_type_id)
+        this.getMemberTypeById(memberTypeId)
       ])
 
       return {
@@ -87,19 +91,27 @@ export class MemberService {
     }
   }
 
-  // Get member type by ID
+  // Get member type by ID (hardcoded mappings)
   static async getMemberTypeById(memberTypeId: number): Promise<MemberType | null> {
     try {
-      const { data, error } = await supabase
-        .from('member_types')
-        .select('*')
-        .eq('id', memberTypeId)
-        .single()
+      console.log(`🔍 Getting member type for ID: ${memberTypeId} (type: ${typeof memberTypeId})`)
 
-      if (error) throw error
-      return data
+      const memberTypes: { [key: number]: MemberType } = {
+        6: { id: 6, name: 'Current Member', description: 'Active NATCA member' },
+        8: { id: 8, name: 'NATCA Employee', description: 'NATCA staff member' },
+        10: { id: 10, name: 'Retired Member', description: 'Retired NATCA member' }
+      }
+
+      const memberType = memberTypes[memberTypeId]
+      if (!memberType) {
+        console.warn(`Member type ${memberTypeId} not found in mappings. Available types: ${Object.keys(memberTypes)}`)
+        return null
+      }
+
+      console.log(`✅ Found member type: ${memberType.name}`)
+      return memberType
     } catch (error) {
-      console.warn(`Member type ${memberTypeId} not found:`, error)
+      console.warn(`Error getting member type ${memberTypeId}:`, error)
       return null
     }
   }

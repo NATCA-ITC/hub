@@ -15,9 +15,10 @@ export const useMemberStore = defineStore('member', () => {
   const lastFetched = ref<Date | null>(null)
   const mynatcaLastFetched = ref<Date | null>(null)
 
-  // Configure MyNATCA API service with Auth0 token provider
+  // Configure MyNATCA API service with Auth0 token provider (deprecated - keeping for compatibility)
   const setupAuthTokenProvider = (getToken: () => string | null) => {
-    mynatcaApiService.setAuthTokenProvider(getToken)
+    console.warn('⚠️ setupAuthTokenProvider called but using session-based auth - ignoring')
+    // No longer needed with session-based auth through platform proxy
   }
 
   // Computed
@@ -41,17 +42,17 @@ export const useMemberStore = defineStore('member', () => {
   // MyNATCA profile computed properties
   const primaryEmail = computed(() => {
     const emails = mynatcaProfile.value?.emailAddresses || []
-    return emails.find(email => email.isPrimary)?.emailAddress || emails[0]?.emailAddress || null
+    return emails.find(email => email.isprimary)?.email || emails[0]?.email || null
   })
 
   const allEmails = computed(() => mynatcaProfile.value?.emailAddresses || [])
 
   const primaryPhone = computed(() => {
-    const phones = mynatcaProfile.value?.phoneNumbers || []
-    return phones.find(phone => phone.isPrimary)?.phoneNumber || phones[0]?.phoneNumber || null
+    const phones = mynatcaProfile.value?.phones || []
+    return phones.find(phone => phone.isprimary)?.number || phones[0]?.number || null
   })
 
-  const allPhones = computed(() => mynatcaProfile.value?.phoneNumbers || [])
+  const allPhones = computed(() => mynatcaProfile.value?.phones || [])
 
   // Actions
   const fetchMemberData = async (memberNumber: string, natcaId?: number, forceRefresh = false) => {
@@ -121,9 +122,10 @@ export const useMemberStore = defineStore('member', () => {
         mynatcaProfile.value = profileData
         mynatcaLastFetched.value = new Date()
         console.log('✅ MyNATCA profile fetched successfully:', {
-          name: `${profileData.firstName} ${profileData.lastName}`,
-          emails: profileData.emailAddresses.length,
-          phones: profileData.phoneNumbers.length
+          name: `${profileData.firstname || ''} ${profileData.lastname || ''}`.trim(),
+          emails: profileData.emailAddresses?.length || 0,
+          phones: profileData.phones?.length || 0,
+          data: profileData
         })
       }
 

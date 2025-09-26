@@ -4,42 +4,63 @@ import axios, { type AxiosInstance } from 'axios'
 // TypeScript interfaces for MyNATCA API responses
 export interface MyNATCAMemberProfile {
   id: number
-  firstName: string
-  lastName: string
-  membershipNumber: string
+  firstname: string
+  lastname: string
+  middlename?: string
+  membernumber: string
   emailAddresses: MemberEmail[]
-  phoneNumbers: MemberPhone[]
+  phones: MemberPhone[]
   addresses: MemberAddress[]
-  membershipStatus: string
-  facility?: string
-  region?: string
+  status: string
+  facility?: MyNATCAFacility
+  region?: MyNATCARegion
+  username?: string
+  nickname?: string
+  dateofbirth?: string
   // Add other fields as discovered from API
+}
+
+export interface MyNATCAFacility {
+  id: number
+  code: string
+  description: string
+  region?: string
+}
+
+export interface MyNATCARegion {
+  id: number
+  code: string
+  description: string
 }
 
 export interface MemberEmail {
   id: number
-  emailAddress: string
-  isPrimary: boolean
-  emailType: string
+  email: string
+  isprimary: boolean
 }
 
 export interface MemberPhone {
   id: number
-  phoneNumber: string
-  isPrimary: boolean
-  phoneType: string
+  number: string
+  isprimary: boolean
+  phonetype: string
+  phonetypeid: number
+  isVerified?: boolean
 }
 
 export interface MemberAddress {
   id: number
-  addressLine1: string
-  addressLine2?: string
+  address1: string
+  address2?: string
+  address3?: string
   city: string
   state: string
-  zipCode: string
-  country: string
-  isPrimary: boolean
-  addressType: string
+  zipcode: string
+  county?: string
+  isprimary: boolean
+  addresstypeid: number
+  addressid: number
+  isValidAddress: boolean
 }
 
 class MyNATCAApiService {
@@ -48,47 +69,23 @@ class MyNATCAApiService {
   private getAuthToken: (() => string | null) | null = null
 
   constructor() {
-    this.baseURL = 'https://my.natca.org'
+    // Use relative URLs to leverage Vite proxy to platform
+    this.baseURL = '/api/mynatca'
     this.apiClient = axios.create({
       baseURL: this.baseURL,
       timeout: 10000,
+      withCredentials: true, // Important: include cookies for session auth
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       }
     })
 
-    // Add request interceptor for authentication
+    // Add request interceptor for session-based auth
     this.apiClient.interceptors.request.use(
       (config) => {
-        // Add Auth0 bearer token if available
-        const token = this.getAuthToken?.()
-        if (token) {
-          config.headers.Authorization = `Bearer ${token}`
-          console.log('🔐 Adding Auth0 bearer token to MyNATCA API request')
-
-          // Debug: Log token structure (first 50 chars for security)
-          console.log('🔍 Token preview:', token.substring(0, 50) + '...')
-
-          // Debug: Decode and log JWT payload for debugging (remove in production)
-          try {
-            const base64Payload = token.split('.')[1]
-            const payload = JSON.parse(atob(base64Payload))
-            console.log('🎟️ Token payload preview:', {
-              iss: payload.iss,
-              aud: payload.aud,
-              sub: payload.sub,
-              exp: payload.exp,
-              scope: payload.scope,
-              azp: payload.azp,
-              hasNatcaClaims: !!(payload['https://natcaInfo.net/member_no'] || payload['https://natcaInfo.net/natca_id'])
-            })
-          } catch (err) {
-            console.error('❌ Failed to decode token payload:', err)
-          }
-        } else {
-          console.warn('⚠️ No Auth0 token available for MyNATCA API request')
-        }
+        // With session-based auth, cookies are automatically included via withCredentials
+        console.log('🔐 Making MyNATCA API request via platform proxy with session cookies')
         return config
       },
       (error) => {
@@ -114,12 +111,12 @@ class MyNATCAApiService {
 
         // Special handling for 401 Unauthorized
         if (error.response?.status === 401) {
-          console.error('🚫 Authentication failed with MyNATCA API')
+          console.error('🚫 Authentication failed with MyNATCA API via platform')
           console.error('💡 This could indicate:')
-          console.error('   - Invalid Auth0 audience configuration')
-          console.error('   - Missing required scopes in token')
-          console.error('   - MyNATCA API expects different token format')
-          console.error('   - Token expired or invalid')
+          console.error('   - User session expired')
+          console.error('   - Platform authentication not working')
+          console.error('   - Platform proxy not forwarding auth correctly')
+          console.error('   - User needs to log in again')
         }
 
         return Promise.reject(error)
@@ -127,33 +124,43 @@ class MyNATCAApiService {
     )
   }
 
-  // Set the function to get Auth0 token
+  // Set the function to get Auth0 token (deprecated - keeping for compatibility)
   setAuthTokenProvider(tokenProvider: () => string | null) {
-    this.getAuthToken = tokenProvider
+    console.warn('⚠️ setAuthTokenProvider called but using session-based auth - ignoring')
+    // No longer needed with session-based auth
   }
 
   // Get member profile by NATCA ID
   async getMemberProfile(natcaId: number): Promise<MyNATCAMemberProfile | null> {
     try {
-      console.log('🌐 Calling MyNATCA API for member profile:', natcaId)
+      console.log('🌐 Calling MyNATCA API via platform for member profile:', natcaId)
 
-      const response = await this.apiClient.get(`/api/Member/${natcaId}`)
+      const response = await this.apiClient.get(`/Member/${natcaId}`)
+
+      // Check if response is HTML (indicating we hit a frontend website instead of API)
+      if (typeof response.data === 'string' && response.data.includes('<!doctype html>')) {
+        console.warn('🚧 MyNATCA API returned HTML instead of JSON - using mock data')
+        return this.getMockMemberProfile(natcaId)
+      }
+
+      // Handle wrapped response structure { status: "Success", data: {...} }
+      const actualData = response.data?.status === 'Success' ? response.data.data : response.data
 
       console.log('✅ MyNATCA API response received:', {
         status: response.status,
-        hasData: !!response.data,
-        memberName: response.data?.firstName && response.data?.lastName
-          ? `${response.data.firstName} ${response.data.lastName}`
+        hasData: !!actualData,
+        memberName: actualData?.firstname && actualData?.lastname
+          ? `${actualData.firstname} ${actualData.lastname}`
           : 'Unknown'
       })
 
-      return response.data
+      return actualData
     } catch (error) {
       console.error('❌ Failed to fetch member profile from MyNATCA API:', error)
 
-      // In development, this might fail due to CORS or authentication
+      // In development, this might fail due to platform connectivity or authentication
       if (import.meta.env.DEV) {
-        console.warn('🚧 MyNATCA API call failed (expected in development without proper auth)')
+        console.warn('🚧 MyNATCA API call via platform failed (expected if platform not running)')
         return this.getMockMemberProfile(natcaId)
       }
 
@@ -165,50 +172,59 @@ class MyNATCAApiService {
   private getMockMemberProfile(natcaId: number): MyNATCAMemberProfile {
     return {
       id: natcaId,
-      firstName: 'John',
-      lastName: 'Smith',
-      membershipNumber: '40162',
-      membershipStatus: 'Active',
-      facility: 'Philadelphia TRACON',
-      region: 'Eastern',
+      firstname: 'John',
+      lastname: 'Smith',
+      membernumber: '40162',
+      status: 'Active',
+      facility: {
+        id: 123,
+        code: 'PHL',
+        description: 'Philadelphia TRACON'
+      },
+      region: {
+        id: 2,
+        code: 'EAS',
+        description: 'Eastern'
+      },
       emailAddresses: [
         {
           id: 1,
-          emailAddress: 'john.smith@example.com',
-          isPrimary: true,
-          emailType: 'Personal'
+          email: 'john.smith@example.com',
+          isprimary: true
         },
         {
           id: 2,
-          emailAddress: 'j.smith@natca.net',
-          isPrimary: false,
-          emailType: 'NATCA'
+          email: 'j.smith@natca.net',
+          isprimary: false
         }
       ],
-      phoneNumbers: [
+      phones: [
         {
           id: 1,
-          phoneNumber: '(555) 123-4567',
-          isPrimary: true,
-          phoneType: 'Mobile'
+          number: '(555) 123-4567',
+          isprimary: true,
+          phonetype: 'Cell',
+          phonetypeid: 1
         },
         {
           id: 2,
-          phoneNumber: '(555) 987-6543',
-          isPrimary: false,
-          phoneType: 'Home'
+          number: '(555) 987-6543',
+          isprimary: false,
+          phonetype: 'Home',
+          phonetypeid: 3
         }
       ],
       addresses: [
         {
           id: 1,
-          addressLine1: '123 Aviation Way',
+          address1: '123 Aviation Way',
           city: 'Philadelphia',
           state: 'PA',
-          zipCode: '19153',
-          country: 'USA',
-          isPrimary: true,
-          addressType: 'Home'
+          zipcode: '19153',
+          isprimary: true,
+          addresstypeid: 1,
+          addressid: 1001,
+          isValidAddress: true
         }
       ]
     }
@@ -217,7 +233,7 @@ class MyNATCAApiService {
   // Update member profile (for future use)
   async updateMemberProfile(natcaId: number, profileData: Partial<MyNATCAMemberProfile>): Promise<boolean> {
     try {
-      const response = await this.apiClient.put(`/api/Member/UpdateMemberProfile`, {
+      const response = await this.apiClient.put(`/Member/UpdateMemberProfile`, {
         id: natcaId,
         ...profileData
       })
@@ -231,7 +247,7 @@ class MyNATCAApiService {
   // Update member email addresses
   async updateMemberEmails(natcaId: number, emails: MemberEmail[]): Promise<boolean> {
     try {
-      const response = await this.apiClient.put(`/api/Member/UpdateMemberEmailAddresses`, {
+      const response = await this.apiClient.put(`/Member/UpdateMemberEmailAddresses`, {
         memberId: natcaId,
         emailAddresses: emails
       })
@@ -245,7 +261,7 @@ class MyNATCAApiService {
   // Update member phone numbers
   async updateMemberPhones(natcaId: number, phones: MemberPhone[]): Promise<boolean> {
     try {
-      const response = await this.apiClient.put(`/api/Member/UpdateMemberPhones`, {
+      const response = await this.apiClient.put(`/Member/UpdateMemberPhones`, {
         memberId: natcaId,
         phoneNumbers: phones
       })

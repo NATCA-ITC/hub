@@ -17,19 +17,20 @@ export default defineConfig({
     port: 1301,
     host: true,
     proxy: {
+      // Route all API calls through the platform
       '/api': {
-        target: 'https://dev.my.natca.org',
+        target: 'http://localhost:1300',
         changeOrigin: true,
-        secure: true,
+        secure: false,
         configure: (proxy, _options) => {
           proxy.on('error', (err, _req, _res) => {
-            console.log('proxy error', err);
+            console.log('Platform proxy error:', err);
           });
           proxy.on('proxyReq', (proxyReq, req, _res) => {
-            console.log('Sending Request to the Target:', req.method, req.url);
+            console.log('Sending Request to Platform:', req.method, req.url);
           });
           proxy.on('proxyRes', (proxyRes, req, _res) => {
-            console.log('Received Response from the Target:', proxyRes.statusCode, req.url);
+            console.log('Received Response from Platform:', proxyRes.statusCode, req.url);
           });
         },
       }

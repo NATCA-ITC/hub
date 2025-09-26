@@ -1,16 +1,20 @@
 import { ref, computed, onMounted } from 'vue'
-import { createAuth0Client, type Auth0Client, type User } from '@auth0/auth0-spa-js'
 
-// Auth0 configuration - Simple SPA setup (no API/audience like other NATCA systems)
-const AUTH0_CONFIG = {
-  domain: import.meta.env.VITE_AUTH0_DOMAIN || 'natca-dev.us.auth0.com',
-  clientId: import.meta.env.VITE_AUTH0_CLIENT_ID || '',
-  authorizationParams: {
-    redirect_uri: window.location.origin,
-    scope: 'openid profile email'
-  },
-  cacheLocation: 'localstorage' as const,
-  useRefreshTokens: false
+// Platform OAuth 2.0 configuration
+const PLATFORM_CONFIG = {
+  baseUrl: import.meta.env.DEV ? '' : 'https://my.natca.org', // Use relative URLs in dev for Vite proxy
+  loginUrl: '/api/auth/login',
+  logoutUrl: '/api/auth/logout',
+  sessionUrl: '/api/auth/session'
+}
+
+// User interface compatible with Auth0 User type
+interface User {
+  sub?: string
+  name?: string
+  email?: string
+  picture?: string
+  [key: string]: any
 }
 
 // Global state
@@ -22,154 +26,125 @@ const idToken = ref<string | null>(null)
 const idTokenClaims = ref<any | null>(null)
 const error = ref<string | null>(null)
 
-let auth0Client: Auth0Client | null = null
+// Session data from platform
+let sessionData: any = null
 
-// Extract member profile from token
-const extractMemberProfile = (token: string, userInfo: User) => {
-  try {
-    if (!token || typeof token !== 'string') {
-      console.warn('Invalid token provided to extractMemberProfile')
-      return null
-    }
-
-    const parts = token.split('.')
-    if (parts.length !== 3) {
-      console.warn('Token does not have 3 parts, not a valid JWT')
-      return null
-    }
-
-    const base64Payload = parts[1]
-    if (!base64Payload) {
-      console.warn('Token payload is empty')
-      return null
-    }
-
-    console.log('🔍 Decoding token payload...')
-    const payload = JSON.parse(atob(base64Payload))
-    console.log('📋 Full token payload:', payload)
-
-    const profile = {
-      id: userInfo.sub,
-      name: userInfo.name,
-      email: userInfo.email,
-      picture: userInfo.picture,
-      memberNumber: payload['https://natcaInfo.net/member_no'] || '40162',
-      natcaId: payload['https://natcaInfo.net/natca_id'] || 12985,
-      facility: payload.facility || 'PHL',
-      region: payload.region || 'Eastern',
-      positions: payload.positions || ['Controller'],
-      status: payload.status || 'Active'
-    }
-
-    console.log('✅ Extracted member profile:', profile)
-    return profile
-  } catch (err) {
-    console.error('Error extracting member profile:', err)
-    console.log('🔍 Token that failed:', token?.substring(0, 100) + '...')
-    return null
+// Cleanup old Auth0 localStorage data
+const cleanupOldAuthData = () => {
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem('auth_token')
+    Object.keys(localStorage).forEach(key => {
+      if (key.startsWith('@@auth0spajs@@')) {
+        localStorage.removeItem(key)
+      }
+    })
   }
 }
 
+
 const memberProfile = computed(() => {
-  if (!idTokenClaims.value || !user.value) return null
+  if (!sessionData || !user.value) return null
 
-  console.log('🔍 Computing member profile from ID token claims')
+  console.log('🔍 Computing member profile from session data')
+  console.log('🔍 Full sessionData:', sessionData)
+  console.log('🔍 sessionData.user:', sessionData.user)
+  console.log('🔍 sessionData.user?.natcaId:', sessionData.user?.natcaId)
+  console.log('🔍 sessionData.natcaId:', sessionData.natcaId)
 
-  const claims = idTokenClaims.value
   const profile = {
     id: user.value.sub,
     name: user.value.name,
     email: user.value.email,
     picture: user.value.picture,
-    memberNumber: claims['https://natcaInfo.net/member_no'] || '40162',
-    natcaId: claims['https://natcaInfo.net/natca_id'] || 12985,
-    username: claims['https://natcaInfo.net/username'] || '',
-    firstName: claims['https://natcaInfo.net/firstname'] || '',
-    lastName: claims['https://natcaInfo.net/lastname'] || '',
-    regionId: claims['https://natcaInfo.net/region_id'] || null,
-    facility: claims.facility || 'PHL',
-    region: claims.region || 'Eastern',
-    positions: claims.positions || ['Controller'],
-    status: claims.status || 'Active'
+    memberNumber: sessionData.user?.memberNumber || sessionData.memberNumber,
+    natcaId: sessionData.user?.natcaId || sessionData.natcaId,
+    username: sessionData.username || '',
+    firstName: sessionData.firstName || '',
+    lastName: sessionData.lastName || '',
+    regionId: sessionData.regionId || null,
+    facility: sessionData.facility || 'PHL',
+    region: sessionData.region || 'Eastern',
+    positions: sessionData.positions || ['Controller'],
+    status: sessionData.status || 'Active'
   }
 
   console.log('✅ Member profile computed:', profile)
   return profile
 })
 
-// Initialize Auth0
+// Initialize Platform Authentication
 const initializeAuth0 = async () => {
   try {
-    console.log('🔧 Initializing Auth0...')
+    console.log('🔧 Initializing Platform Authentication...')
     isLoading.value = true
     error.value = null
 
-    // Create Auth0 client
-    auth0Client = await createAuth0Client(AUTH0_CONFIG)
+    // Check current session with platform
+    const response = await fetch(`${PLATFORM_CONFIG.baseUrl}${PLATFORM_CONFIG.sessionUrl}`, {
+      credentials: 'include', // Important: include cookies for session
+      headers: {
+        'Accept': 'application/json'
+      }
+    })
 
-    // Handle callback if present
-    if (window.location.search.includes('code=') && window.location.search.includes('state=')) {
-      console.log('🔄 Handling Auth0 callback...')
-      await auth0Client.handleRedirectCallback()
-      window.history.replaceState({}, document.title, window.location.pathname)
-    }
+    if (response.ok) {
+      sessionData = await response.json()
 
-    // Check authentication status (without silent authentication to avoid 400 errors)
-    const authenticated = await auth0Client.isAuthenticated()
-    isAuthenticated.value = authenticated
+      if (sessionData && sessionData.user) {
+        console.log('✅ Platform session found:', sessionData)
 
-    if (authenticated) {
-      try {
-        user.value = await auth0Client.getUser() || null
-
-        // Get both ID token (for member profile) and access token (for API calls)
-        idTokenClaims.value = await auth0Client.getIdTokenClaims()
-        idToken.value = idTokenClaims.value?.__raw || null
-        console.log('🆔 ID Token claims:', idTokenClaims.value)
-        console.log('🔑 Raw ID Token:', idToken.value?.substring(0, 50) + '...')
-
-        // Only get access token if we're authenticated
-        accessToken.value = await auth0Client.getTokenSilently({
-          ignoreCache: false
-        })
-
-        // Store in localStorage for API calls
-        if (accessToken.value) {
-          localStorage.setItem('auth_token', accessToken.value)
+        // Set authentication state
+        isAuthenticated.value = true
+        user.value = {
+          sub: sessionData.user.id || sessionData.user.sub,
+          name: sessionData.user.name,
+          email: sessionData.user.email,
+          picture: sessionData.user.picture
         }
 
-        console.log('✅ Auth0 initialized - user authenticated')
-        console.log('🔑 Access token available:', !!accessToken.value)
-      } catch (tokenError) {
-        console.warn('⚠️ Could not get token silently, user needs to re-authenticate')
-        // Clear auth state if token retrieval fails
+        // For backward compatibility, set token-related fields
+        // These will be null since we're using session-based auth
+        accessToken.value = null
+        idToken.value = null
+        idTokenClaims.value = sessionData.user
+
+        console.log('✅ Platform auth initialized - user authenticated')
+      } else {
+        console.log('✅ Platform auth initialized - user not authenticated')
         isAuthenticated.value = false
         user.value = null
-        accessToken.value = null
-        idTokenClaims.value = null
-        localStorage.removeItem('auth_token')
+        sessionData = null
       }
     } else {
-      console.log('✅ Auth0 initialized - user not authenticated')
-      localStorage.removeItem('auth_token')
+      console.log('✅ Platform auth initialized - no active session')
+      isAuthenticated.value = false
+      user.value = null
+      sessionData = null
     }
+
+    // Clean up old Auth0 localStorage data
+    cleanupOldAuthData()
+
   } catch (err: any) {
-    error.value = err.message || 'Authentication initialization failed'
-    console.error('❌ Auth0 initialization error:', err)
+    error.value = err.message || 'Platform authentication initialization failed'
+    console.error('❌ Platform auth initialization error:', err)
+    isAuthenticated.value = false
+    user.value = null
+    sessionData = null
   } finally {
     isLoading.value = false
   }
 }
 
 // Login function
-const login = async () => {
-  if (!auth0Client) {
-    console.error('Auth0 client not initialized')
-    return
-  }
-
+const login = async (returnTo?: string) => {
   try {
-    await auth0Client.loginWithRedirect()
+    // Build login URL with returnTo parameter
+    const currentUrl = returnTo || window.location.href
+    const loginUrl = `${PLATFORM_CONFIG.baseUrl}${PLATFORM_CONFIG.loginUrl}?returnTo=${encodeURIComponent(currentUrl)}`
+
+    console.log('🔄 Redirecting to platform login:', loginUrl)
+    window.location.href = loginUrl
   } catch (err: any) {
     error.value = err.message || 'Login failed'
     console.error('Login error:', err)
@@ -178,31 +153,33 @@ const login = async () => {
 
 // Logout function
 const logout = async () => {
-  if (!auth0Client) return
-
   try {
-    localStorage.removeItem('auth_token')
-    await auth0Client.logout({
-      logoutParams: {
-        returnTo: window.location.origin
-      }
-    })
+    // Clear local state
+    isAuthenticated.value = false
+    user.value = null
+    sessionData = null
+    accessToken.value = null
+    idToken.value = null
+    idTokenClaims.value = null
+
+    // Call platform logout endpoint
+    const logoutUrl = `${PLATFORM_CONFIG.baseUrl}${PLATFORM_CONFIG.logoutUrl}`
+    console.log('🔄 Redirecting to platform logout:', logoutUrl)
+    window.location.href = logoutUrl
   } catch (err: any) {
     error.value = err.message || 'Logout failed'
     console.error('Logout error:', err)
   }
 }
 
-// Get fresh token
+// Get fresh token (returns null for session-based auth)
 const getToken = async () => {
-  if (!auth0Client || !isAuthenticated.value) return null
+  if (!isAuthenticated.value) return null
 
-  try {
-    return await auth0Client.getTokenSilently()
-  } catch (err) {
-    console.error('Failed to get token:', err)
-    return null
-  }
+  // With session-based auth, we don't need tokens
+  // API calls will be made through the platform proxy with session cookies
+  console.warn('⚠️ getToken() called but using session-based auth - returning null')
+  return null
 }
 
 // Computed properties for member data
@@ -213,15 +190,15 @@ const positions = computed(() => memberProfile.value?.positions || [])
 
 // Ensure initialized function for router guards
 const ensureInitialized = async () => {
-  if (auth0Client === null) {
+  if (sessionData === null && !isLoading.value) {
     await initializeAuth0()
   }
 }
 
-// Auth0 composable
+// Platform Auth composable (keeping useAuth0 name for compatibility)
 export const useAuth0 = () => {
   // Initialize on first use
-  if (auth0Client === null && !isLoading.value) {
+  if (sessionData === null && !isLoading.value) {
     initializeAuth0()
   }
 
@@ -250,14 +227,6 @@ export const useAuth0 = () => {
   }
 }
 
-// Clear any existing Auth0 localStorage cache to prevent issues
-if (typeof window !== 'undefined') {
-  Object.keys(localStorage).forEach(key => {
-    if (key.startsWith('@@auth0spajs@@')) {
-      localStorage.removeItem(key)
-    }
-  })
-}
-
-// Auto-initialize Auth0
+// Auto-initialize Platform Authentication and cleanup old data
+cleanupOldAuthData()
 initializeAuth0()

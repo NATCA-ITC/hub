@@ -15,12 +15,13 @@
             >
               Please log in to view your profile.
             </VAlert>
-            <div v-else-if="isLoading" class="text-center">
+            <div v-else-if="loading || mynatcaLoading" class="text-center">
               <VProgressCircular indeterminate color="primary" />
               <p class="mt-2">Loading your profile...</p>
             </div>
             <div v-else>
               <VRow>
+                <!-- Basic Information -->
                 <VCol cols="12" md="6">
                   <VCard variant="outlined" class="mb-4">
                     <VCardTitle>Basic Information</VCardTitle>
@@ -28,23 +29,15 @@
                       <VRow>
                         <VCol cols="12">
                           <VTextField
-                            v-model="profile.name"
+                            :model-value="fullName"
                             label="Full Name"
-                            :readonly="!editMode"
-                            variant="outlined"
-                          />
-                        </VCol>
-                        <VCol cols="12">
-                          <VTextField
-                            v-model="profile.email"
-                            label="Email"
-                            :readonly="!editMode"
+                            readonly
                             variant="outlined"
                           />
                         </VCol>
                         <VCol cols="6">
                           <VTextField
-                            v-model="profile.memberNumber"
+                            :model-value="memberNumber"
                             label="Member Number"
                             readonly
                             variant="outlined"
@@ -52,8 +45,8 @@
                         </VCol>
                         <VCol cols="6">
                           <VTextField
-                            v-model="profile.region"
-                            label="Region"
+                            :model-value="username"
+                            label="Username"
                             readonly
                             variant="outlined"
                           />
@@ -63,6 +56,7 @@
                   </VCard>
                 </VCol>
 
+                <!-- Facility Information -->
                 <VCol cols="12" md="6">
                   <VCard variant="outlined" class="mb-4">
                     <VCardTitle>Facility Information</VCardTitle>
@@ -70,25 +64,87 @@
                       <VRow>
                         <VCol cols="12">
                           <VTextField
-                            v-model="profile.facility"
+                            :model-value="facilityName"
                             label="Primary Facility"
                             readonly
                             variant="outlined"
                           />
                         </VCol>
-                        <VCol cols="12">
-                          <VChipGroup>
-                            <VChip
-                              v-for="position in profile.positions"
-                              :key="position"
-                              color="primary"
-                              variant="outlined"
-                            >
-                              {{ position }}
-                            </VChip>
-                          </VChipGroup>
+                        <VCol cols="6">
+                          <VTextField
+                            :model-value="facilityCode"
+                            label="Facility Code"
+                            readonly
+                            variant="outlined"
+                          />
+                        </VCol>
+                        <VCol cols="6">
+                          <VTextField
+                            :model-value="regionName"
+                            label="Region"
+                            readonly
+                            variant="outlined"
+                          />
                         </VCol>
                       </VRow>
+                    </VCardText>
+                  </VCard>
+                </VCol>
+              </VRow>
+
+              <!-- Contact Information from MyNATCA API -->
+              <VRow v-if="mynatcaProfile">
+                <!-- Email Addresses -->
+                <VCol cols="12" md="6">
+                  <VCard variant="outlined" class="mb-4">
+                    <VCardTitle class="d-flex align-center">
+                      <VIcon icon="mdi-email" class="me-2" />
+                      Email Addresses
+                    </VCardTitle>
+                    <VCardText>
+                      <div v-for="email in allEmails" :key="email.id" class="d-flex align-center py-1">
+                        <VIcon
+                          :icon="email.isprimary ? 'mdi-star' : 'mdi-star-outline'"
+                          :color="email.isprimary ? 'amber' : 'grey'"
+                          size="small"
+                          class="me-2"
+                        />
+                        <VIcon icon="mdi-email" size="small" class="me-2 text-primary" />
+                        <span class="text-body-2">{{ email.email }}</span>
+                      </div>
+                    </VCardText>
+                  </VCard>
+                </VCol>
+
+                <!-- Phone Numbers -->
+                <VCol cols="12" md="6">
+                  <VCard variant="outlined" class="mb-4">
+                    <VCardTitle class="d-flex align-center">
+                      <VIcon icon="mdi-phone" class="me-2" />
+                      Phone Numbers
+                    </VCardTitle>
+                    <VCardText>
+                      <div v-for="phone in allPhones" :key="phone.id" class="d-flex align-center py-1">
+                        <VIcon
+                          :icon="phone.isprimary ? 'mdi-star' : 'mdi-star-outline'"
+                          :color="phone.isprimary ? 'amber' : 'grey'"
+                          size="small"
+                          class="me-2"
+                        />
+                        <VIcon
+                          :icon="getPhoneIcon(phone.phonetype)"
+                          size="small"
+                          class="me-2 text-primary"
+                        />
+                        <span class="text-body-2">{{ phone.number }}</span>
+                        <VChip
+                          size="x-small"
+                          variant="outlined"
+                          class="ml-2"
+                        >
+                          {{ phone.phonetype }}
+                        </VChip>
+                      </div>
                     </VCardText>
                   </VCard>
                 </VCol>
@@ -102,32 +158,13 @@
                     <VCardText>
                       <div class="d-flex gap-3">
                         <VBtn
-                          v-if="!editMode"
                           color="primary"
-                          @click="enableEditMode"
+                          @click="refreshData"
+                          :loading="loading || mynatcaLoading"
                         >
-                          <VIcon icon="mdi-pencil" class="me-2" />
-                          Edit Profile
+                          <VIcon icon="mdi-refresh" class="me-2" />
+                          Refresh Data
                         </VBtn>
-                        <template v-else>
-                          <VBtn
-                            color="success"
-                            @click="saveProfile"
-                            :loading="saving"
-                          >
-                            <VIcon icon="mdi-content-save" class="me-2" />
-                            Save Changes
-                          </VBtn>
-                          <VBtn
-                            color="secondary"
-                            variant="outlined"
-                            @click="cancelEdit"
-                          >
-                            <VIcon icon="mdi-cancel" class="me-2" />
-                            Cancel
-                          </VBtn>
-                        </template>
-
                         <VBtn
                           color="error"
                           variant="outlined"
@@ -150,92 +187,70 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted } from 'vue'
-// Using Auth0 integration
+import { computed, onMounted, watch } from 'vue'
 import { useAuth0 } from '@/composables/useAuth0'
+import { useMemberStore } from '@/stores/memberStore'
 
+const { isAuthenticated, logout } = useAuth0()
+const memberStore = useMemberStore()
+
+// Destructure reactive values from store
 const {
-  user,
-  isAuthenticated,
-  isLoading,
+  loading,
+  mynatcaLoading,
+  currentMember,
+  mynatcaProfile,
+  fullName,
+  username,
   memberNumber,
-  positions,
-  region,
-  facility,
-  logout
-} = useAuth0()
+  facilityCode,
+  facilityName,
+  regionName,
+  allEmails,
+  allPhones,
+  fetchMemberData,
+  fetchMyNATCAProfile
+} = memberStore
 
-const editMode = ref(false)
-const saving = ref(false)
-
-const profile = reactive({
-  name: '',
-  email: '',
-  memberNumber: '',
-  region: '',
-  facility: '',
-  positions: [] as string[],
-})
-
-const originalProfile = reactive({
-  name: '',
-  email: '',
-})
-
-const loadProfile = () => {
-  if (user.value) {
-    profile.name = user.value.name || ''
-    profile.email = user.value.email || ''
-    profile.memberNumber = memberNumber.value?.toString() || ''
-    profile.region = region.value || ''
-    profile.facility = facility.value || ''
-    profile.positions = positions.value || []
-
-    // Store original values for cancel functionality
-    originalProfile.name = profile.name
-    originalProfile.email = profile.email
+// Helper function to get appropriate phone icon
+const getPhoneIcon = (phoneType: string) => {
+  switch (phoneType?.toLowerCase()) {
+    case 'cell':
+      return 'mdi-cellphone'
+    case 'home':
+      return 'mdi-home'
+    case 'work':
+      return 'mdi-briefcase'
+    case 'fax':
+      return 'mdi-fax'
+    default:
+      return 'mdi-phone'
   }
 }
 
-const enableEditMode = () => {
-  editMode.value = true
-}
-
-const cancelEdit = () => {
-  profile.name = originalProfile.name
-  profile.email = originalProfile.email
-  editMode.value = false
-}
-
-const saveProfile = async () => {
-  saving.value = true
-  try {
-    // Here you would typically make an API call to update the profile
-    // For now, we'll just simulate a save operation
-    await new Promise(resolve => setTimeout(resolve, 1000))
-
-    // Update original values
-    originalProfile.name = profile.name
-    originalProfile.email = profile.email
-
-    editMode.value = false
-  } catch (error) {
-    console.error('Error saving profile:', error)
-  } finally {
-    saving.value = false
+// Refresh all member data
+const refreshData = async () => {
+  if (memberNumber && currentMember?.natcaId) {
+    await Promise.all([
+      fetchMemberData(memberNumber, currentMember.natcaId, true),
+      fetchMyNATCAProfile(currentMember.natcaId, true)
+    ])
   }
 }
 
-onMounted(() => {
-  if (isAuthenticated.value) {
-    loadProfile()
+onMounted(async () => {
+  if (isAuthenticated && memberNumber && currentMember?.natcaId) {
+    // Load MyNATCA profile if we don't have it yet
+    if (!mynatcaProfile) {
+      await fetchMyNATCAProfile(currentMember.natcaId)
+    }
   }
 })
 
 // Watch for authentication changes
-watch(user, () => {
-  if (user.value) {
-    loadProfile()
+watch(isAuthenticated, (authenticated) => {
+  if (authenticated && memberNumber && currentMember?.natcaId) {
+    fetchMyNATCAProfile(currentMember.natcaId)
   }
-}, { immediate: true })
+})
 </script>

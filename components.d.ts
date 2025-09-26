@@ -370,11 +370,14 @@ declare module 'vue' {
     EnableOneTimePasswordDialog: typeof import('./src/components/dialogs/EnableOneTimePasswordDialog.vue')['default']
     ErrorHeader: typeof import('./src/components/ErrorHeader.vue')['default']
     I18n: typeof import('./src/@core/components/I18n.vue')['default']
+    MemberUpdatesCard: typeof import('./src/components/dashboard/MemberUpdatesCard.vue')['default']
     MoreBtn: typeof import('./src/@core/components/MoreBtn.vue')['default']
     Notifications: typeof import('./src/@core/components/Notifications.vue')['default']
     PaymentProvidersDialog: typeof import('./src/components/dialogs/PaymentProvidersDialog.vue')['default']
+    PositionsCard: typeof import('./src/components/dashboard/PositionsCard.vue')['default']
     PricingPlanDialog: typeof import('./src/components/dialogs/PricingPlanDialog.vue')['default']
     ProductDescriptionEditor: typeof import('./src/@core/components/ProductDescriptionEditor.vue')['default']
+    ProfileCard: typeof import('./src/components/dashboard/ProfileCard.vue')['default']
     ReferAndEarnDialog: typeof import('./src/components/dialogs/ReferAndEarnDialog.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
@@ -392,5 +395,6 @@ declare module 'vue' {
     UserInfoEditDialog: typeof import('./src/components/dialogs/UserInfoEditDialog.vue')['default']
     UserUpgradePlanDialog: typeof import('./src/components/dialogs/UserUpgradePlanDialog.vue')['default']
     VueApexCharts: typeof import('vue3-apexcharts')['default']
+    WelcomeCard: typeof import('./src/components/dashboard/WelcomeCard.vue')['default']
   }
 }
