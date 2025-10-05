@@ -266,9 +266,9 @@ const showResetConfirmation = ref(false)
 
 // Check if member is eligible (membertypeid = 6, Active or Retired)
 const isEligible = computed(() => {
-  if (!memberStore.memberData) return false
-  const status = memberStore.memberData.status
-  const membertypeid = memberStore.memberData.membertypeid
+  if (!memberStore.currentMember) return false
+  const status = memberStore.currentMember.status
+  const membertypeid = memberStore.currentMember.membertypeid
   return membertypeid === 6 && (status === 'Active' || status === 'Retired')
 })
 
@@ -340,8 +340,8 @@ const confirmCreateEmail = async () => {
     showCreateConfirmation.value = false
 
     // Refresh member data to update email list
-    if (memberNumber.value && memberStore.memberData?.natcaId) {
-      await memberStore.fetchMemberData(memberNumber.value, memberStore.memberData.natcaId)
+    if (memberNumber.value && memberStore.currentMember?.natcaId) {
+      await memberStore.fetchMemberData(memberNumber.value, memberStore.currentMember.natcaId)
     }
   } catch (err: any) {
     error.value = err.message || 'Failed to create email account'
