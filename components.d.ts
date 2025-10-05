@@ -378,6 +378,7 @@ declare module 'vue' {
     PricingPlanDialog: typeof import('./src/components/dialogs/PricingPlanDialog.vue')['default']
     ProductDescriptionEditor: typeof import('./src/@core/components/ProductDescriptionEditor.vue')['default']
     ProfileCard: typeof import('./src/components/dashboard/ProfileCard.vue')['default']
+    RackspaceEmailCard: typeof import('./src/components/dashboard/RackspaceEmailCard.vue')['default']
     ReferAndEarnDialog: typeof import('./src/components/dialogs/ReferAndEarnDialog.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

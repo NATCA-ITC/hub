@@ -11,11 +11,19 @@ export interface EmailAvailabilityOption {
 export interface EmailAvailabilityResponse {
   success: boolean
   memberNumber: string
-  member: {
+  hasExisting: boolean
+  existingEmail?: string
+  member?: {
     firstname: string
     lastname: string
   }
   options: EmailAvailabilityOption[]
+}
+
+export interface EmailStatusResponse {
+  success: boolean
+  hasEmail: boolean
+  email: string | null
 }
 
 export interface CreateEmailResponse {
@@ -40,6 +48,27 @@ export interface ErrorResponse {
 
 class RackspaceEmailService {
   private baseUrl = '/api/rackspace'
+
+  /**
+   * Get email status from MySQL (checks if member has existing natca.net email)
+   */
+  async getEmailStatus(memberNumber: string): Promise<EmailStatusResponse> {
+    const response = await fetch(`${this.baseUrl}/status`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include', // Include session cookie
+      body: JSON.stringify({ memberNumber }),
+    })
+
+    if (!response.ok) {
+      const error: ErrorResponse = await response.json()
+      throw new Error(error.error || 'Failed to get email status')
+    }
+
+    return await response.json()
+  }
 
   /**
    * Check email availability for a member

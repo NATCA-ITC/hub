@@ -75,6 +75,17 @@
         </VAlert>
 
         <VBtn
+          color="primary"
+          variant="tonal"
+          block
+          href="https://webmail.natca.net"
+          target="_blank"
+        >
+          <VIcon icon="mdi-email-open" class="me-2" />
+          Open Webmail
+        </VBtn>
+
+        <VBtn
           color="warning"
           variant="tonal"
           block
@@ -272,12 +283,17 @@ const isEligible = computed(() => {
   return membertypeid === 6 && (status === 'Active' || status === 'Retired')
 })
 
-// Check for existing natca.net email in member's email list
-watch(() => memberStore.allEmails, (emails) => {
-  if (!emails) return
-  const natcaEmail = emails.find(e => e.email?.endsWith('@natca.net'))
-  if (natcaEmail) {
-    existingEmail.value = natcaEmail.email
+// Check MySQL for existing natca.net email when authenticated
+watch([isAuthenticated, memberNumber], async ([auth, memberNum]) => {
+  if (!auth || !memberNum) return
+
+  try {
+    const status = await rackspaceEmailService.getEmailStatus(memberNum)
+    if (status.hasEmail && status.email) {
+      existingEmail.value = status.email
+    }
+  } catch (err) {
+    console.error('Failed to get email status:', err)
   }
 }, { immediate: true })
 
@@ -293,16 +309,21 @@ const checkEmailAvailability = async () => {
     checkingAvailability.value = true
 
     const result = await rackspaceEmailService.checkAvailability(memberNumber.value)
+
+    // If member already has email, update state
+    if (result.hasExisting && result.existingEmail) {
+      existingEmail.value = result.existingEmail
+      availableOptions.value = []
+      return
+    }
+
+    // Show available options (including incremented formats from backend)
     availableOptions.value = result.options
 
-    // If neither base option is available, generate incremented options
+    // If no options available at all, show error
     const anyAvailable = result.options.some(opt => opt.available)
     if (!anyAvailable) {
-      // Take the first base format and start incrementing
-      const baseFormat = result.options[0].email.split('@')[0]
-      // We'll need to check these incrementally through the API
-      // For now, show a message
-      error.value = 'Both base formats are taken. Please contact support for custom email format.'
+      error.value = 'No email formats available. Please contact support.'
     }
   } catch (err: any) {
     error.value = err.message || 'Failed to check email availability'
