@@ -30,8 +30,8 @@
         Login to manage your NATCA email
       </div>
 
-      <!-- Not Eligible -->
-      <div v-else-if="!isEligible" class="text-center py-4">
+      <!-- Not Eligible (only show if we have member data and they're not eligible) -->
+      <div v-else-if="memberStore.currentMember && !isEligible" class="text-center py-4">
         <VIcon icon="mdi-information" size="48" color="info" class="mb-2" />
         <p class="text-caption text-medium-emphasis">
           @natca.net email accounts are available for Active and Retired NATCA members only.
