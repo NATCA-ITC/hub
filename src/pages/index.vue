@@ -4,7 +4,10 @@
     <VRow dense>
       <!-- Left Column -->
       <VCol cols="12" md="4">
-        <WelcomeCard />
+        <div class="d-flex flex-column ga-3">
+          <WelcomeCard />
+          <RackspaceEmailCard />
+        </div>
       </VCol>
 
       <!-- Center Column -->
@@ -139,6 +142,7 @@ import WelcomeCard from '@/components/dashboard/WelcomeCard.vue'
 import PositionsCard from '@/components/dashboard/PositionsCard.vue'
 import MemberUpdatesCard from '@/components/dashboard/MemberUpdatesCard.vue'
 import ProfileCard from '@/components/dashboard/ProfileCard.vue'
+import RackspaceEmailCard from '@/components/dashboard/RackspaceEmailCard.vue'
 
 const {
   isAuthenticated,

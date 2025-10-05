@@ -14,7 +14,7 @@ import svgLoader from 'vite-svg-loader'
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
-    port: 1301,
+    port: 1302,
     host: true,
     proxy: {
       // Route all API calls through the platform
