@@ -60,14 +60,14 @@ export interface Facility {
 }
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+const supabaseServiceRoleKey = import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY
 
 // Determine schema based on environment
 const isDevelopment = import.meta.env.DEV
 const schema = isDevelopment ? 'dev' : 'public'
 
-// Create Supabase client
-const supabaseClient = createClient(supabaseUrl, supabaseAnonKey, {
+// Create Supabase client with service role key for schema access
+const supabaseClient = createClient(supabaseUrl, supabaseServiceRoleKey, {
   auth: {
     autoRefreshToken: true,
     persistSession: false,
