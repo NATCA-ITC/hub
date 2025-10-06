@@ -1,7 +1,36 @@
 <template>
   <div>
+    <!-- Loading State -->
+    <div v-if="isLoading" class="d-flex align-center justify-center" style="min-height: 80vh;">
+      <VProgressCircular indeterminate color="primary" size="48" />
+    </div>
+
+    <!-- Landing Page for non-authenticated users -->
+    <div v-else-if="!isAuthenticated" class="d-flex align-center justify-center" style="min-height: 80vh;">
+      <VCard max-width="500" class="pa-8 text-center">
+        <VImg
+          src="/src/assets/images/natca/myNATCA-dark-logo.png"
+          max-width="180"
+          class="mx-auto mb-6"
+        />
+        <h1 class="text-h4 mb-3">MyNATCA Hub</h1>
+        <p class="text-body-1 text-medium-emphasis mb-6">
+          Your central dashboard for member services and resources
+        </p>
+        <VBtn
+          color="primary"
+          size="large"
+          @click="login()"
+        >
+          <VIcon icon="mdi-login" start />
+          Sign In
+        </VBtn>
+      </VCard>
+    </div>
+
+    <!-- Dashboard for authenticated users -->
     <!-- Top Row - 3 Columns -->
-    <VRow dense>
+    <VRow v-else dense>
       <!-- Left Column -->
       <VCol cols="12" md="4">
         <div class="d-flex flex-column ga-3">
@@ -145,8 +174,10 @@ import ProfileCard from '@/components/dashboard/ProfileCard.vue'
 import RackspaceEmailCard from '@/components/dashboard/RackspaceEmailCard.vue'
 
 const {
+  isLoading,
   isAuthenticated,
-  accessToken
+  accessToken,
+  login
 } = useAuth0()
 
 // Use member store for Supabase data

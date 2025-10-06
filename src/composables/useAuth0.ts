@@ -80,43 +80,45 @@ const initializeAuth0 = async () => {
     error.value = null
 
     // Check current session with platform
-    const response = await fetch(`${PLATFORM_CONFIG.baseUrl}${PLATFORM_CONFIG.sessionUrl}`, {
+    const sessionCheckUrl = `${PLATFORM_CONFIG.baseUrl}${PLATFORM_CONFIG.sessionUrl}`
+    console.log('📡 Checking session at:', sessionCheckUrl)
+
+    const response = await fetch(sessionCheckUrl, {
       credentials: 'include', // Important: include cookies for session
       headers: {
         'Accept': 'application/json'
       }
     })
 
-    if (response.ok) {
-      sessionData = await response.json()
+    console.log('📡 Session check response status:', response.status)
+    console.log('📡 Session check response headers:', Object.fromEntries(response.headers.entries()))
 
-      if (sessionData && sessionData.user) {
-        console.log('✅ Platform session found:', sessionData)
+    // Always try to parse JSON response (endpoint now returns 200 even when not authenticated)
+    const data = await response.json()
+    console.log('📡 Session data received:', data)
 
-        // Set authentication state
-        isAuthenticated.value = true
-        user.value = {
-          sub: sessionData.user.id || sessionData.user.sub,
-          name: sessionData.user.name,
-          email: sessionData.user.email,
-          picture: sessionData.user.picture
-        }
+    if (data.authenticated && data.user) {
+      console.log('✅ Platform session found:', data)
+      sessionData = data
 
-        // For backward compatibility, set token-related fields
-        // These will be null since we're using session-based auth
-        accessToken.value = null
-        idToken.value = null
-        idTokenClaims.value = sessionData.user
-
-        console.log('✅ Platform auth initialized - user authenticated')
-      } else {
-        console.log('✅ Platform auth initialized - user not authenticated')
-        isAuthenticated.value = false
-        user.value = null
-        sessionData = null
+      // Set authentication state
+      isAuthenticated.value = true
+      user.value = {
+        sub: data.user.id || data.user.sub,
+        name: data.user.name,
+        email: data.user.email,
+        picture: data.user.picture
       }
+
+      // For backward compatibility, set token-related fields
+      // These will be null since we're using session-based auth
+      accessToken.value = null
+      idToken.value = null
+      idTokenClaims.value = data.user
+
+      console.log('✅ Platform auth initialized - user authenticated')
     } else {
-      console.log('✅ Platform auth initialized - no active session')
+      console.log('ℹ️ Platform auth initialized - no active session (this is normal after server restart)')
       isAuthenticated.value = false
       user.value = null
       sessionData = null
@@ -126,8 +128,8 @@ const initializeAuth0 = async () => {
     cleanupOldAuthData()
 
   } catch (err: any) {
-    error.value = err.message || 'Platform authentication initialization failed'
     console.error('❌ Platform auth initialization error:', err)
+    error.value = err.message || 'Platform authentication initialization failed'
     isAuthenticated.value = false
     user.value = null
     sessionData = null
@@ -140,14 +142,22 @@ const initializeAuth0 = async () => {
 const login = async (returnTo?: string) => {
   try {
     // Build login URL with returnTo parameter
+    // Use full URL (including origin) so Platform knows where to redirect back to
     const currentUrl = returnTo || window.location.href
     const loginUrl = `${PLATFORM_CONFIG.baseUrl}${PLATFORM_CONFIG.loginUrl}?returnTo=${encodeURIComponent(currentUrl)}`
 
-    console.log('🔄 Redirecting to platform login:', loginUrl)
+    console.log('🔐 Login initiated')
+    console.log('  Current location:', window.location.href)
+    console.log('  Return URL:', currentUrl)
+    console.log('  Full login URL:', loginUrl)
+    console.log('  Performing redirect...')
+
+    // Use window.location.href for full page redirect (not router navigation)
     window.location.href = loginUrl
   } catch (err: any) {
     error.value = err.message || 'Login failed'
-    console.error('Login error:', err)
+    console.error('❌ Login error:', err)
+    throw err
   }
 }
 
@@ -162,8 +172,9 @@ const logout = async () => {
     idToken.value = null
     idTokenClaims.value = null
 
-    // Call platform logout endpoint
-    const logoutUrl = `${PLATFORM_CONFIG.baseUrl}${PLATFORM_CONFIG.logoutUrl}`
+    // Redirect back to Hub after logout
+    const hubUrl = window.location.origin
+    const logoutUrl = `${PLATFORM_CONFIG.baseUrl}${PLATFORM_CONFIG.logoutUrl}?returnTo=${encodeURIComponent(hubUrl)}`
     console.log('🔄 Redirecting to platform logout:', logoutUrl)
     window.location.href = logoutUrl
   } catch (err: any) {

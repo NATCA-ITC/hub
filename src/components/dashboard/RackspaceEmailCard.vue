@@ -95,6 +95,16 @@
           <VIcon icon="mdi-lock-reset" class="me-2" />
           Reset Password
         </VBtn>
+
+        <VBtn
+          color="info"
+          variant="tonal"
+          block
+          @click="showConfigDialog = true"
+        >
+          <VIcon icon="mdi-cog" class="me-2" />
+          Configuration
+        </VBtn>
       </div>
 
       <!-- No Email - Show Options -->
@@ -119,7 +129,7 @@
               @click="selectEmailOption(option.email)"
             >
               <div class="d-flex align-center justify-space-between" style="width: 100%">
-                <span>{{ option.email }}</span>
+                <span style="text-transform: none;">{{ option.email }}</span>
                 <VIcon
                   v-if="option.available"
                   icon="mdi-check-circle"
@@ -246,6 +256,96 @@
         </VCardActions>
       </VCard>
     </VDialog>
+
+    <!-- Configuration Dialog -->
+    <VDialog v-model="showConfigDialog" max-width="600">
+      <VCard>
+        <VCardTitle class="d-flex align-center">
+          <VIcon icon="mdi-cog" class="me-2" />
+          Email Configuration
+        </VCardTitle>
+        <VCardText>
+          <div class="d-flex flex-column ga-4">
+            <!-- Server Settings -->
+            <div>
+              <h3 class="text-h6 mb-3">Server Settings</h3>
+
+              <!-- Inbound IMAP -->
+              <VAlert type="info" density="compact" variant="tonal" class="mb-3">
+                <div class="d-flex flex-column">
+                  <span class="text-caption text-medium-emphasis mb-1">Inbound (Secure IMAP)</span>
+                  <div class="d-flex align-center justify-space-between">
+                    <div>
+                      <div class="text-body-2 font-weight-medium">secure.emailsrvr.com</div>
+                      <div class="text-caption">Port 993</div>
+                    </div>
+                    <VBtn
+                      icon="mdi-content-copy"
+                      size="x-small"
+                      variant="text"
+                      @click="copyToClipboard('secure.emailsrvr.com')"
+                    />
+                  </div>
+                </div>
+              </VAlert>
+
+              <!-- Outbound SMTP -->
+              <VAlert type="info" density="compact" variant="tonal">
+                <div class="d-flex flex-column">
+                  <span class="text-caption text-medium-emphasis mb-1">Outbound (Secure SMTP)</span>
+                  <div class="d-flex align-center justify-space-between">
+                    <div>
+                      <div class="text-body-2 font-weight-medium">secure.emailsrvr.com</div>
+                      <div class="text-caption">Ports 465 or 587</div>
+                    </div>
+                    <VBtn
+                      icon="mdi-content-copy"
+                      size="x-small"
+                      variant="text"
+                      @click="copyToClipboard('secure.emailsrvr.com')"
+                    />
+                  </div>
+                </div>
+              </VAlert>
+            </div>
+
+            <!-- Help Links -->
+            <div>
+              <h3 class="text-h6 mb-3">Resources</h3>
+
+              <VBtn
+                color="primary"
+                variant="tonal"
+                block
+                href="https://help.emailsrvr.com/dashboard/"
+                target="_blank"
+                class="mb-2"
+              >
+                <VIcon icon="mdi-book-open-variant" class="me-2" />
+                Configuration Guide
+                <VIcon icon="mdi-open-in-new" class="ms-2" size="16" />
+              </VBtn>
+
+              <VBtn
+                color="info"
+                variant="tonal"
+                block
+                href="https://status.emailsrvr.com/"
+                target="_blank"
+              >
+                <VIcon icon="mdi-information" class="me-2" />
+                Service Status
+                <VIcon icon="mdi-open-in-new" class="ms-2" size="16" />
+              </VBtn>
+            </div>
+          </div>
+        </VCardText>
+        <VCardActions>
+          <VSpacer />
+          <VBtn @click="showConfigDialog = false">Close</VBtn>
+        </VCardActions>
+      </VCard>
+    </VDialog>
   </VCard>
 </template>
 
@@ -274,6 +374,7 @@ const newPassword = ref<string | null>(null)
 // Dialog state
 const showCreateConfirmation = ref(false)
 const showResetConfirmation = ref(false)
+const showConfigDialog = ref(false)
 
 // Check if member is eligible (membertypeid = 6, Active or Retired)
 const isEligible = computed(() => {

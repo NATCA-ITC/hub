@@ -29,8 +29,11 @@ const {
 
 // Handle login button click
 const handleLogin = async () => {
-  const redirectTo = route.query.redirect as string || '/'
-  await login(redirectTo)
+  // Get redirect from query params, or default to home page
+  // Use full URL for home page so Platform knows where to redirect
+  const redirectPath = route.query.redirect as string || '/'
+  const redirectUrl = redirectPath === '/' ? window.location.origin + '/' : redirectPath
+  await login(redirectUrl)
 }
 
 // Redirect to dashboard if already authenticated

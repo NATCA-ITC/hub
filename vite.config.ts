@@ -22,6 +22,8 @@ export default defineConfig({
         target: 'http://localhost:1300',
         changeOrigin: true,
         secure: false,
+        cookieDomainRewrite: 'localhost',
+        cookiePathRewrite: '/',
         configure: (proxy, _options) => {
           proxy.on('error', (err, _req, _res) => {
             console.log('Platform proxy error:', err);
