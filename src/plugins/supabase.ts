@@ -8,7 +8,7 @@ export interface Member {
   username?: string
   facility_id: string
   region_id: string
-  member_type_id: number // 6 = Current Member
+  membertypeid: number // 6 = Current Member
   email?: string
   discord_id?: string
   auth0_user_id?: string
@@ -62,7 +62,36 @@ export interface Facility {
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// Determine schema based on environment
+const isDevelopment = import.meta.env.DEV
+const schema = isDevelopment ? 'dev' : 'public'
+
+// Create Supabase client
+const supabaseClient = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    autoRefreshToken: true,
+    persistSession: false,
+    detectSessionInUrl: false
+  }
+})
+
+// Create a wrapper that automatically applies correct schema using .schema() method
+export const supabase = new Proxy(supabaseClient, {
+  get(target: any, prop: string) {
+    if (prop === 'from') {
+      return (table: string) => {
+        // Shared tables managed by Platform - use environment-specific schema
+        if (['members', 'facilities', 'regions', 'positions', 'proxy_routes', 'sync_metadata'].includes(table)) {
+          console.log(`🔍 Querying ${schema}.${table}`)
+          return target.schema(schema).from(table)
+        }
+        // Default - public schema for Hub-specific tables
+        return target.from(table)
+      }
+    }
+    return target[prop]
+  }
+})
 
 export default function (app: App) {
   app.provide('supabase', supabase)
