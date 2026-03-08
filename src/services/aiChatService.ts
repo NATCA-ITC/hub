@@ -1,11 +1,13 @@
-// AI Chat Service with Supabase integration
+// AI Chat Service with Supabase integration and semantic search
 import { supabase } from '@/plugins/supabase'
+import { documentSearchService } from './documentSearchService'
+import type { SearchResultDocument } from '@/types/documentSearch'
 
 export interface ChatMessage {
   role: 'user' | 'ai'
   content: string
   timestamp: Date
-  files?: Array<{ id: string; name: string; url: string }>
+  files?: Array<{ id: string; name: string; url: string; similarity?: number }>
   followUpQuestions?: string[]
 }
 
@@ -122,9 +124,151 @@ class AIChatService {
     }
   }
 
-  // Simulate AI response (replace with actual AI integration)
+  // Generate AI response with semantic search integration
   async generateAIResponse(message: string, conversationHistory: ChatMessage[]): Promise<ChatMessage> {
-    // Mock AI responses based on keywords
+    try {
+      // Step 1: Perform semantic search for relevant documents
+      const searchResults = await documentSearchService.search(message, {
+        matchCount: 5,
+        matchThreshold: 0.5
+      })
+
+      // Step 2: Check if we got good results
+      if (searchResults && searchResults.results.length > 0) {
+        // Filter for high-quality results (similarity > 0.7)
+        const highQualityResults = documentSearchService.filterByThreshold(
+          searchResults.results,
+          0.7
+        )
+
+        if (highQualityResults.length > 0) {
+          // We have good semantic search results
+          return this.generateEnhancedResponse(message, highQualityResults)
+        } else if (searchResults.results.length > 0) {
+          // We have moderate results (0.5-0.7 similarity)
+          return this.generateModerateResponse(message, searchResults.results)
+        }
+      }
+
+      // Step 3: Fallback to mock responses if no good results or API unavailable
+      return this.generateMockResponse(message)
+
+    } catch (error) {
+      console.error('Error generating AI response:', error)
+      // Fallback to mock response on any error
+      return this.generateMockResponse(message)
+    }
+  }
+
+  // Generate enhanced response with high-quality document results
+  private generateEnhancedResponse(query: string, results: SearchResultDocument[]): ChatMessage {
+    const topChunks = documentSearchService.getTopChunks(results, 3)
+
+    // Build response content with document citations
+    let content = 'Based on relevant NATCA documents, here\'s what I found:\n\n'
+
+    topChunks.forEach((chunk, index) => {
+      const similarityPercent = Math.round(chunk.similarity * 100)
+      content += `${index + 1}. From "${chunk.documentTitle}" (${similarityPercent}% relevant):\n\n`
+      content += `${chunk.content}\n\n`
+    })
+
+    content += 'You can review the full documents linked below for more details.'
+
+    // Build file references
+    const files = results.slice(0, 3).map(doc => ({
+      id: doc.document_id,
+      name: doc.document_title,
+      url: `/documents/${doc.document_id}`,
+      similarity: doc.max_similarity
+    }))
+
+    // Generate contextual follow-up questions
+    const followUpQuestions = this.generateFollowUpQuestions(query, results)
+
+    return {
+      role: 'ai',
+      content,
+      timestamp: new Date(),
+      files,
+      followUpQuestions
+    }
+  }
+
+  // Generate response with moderate quality results
+  private generateModerateResponse(query: string, results: SearchResultDocument[]): ChatMessage {
+    const topChunks = documentSearchService.getTopChunks(results, 2)
+
+    let content = 'I found some potentially relevant information in our documents:\n\n'
+
+    topChunks.forEach((chunk, index) => {
+      content += `${index + 1}. From "${chunk.documentTitle}":\n\n`
+      content += `${chunk.content.substring(0, 300)}...\n\n`
+    })
+
+    content += 'The relevance might not be perfect, but these documents may contain helpful information. You can also try rephrasing your question for better results.'
+
+    const files = results.slice(0, 2).map(doc => ({
+      id: doc.document_id,
+      name: doc.document_title,
+      url: `/documents/${doc.document_id}`,
+      similarity: doc.max_similarity
+    }))
+
+    const followUpQuestions = [
+      'Can you rephrase the question differently?',
+      'What specific aspect are you most interested in?',
+      'Would you like me to search for related topics?'
+    ]
+
+    return {
+      role: 'ai',
+      content,
+      timestamp: new Date(),
+      files,
+      followUpQuestions
+    }
+  }
+
+  // Generate follow-up questions based on search results
+  private generateFollowUpQuestions(query: string, results: SearchResultDocument[]): string[] {
+    const keywords = query.toLowerCase()
+    const questions: string[] = []
+
+    // Generic follow-ups based on document types
+    if (results.some(r => r.document_title.toLowerCase().includes('cba') ||
+                          r.document_title.toLowerCase().includes('agreement'))) {
+      questions.push('What are the specific procedures outlined in the CBA?')
+      questions.push('How does this affect my rights as a member?')
+    }
+
+    if (results.some(r => r.document_title.toLowerCase().includes('policy') ||
+                          r.document_title.toLowerCase().includes('procedure'))) {
+      questions.push('Who should I contact about this policy?')
+      questions.push('When was this policy last updated?')
+    }
+
+    if (results.some(r => r.document_title.toLowerCase().includes('training') ||
+                          r.document_title.toLowerCase().includes('education'))) {
+      questions.push('What are the training requirements?')
+      questions.push('How do I register for training?')
+    }
+
+    // Ensure we have at least 3 questions
+    while (questions.length < 3) {
+      const defaultQuestions = [
+        'Can you provide more details about this topic?',
+        'Are there related documents I should review?',
+        'Where can I find additional resources?'
+      ]
+      questions.push(defaultQuestions[questions.length])
+    }
+
+    return questions.slice(0, 3)
+  }
+
+  // Fallback to mock responses when semantic search is unavailable
+  private generateMockResponse(message: string): ChatMessage {
     const responses = this.getMockAIResponses()
     const keywords = message.toLowerCase()
 
@@ -141,9 +285,6 @@ class AIChatService {
     } else if (keywords.includes('facility') || keywords.includes('location')) {
       selectedResponse = responses.facility
     }
-
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000))
 
     return {
       role: 'ai',
