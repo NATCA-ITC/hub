@@ -1,24 +1,22 @@
 <template>
-  <VCard>
-    <VCardTitle class="d-flex justify-space-between align-center">
-      <div class="d-flex align-center">
-        <VIcon icon="mdi-email" class="me-2" />
-        NATCA Email
-      </div>
+  <div class="ds-card">
+    <div class="ds-card__header">
+      <VIcon icon="mdi-email" size="18" />
+      <span>NATCA Email</span>
       <VTooltip location="top">
         <template #activator="{ props }">
           <VIcon
             v-bind="props"
             icon="mdi-information-outline"
-            size="20"
-            class="text-medium-emphasis"
+            size="16"
+            style="margin-left: auto; opacity: 0.5;"
           />
         </template>
         <span>Manage your @natca.net email address</span>
       </VTooltip>
-    </VCardTitle>
+    </div>
 
-    <VCardText>
+    <div class="ds-card__body">
       <!-- Loading State -->
       <div v-if="loading" class="text-center py-4">
         <VProgressCircular indeterminate color="primary" />
@@ -190,7 +188,7 @@
       <VAlert v-if="error" type="error" density="compact" variant="tonal" class="mt-3" closable @click:close="error = null">
         {{ error }}
       </VAlert>
-    </VCardText>
+    </div>
 
     <!-- Create Email Confirmation Dialog -->
     <VDialog v-model="showCreateConfirmation" max-width="500">
@@ -346,7 +344,7 @@
         </VCardActions>
       </VCard>
     </VDialog>
-  </VCard>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -498,9 +496,35 @@ const confirmResetPassword = async () => {
 const copyToClipboard = async (text: string) => {
   try {
     await navigator.clipboard.writeText(text)
-    // Could show a toast notification here
   } catch (err) {
     console.error('Failed to copy:', err)
   }
 }
 </script>
+
+<style scoped>
+.ds-card {
+  background: var(--color-shell-surface, #1e2130);
+  border: 1px solid var(--color-border, rgba(255,255,255,0.08));
+  border-radius: var(--radius-default, 6px);
+  overflow: hidden;
+}
+
+.ds-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  padding: var(--space-3, 12px) var(--space-4, 16px);
+  border-bottom: 1px solid var(--color-border, rgba(255,255,255,0.08));
+  font-family: var(--font-display, 'Barlow', sans-serif);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.7);
+}
+
+.ds-card__body {
+  padding: var(--space-4, 16px);
+}
+</style>

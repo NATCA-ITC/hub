@@ -1,156 +1,123 @@
 <template>
-  <VCard>
-    <VCardTitle class="d-flex justify-space-between align-center">
-      <div class="d-flex align-center">
-        <span class="text-subtitle-1 me-2">{{ user?.name || 'User Profile' }}</span>
-        <span
-          v-if="isAuthenticated"
-          class="text-body-2 font-weight-bold text-uppercase"
-        >
-          <span v-if="memberStore.loading">Loading...</span>
-          <span v-else>{{ memberStore.regionCode }} | {{ memberStore.facilityCode }}</span>
+  <div v-if="isAuthenticated" class="ds-card">
+    <div class="ds-card__header">
+      <VIcon icon="mdi-account" size="18" />
+      <span>Profile</span>
+    </div>
+    <div class="ds-card__body">
+      <div class="profile-field">
+        <span class="profile-field__label">Username</span>
+        <span class="profile-field__value">
+          <template v-if="memberStore.loading">Loading...</template>
+          <template v-else>{{ memberStore.username || user?.email?.split('@')[0] || 'N/A' }}</template>
         </span>
       </div>
-      <VMenu v-if="isAuthenticated">
-        <template #activator="{ props }">
-          <VBtn
-            v-bind="props"
-            icon
-            variant="text"
-            size="small"
-          >
-            <VIcon icon="mdi-dots-vertical" />
-          </VBtn>
-        </template>
-        <VList density="compact">
-          <VListItem @click="openMyNATCA">
-            <template #prepend>
-              <VAvatar size="20" class="me-1">
-                <VImg src="/src/assets/images/natca/myNATCA-dark-logo.png" />
-              </VAvatar>
-            </template>
-            <VListItemTitle>MyNATCA Portal</VListItemTitle>
-          </VListItem>
-          <VListItem @click="resetPassword">
-            <template #prepend>
-              <VIcon icon="mdi-lock" />
-            </template>
-            <VListItemTitle>Reset Password</VListItemTitle>
-          </VListItem>
-          <VListItem @click="logout">
-            <template #prepend>
-              <VIcon icon="mdi-logout" />
-            </template>
-            <VListItemTitle>Logout</VListItemTitle>
-          </VListItem>
-        </VList>
-      </VMenu>
-    </VCardTitle>
-    <VCardText>
-      <div v-if="isAuthenticated">
-        <div class="mb-0">
-          <p class="mb-1 text-caption">
-            <strong>Username</strong>
-            <span v-if="memberStore.loading">Loading...</span>
-            <span v-else>{{ memberStore.username || user?.email?.split('@')[0] || 'N/A' }}</span>
-          </p>
 
-          <!-- Email Addresses -->
-          <div class="mb-2">
-            <p class="text-caption mb-1"><strong>Email Addresses</strong></p>
-            <div v-if="memberStore.mynatcaLoading" class="text-caption text-medium-emphasis">
-              Loading...
-            </div>
-            <div v-else-if="memberStore.allEmails?.length > 0" class="d-flex flex-column ga-1">
-              <div
-                v-for="email in memberStore.allEmails"
-                :key="email.id"
-                class="d-flex align-center text-caption"
-              >
-                <VIcon icon="mdi-email" size="12" class="me-1 text-primary" />
-                <span>{{ email.email }}</span>
-                <VIcon
-                  v-if="email.isprimary"
-                  icon="mdi-star"
-                  color="amber"
-                  size="12"
-                  class="ml-1"
-                />
-              </div>
-            </div>
-            <div v-else class="text-caption text-medium-emphasis">
-              {{ user?.email || 'N/A' }}
-            </div>
-          </div>
-
-          <!-- Phone Numbers -->
-          <div class="mb-2">
-            <p class="text-caption mb-1"><strong>Phone Numbers</strong></p>
-            <div v-if="memberStore.mynatcaLoading" class="text-caption text-medium-emphasis">
-              Loading...
-            </div>
-            <div v-else-if="memberStore.allPhones?.length > 0" class="d-flex flex-column ga-1">
-              <div
-                v-for="phone in memberStore.allPhones"
-                :key="phone.id"
-                class="d-flex align-center text-caption"
-              >
-                <VIcon
-                  :icon="getPhoneIcon(phone.phonetype)"
-                  size="12"
-                  class="me-1 text-primary"
-                />
-                <span>{{ phone.number }}</span>
-                <VIcon
-                  v-if="phone.isprimary"
-                  icon="mdi-star"
-                  color="amber"
-                  size="12"
-                  class="ml-1"
-                />
-              </div>
-            </div>
-            <div v-else class="text-caption text-medium-emphasis">
-              N/A
-            </div>
+      <div class="profile-field">
+        <span class="profile-field__label">Email</span>
+        <div v-if="memberStore.mynatcaLoading" class="profile-field__value">Loading...</div>
+        <div v-else-if="memberStore.allEmails?.length > 0" class="profile-field__list">
+          <div v-for="email in memberStore.allEmails" :key="email.id" class="profile-field__list-item">
+            <span>{{ email.email }}</span>
+            <VIcon v-if="email.isprimary" icon="mdi-star" color="amber" size="12" />
           </div>
         </div>
+        <span v-else class="profile-field__value">{{ user?.email || 'N/A' }}</span>
       </div>
-      <div v-else class="text-medium-emphasis">
-        Login to view profile
+
+      <div class="profile-field">
+        <span class="profile-field__label">Phone</span>
+        <div v-if="memberStore.mynatcaLoading" class="profile-field__value">Loading...</div>
+        <div v-else-if="memberStore.allPhones?.length > 0" class="profile-field__list">
+          <div v-for="phone in memberStore.allPhones" :key="phone.id" class="profile-field__list-item">
+            <VIcon :icon="getPhoneIcon(phone.phonetype)" size="12" />
+            <span>{{ phone.number }}</span>
+            <VIcon v-if="phone.isprimary" icon="mdi-star" color="amber" size="12" />
+          </div>
+        </div>
+        <span v-else class="profile-field__value">N/A</span>
       </div>
-    </VCardText>
-  </VCard>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { useAuth0 } from '@/composables/useAuth0'
 import { useMemberStore } from '@/stores/memberStore'
 
-const { user, isAuthenticated, logout } = useAuth0()
+const { user, isAuthenticated } = useAuth0()
 const memberStore = useMemberStore()
 
 const getPhoneIcon = (phoneType: string) => {
   switch (phoneType?.toLowerCase()) {
-    case 'cell':
-      return 'mdi-cellphone'
-    case 'home':
-      return 'mdi-home'
-    case 'work':
-      return 'mdi-briefcase'
-    case 'fax':
-      return 'mdi-fax'
-    default:
-      return 'mdi-phone'
+    case 'cell': return 'mdi-cellphone'
+    case 'home': return 'mdi-home'
+    case 'work': return 'mdi-briefcase'
+    case 'fax': return 'mdi-fax'
+    default: return 'mdi-phone'
   }
 }
-
-const openMyNATCA = () => {
-  window.open('https://my.natca.org', '_blank')
-}
-
-const resetPassword = () => {
-  console.log('Reset password clicked')
-  // TODO: Implement password reset functionality
-}
 </script>
+
+<style scoped>
+.ds-card {
+  background: var(--color-shell-surface, #1e2130);
+  border: 1px solid var(--color-border, rgba(255,255,255,0.08));
+  border-radius: var(--radius-default, 6px);
+  overflow: hidden;
+}
+
+.ds-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  padding: var(--space-3, 12px) var(--space-4, 16px);
+  border-bottom: 1px solid var(--color-border, rgba(255,255,255,0.08));
+  font-family: var(--font-display, 'Barlow', sans-serif);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.7);
+}
+
+.ds-card__body {
+  padding: var(--space-4, 16px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3, 12px);
+}
+
+.profile-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.profile-field__label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.45);
+}
+
+.profile-field__value {
+  font-size: 0.8125rem;
+  color: rgba(255,255,255,0.85);
+}
+
+.profile-field__list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.profile-field__list-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8125rem;
+  color: rgba(255,255,255,0.85);
+}
+</style>

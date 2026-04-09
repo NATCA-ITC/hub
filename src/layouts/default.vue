@@ -7,7 +7,7 @@ import { useAuth0 } from '@/composables/useAuth0'
 
 const route = useRoute()
 const router = useRouter()
-const { memberProfile, isAuthenticated, logout } = useAuth0()
+const { memberProfile, logout } = useAuth0()
 
 // Hub tabs — top-level navigation
 const hubTabs: NatcaTab[] = [
@@ -62,13 +62,12 @@ const userFacility = computed(() => memberProfile.value?.facility || '')
 
 // Breadcrumbs from route
 const breadcrumbs = computed<NatcaBreadcrumb[]>(() => {
-  const crumbs: NatcaBreadcrumb[] = [{ label: 'Hub', to: '/' }]
-
   if (route.meta?.breadcrumbs) {
     return route.meta.breadcrumbs as NatcaBreadcrumb[]
   }
 
-  // Auto-generate from route name
+  const crumbs: NatcaBreadcrumb[] = [{ label: 'Hub', to: '/' }]
+
   if (route.path !== '/') {
     const pageName = route.path.split('/').pop() || ''
     crumbs.push({
@@ -80,8 +79,18 @@ const breadcrumbs = computed<NatcaBreadcrumb[]>(() => {
 })
 
 // Event handlers
-const handleSearch = (query: string) => {
-  console.log('Search:', query)
+const handleProfileAction = (action: string) => {
+  switch (action) {
+    case 'signout':
+      logout()
+      break
+    case 'profile':
+      router.push('/profile')
+      break
+    case 'settings':
+      // TODO: settings page
+      break
+  }
 }
 
 const navigateToApp = (app: NatcaApp) => {
@@ -103,34 +112,10 @@ const navigateToApp = (app: NatcaApp) => {
     :sidebar-sections="sidebarSections"
     :breadcrumbs="breadcrumbs"
     :apps="natcaApps"
-    show-search
-    @search="handleSearch"
+    :show-search="false"
+    @profile-action="handleProfileAction"
     @app-select="navigateToApp"
   >
-    <template #sidebar-footer>
-      <div v-if="isAuthenticated" style="padding: 8px 12px;">
-        <button
-          style="
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            width: 100%;
-            padding: 8px;
-            border: none;
-            background: transparent;
-            color: rgba(255,255,255,0.6);
-            cursor: pointer;
-            border-radius: 6px;
-            font-size: 13px;
-          "
-          @click="logout()"
-        >
-          <VIcon icon="mdi-logout" size="18" />
-          Sign Out
-        </button>
-      </div>
-    </template>
-
     <RouterView />
   </NatcaShell>
 </template>
