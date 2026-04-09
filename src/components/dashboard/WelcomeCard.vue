@@ -22,7 +22,7 @@
           <span>{{ memberStore.regionCode }}</span>
         </div>
         <div v-if="memberStore.facilityCode" class="welcome-card__badge">
-          <VIcon icon="mdi-map-marker" size="14" />
+          <VIcon icon="mdi-map-marker-outline" size="14" />
           <span>{{ memberStore.facilityCode }}</span>
         </div>
       </div>
