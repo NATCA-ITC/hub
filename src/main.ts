@@ -3,9 +3,8 @@ import { createHead } from '@vueuse/head'
 
 import App from '@/App.vue'
 
-// NATCA Design System — loaded first, before Vuetify
+// NATCA Design System — tokens first, then shell styles
 import '@natca-itc/ui-shell/tokens'
-import '@natca-itc/ui-shell/components'
 import '@natca-itc/ui-shell/shell-styles'
 
 // Vuetify

@@ -1,5 +1,5 @@
 # MyNATCA Hub — CLAUDE.md
-_Last updated: 2026-04-08_
+_Last updated: 2026-04-09_
 
 ## WHY — Project Purpose
 
@@ -9,22 +9,24 @@ MyNATCA Hub is the admin dashboard for NATCA's MyNATCA platform. It provides ITC
 
 **Stack:** Vue 3 + Vuetify 3 + TypeScript + Vite
 **Auth:** NATCA Platform (Auth0/OAuth2) — see Platform Rule below
+**UI:** `@natca-itc/ui-shell` — shared shell, theme preset, design tokens
 **Port:** 1302 (dev server)
 
 ```
 src/
   pages/              <- File-based routing (unplugin-vue-router)
-  components/         <- App components + dialogs/
-  layouts/            <- Page layouts (default, blank)
+  components/         <- App components (dashboard cards)
+  layouts/            <- default.vue (NatcaShell), blank.vue (login)
   services/           <- Business logic (memberService, rackspaceEmailService, mynatcaApiService)
   stores/             <- Pinia state (memberStore)
   composables/        <- Vue composables (useAuth0, useApi, useSupabase)
   plugins/            <- Vue plugins (vuetify, supabase, router, pinia)
-  @core/              <- Shared UI framework components (purchased template -- being replaced by @natca-itc/ui-shell)
-  @layouts/           <- Layout framework (being replaced by @natca-itc/ui-shell)
+  navigation/         <- Tab/nav configuration
   types/              <- TypeScript definitions
   utils/              <- Utilities (exploreDatabase)
-  assets/             <- Images, styles, fonts
+  assets/             <- Images, styles
+supabase/
+  migrations/         <- Hub schema migrations (symlinked into Platform)
 docs/
   architecture/
     decisions/        <- ADRs (NNN-title.md)
@@ -48,23 +50,30 @@ Before working in a specific area, read the relevant file from `docs/agent_docs/
 
 ### Key Technical Details
 
+**UI Shell integration:**
+- Vuetify theme: `natcaVuetifyTheme` and `natcaDefaults` from `@natca-itc/ui-shell`
+- Layout: `NatcaShell` component wraps all authenticated pages (`layouts/default.vue`)
+- CSS: `@natca-itc/ui-shell/tokens` (design tokens) + `@natca-itc/ui-shell/shell-styles`
+- Do NOT import `@natca-itc/ui-shell/components` — that's for non-Vuetify pages only
+
 **Auto-imports** (via unplugin-auto-import):
 - Vue Composition API (`ref`, `computed`, `watch`, etc.)
-- Vue Router, VueUse, vue-i18n, Pinia
-- Utilities from `src/@core/utils/`, `src/utils/`, `src/composables/`
+- Vue Router, VueUse, Pinia
+- Utilities from `src/composables/`, `src/utils/`
 
 **Component auto-registration** (via unplugin-vue-components):
-- Components from `src/@core/components/`, `src/components/`
+- Components from `src/components/`
 - Type declarations auto-generated in `components.d.ts`
 
 **Path aliases:**
-- `@` -> `src/`, `@core` -> `src/@core/`, `@layouts` -> `src/@layouts/`
+- `@` -> `src/`
 - `@images` -> `src/assets/images/`, `@styles` -> `src/assets/styles/`
 
 **Data layer:**
-- Supabase: `dev` schema in development, `public` in production (service role key required)
-- Shared tables (read-only): `members`, `facilities`, `regions`, `positions`
+- Supabase `public` schema (read-only): `members`, `facilities`, `regions`, `positions`
+- Supabase `hub` schema (read-write): `user_preferences` (dashboard customizations)
 - MyNATCA API: member profiles proxied through Platform (`/api/mynatca/*`)
+- Hub database client: `supabase` (public), `hubDb` (hub schema) from `src/plugins/supabase.ts`
 
 ---
 
@@ -74,6 +83,20 @@ All authentication and NATCA system interactions MUST proxy through the NATCA Pl
 - **Never call NATCA backend systems directly** — all calls proxy through Platform
 - If an exception is needed, stop and write an ADR first
 - See `docs/agent_docs/platform-integration.md`
+
+## FRONTEND SHELL — MANDATORY
+All Vue 3 apps MUST use `@natca-itc/ui-shell` for layout, navigation, and design tokens.
+- Import `natcaVuetifyTheme` and `natcaDefaults` — never define your own Vuetify theme
+- Import tokens CSS and shell-styles — never hardcode NATCA brand values
+- Use `NatcaShell` as the layout wrapper — never build custom nav/topbar/sidebar
+- Register in the app switcher so users can navigate between apps
+- See the `frontend-shell-standard` shared rule
+
+## INTEGRATION BOUNDARY — MANDATORY
+New third-party integrations do NOT go in Platform or in app repos.
+- Use Supabase Edge Functions or Azure Functions in `NATCA-ITC/integrations`
+- Platform provides thin auth proxies only — no business logic
+- See the `integration-architecture-standard` shared rule
 
 ---
 
@@ -186,9 +209,12 @@ After writing, run `/sync-to-notion` and add returned URL to `Notion Page:` fiel
 ## Forbidden Patterns
 - Direct auth implementation — use Platform/Auth0
 - Direct calls to NATCA backend systems — proxy through Platform
+- Defining a custom Vuetify theme — use `natcaVuetifyTheme` and `natcaDefaults` from ui-shell
+- Importing `@natca-itc/ui-shell/components` in Vuetify apps — that CSS is for non-Vuetify pages only
+- Hardcoded hex colors — use CSS custom properties from ui-shell tokens
+- Building custom nav/topbar/sidebar — use `NatcaShell` from ui-shell
 - Merging PRs with lint/typecheck/test failures
 - Writing ADRs or changing architecture docs without syncing to Notion
-- Hardcoded hex colors — use `@natca-itc/ui-shell` design tokens (Phase 2 migration in progress)
 
 ## Done Checklist
 - Lint, typecheck, and build pass
