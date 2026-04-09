@@ -97,9 +97,9 @@ export class MemberService {
       console.log(`🔍 Getting member type for ID: ${memberTypeId} (type: ${typeof memberTypeId})`)
 
       const memberTypes: { [key: number]: MemberType } = {
-        6: { id: 6, name: 'Current Member', description: 'Active NATCA member' },
-        8: { id: 8, name: 'NATCA Employee', description: 'NATCA staff member' },
-        10: { id: 10, name: 'Retired Member', description: 'Retired NATCA member' }
+        6: { id: 6, type_name: 'Current Member', description: 'Active NATCA member' },
+        8: { id: 8, type_name: 'NATCA Employee', description: 'NATCA staff member' },
+        10: { id: 10, type_name: 'Retired Member', description: 'Retired NATCA member' }
       }
 
       const memberType = memberTypes[memberTypeId]
@@ -108,7 +108,7 @@ export class MemberService {
         return null
       }
 
-      console.log(`✅ Found member type: ${memberType.name}`)
+      console.log(`✅ Found member type: ${memberType.type_name}`)
       return memberType
     } catch (error) {
       console.warn(`Error getting member type ${memberTypeId}:`, error)

@@ -4,10 +4,12 @@ import { useRoute, useRouter } from 'vue-router'
 import { NatcaShell } from '@natca-itc/ui-shell'
 import type { NatcaTab, NatcaNavSection, NatcaBreadcrumb, NatcaApp, NatcaUser } from '@natca-itc/ui-shell'
 import { useAuth0 } from '@/composables/useAuth0'
+import { useMemberStore } from '@/stores/memberStore'
 
 const route = useRoute()
 const router = useRouter()
 const { memberProfile, logout } = useAuth0()
+const memberStore = useMemberStore()
 
 // Hub tabs — top-level navigation
 const hubTabs: NatcaTab[] = [
@@ -53,12 +55,13 @@ const currentUser = computed<NatcaUser>(() => {
     initials,
     email: profile?.email,
     memberNumber: profile?.memberNumber,
-    region: profile?.region,
-    facility: profile?.facility,
+    region: memberStore.regionCode || profile?.region,
+    facility: memberStore.facilityCode || profile?.facility,
   }
 })
 
-const userFacility = computed(() => memberProfile.value?.facility || '')
+// Prefer Supabase data (memberStore) over auth session for facility/region
+const userFacility = computed(() => memberStore.facilityCode || memberProfile.value?.facility || '')
 
 // Breadcrumbs from route
 const breadcrumbs = computed<NatcaBreadcrumb[]>(() => {

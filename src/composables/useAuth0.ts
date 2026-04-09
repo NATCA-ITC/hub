@@ -62,9 +62,9 @@ const memberProfile = computed(() => {
     firstName: sessionData.firstName || '',
     lastName: sessionData.lastName || '',
     regionId: sessionData.regionId || null,
-    facility: sessionData.facility || 'PHL',
-    region: sessionData.region || 'Eastern',
-    positions: sessionData.positions || ['Controller'],
+    facility: sessionData.facility || sessionData.user?.facility || '',
+    region: sessionData.region || sessionData.user?.region || '',
+    positions: sessionData.positions || [],
     status: sessionData.status || 'Active'
   }
 
