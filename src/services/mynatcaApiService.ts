@@ -118,8 +118,6 @@ class MyNATCAApiService {
   // Get member profile by NATCA ID
   async getMemberProfile(natcaId: number): Promise<MyNATCAMemberProfile | null> {
     try {
-      console.log('🌐 Calling MyNATCA API via platform for member profile:', natcaId)
-
       const response = await this.apiClient.get(`/Member/${natcaId}`)
 
       // Check if response is HTML (indicating we hit a frontend website instead of API)
@@ -131,21 +129,9 @@ class MyNATCAApiService {
       // Handle wrapped response structure { status: "Success", data: {...} }
       const actualData = response.data?.status === 'Success' ? response.data.data : response.data
 
-      console.log('✅ MyNATCA API response received:', {
-        status: response.status,
-        hasData: !!actualData,
-        memberName: actualData?.firstname && actualData?.lastname
-          ? `${actualData.firstname} ${actualData.lastname}`
-          : 'Unknown'
-      })
-
       return actualData
     } catch (error) {
-      console.error('❌ Failed to fetch member profile from MyNATCA API:', error)
-
-      // In development, this might fail due to platform connectivity or authentication
       if (import.meta.env.DEV) {
-        console.warn('🚧 MyNATCA API call via platform failed (expected if platform not running)')
         return this.getMockMemberProfile(natcaId)
       }
 

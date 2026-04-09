@@ -16,9 +16,7 @@ export class MemberService {
       if (memberError) throw memberError
       if (!member) return null
 
-      // Default member_type_id to 6 (Current Member) if not set
-      const memberTypeId = member.member_type_id || 6;
-      console.log(`🔍 Member ${memberNumber} member_type_id: ${member.member_type_id} -> using: ${memberTypeId}`);
+      const memberTypeId = member.member_type_id || 6
 
       // Get related data in parallel
       const [facilityResult, regionResult, memberTypeResult] = await Promise.allSettled([
@@ -94,8 +92,6 @@ export class MemberService {
   // Get member type by ID (hardcoded mappings)
   static async getMemberTypeById(memberTypeId: number): Promise<MemberType | null> {
     try {
-      console.log(`🔍 Getting member type for ID: ${memberTypeId} (type: ${typeof memberTypeId})`)
-
       const memberTypes: { [key: number]: MemberType } = {
         6: { id: 6, type_name: 'Current Member', description: 'Active NATCA member' },
         8: { id: 8, type_name: 'NATCA Employee', description: 'NATCA staff member' },
@@ -103,13 +99,7 @@ export class MemberService {
       }
 
       const memberType = memberTypes[memberTypeId]
-      if (!memberType) {
-        console.warn(`Member type ${memberTypeId} not found in mappings. Available types: ${Object.keys(memberTypes)}`)
-        return null
-      }
-
-      console.log(`✅ Found member type: ${memberType.type_name}`)
-      return memberType
+      return memberType || null
     } catch (error) {
       console.warn(`Error getting member type ${memberTypeId}:`, error)
       return null
