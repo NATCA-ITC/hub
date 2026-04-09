@@ -70,7 +70,7 @@
                   variant="outlined"
                   class="text-center pa-4"
                   hover
-                  @click="$router.push('/profile')"
+                  @click="router.push('/profile')"
                 >
                   <VIcon icon="mdi-account-edit" size="48" color="primary" />
                   <h4 class="mt-2">Edit Profile</h4>
@@ -82,7 +82,7 @@
                   variant="outlined"
                   class="text-center pa-4"
                   hover
-                  @click="$router.push('/facilities')"
+                  @click="router.push('/facilities')"
                 >
                   <VIcon icon="mdi-office-building" size="48" color="success" />
                   <h4 class="mt-2">Facilities</h4>
@@ -94,7 +94,7 @@
                   variant="outlined"
                   class="text-center pa-4"
                   hover
-                  @click="$router.push('/analytics')"
+                  @click="router.push('/analytics')"
                 >
                   <VIcon icon="mdi-chart-line" size="48" color="info" />
                   <h4 class="mt-2">Analytics</h4>
@@ -106,7 +106,7 @@
                   variant="outlined"
                   class="text-center pa-4"
                   hover
-                  @click="$router.push('/infrastructure')"
+                  @click="router.push('/infrastructure')"
                 >
                   <VIcon icon="mdi-server" size="48" color="warning" />
                   <h4 class="mt-2">Infrastructure</h4>
@@ -163,9 +163,12 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 // Using Auth0 integration
 import { useAuth0 } from '@/composables/useAuth0'
 import { useMemberStore } from '@/stores/memberStore'
+
+const router = useRouter()
 // Dashboard components
 import WelcomeCard from '@/components/dashboard/WelcomeCard.vue'
 import PositionsCard from '@/components/dashboard/PositionsCard.vue'

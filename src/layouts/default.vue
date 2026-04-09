@@ -1,56 +1,136 @@
-<script lang="ts" setup>
-import { useConfigStore } from '@core/stores/config'
-import { AppContentLayoutNav } from '@layouts/enums'
-import { switchToVerticalNavOnLtOverlayNavBreakpoint } from '@layouts/utils'
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { NatcaShell } from '@natca-itc/ui-shell'
+import type { NatcaTab, NatcaNavSection, NatcaBreadcrumb, NatcaApp, NatcaUser } from '@natca-itc/ui-shell'
+import { useAuth0 } from '@/composables/useAuth0'
 
-const DefaultLayoutWithHorizontalNav = defineAsyncComponent(() => import('./components/DefaultLayoutWithHorizontalNav.vue'))
-const DefaultLayoutWithVerticalNav = defineAsyncComponent(() => import('./components/DefaultLayoutWithVerticalNav.vue'))
+const route = useRoute()
+const router = useRouter()
+const { memberProfile, isAuthenticated, logout } = useAuth0()
 
-const configStore = useConfigStore()
+// Hub tabs — top-level navigation
+const hubTabs: NatcaTab[] = [
+  { id: 'dashboard', label: 'Dashboard', icon: 'mdi-view-dashboard', to: '/' },
+  { id: 'members', label: 'Members', icon: 'mdi-account-group', to: '/profile' },
+  { id: 'facilities', label: 'Facilities', icon: 'mdi-office-building', to: '/facilities' },
+  { id: 'analytics', label: 'Analytics', icon: 'mdi-chart-line', to: '/analytics' },
+  { id: 'infrastructure', label: 'Infrastructure', icon: 'mdi-server', to: '/infrastructure' },
+]
 
-// ℹ️ This will switch to vertical nav when define breakpoint is reached when in horizontal nav layout
-// Remove below composable usage if you are not using horizontal nav layout in your app
-switchToVerticalNavOnLtOverlayNavBreakpoint()
+// Sidebar sections — tools and utilities
+const sidebarSections: NatcaNavSection[] = [
+  {
+    title: 'Tools',
+    items: [
+      { id: 'db-explorer', label: 'DB Explorer', icon: 'mdi-database-search', to: '/db-explorer' },
+    ],
+  },
+]
 
-const { layoutAttrs, injectSkinClasses } = useSkins()
+// App switcher
+const natcaApps: NatcaApp[] = [
+  { id: 'hub', name: 'Hub', url: '/', description: 'Admin Dashboard', icon: 'mdi-view-dashboard' },
+  { id: 'bid', name: 'BID', url: 'https://bid.mynatca.org', description: 'Bid Management', icon: 'mdi-file-document' },
+  { id: 'dms', name: 'DMS', url: 'https://dms.mynatca.org', description: 'Documents & Logos', icon: 'mdi-folder' },
+  { id: 'pay', name: 'PayChecker', url: 'https://pay.mynatca.org', description: 'Pay Verification', icon: 'mdi-currency-usd' },
+  { id: 'gats', name: 'GATS', url: 'https://gats.mynatca.org', description: 'Grievance Archive', icon: 'mdi-shield' },
+]
 
-injectSkinClasses()
+// User context from auth
+const currentUser = computed<NatcaUser>(() => {
+  const profile = memberProfile.value
+  const name = profile?.name || 'User'
+  const initials = name
+    .split(' ')
+    .map((n: string) => n[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase()
 
-// SECTION: Loading Indicator
-const isFallbackStateActive = ref(false)
-const refLoadingIndicator = ref<any>(null)
+  return {
+    name,
+    initials,
+    email: profile?.email,
+    memberNumber: profile?.memberNumber,
+    region: profile?.region,
+    facility: profile?.facility,
+  }
+})
 
-// watching if the fallback state is active and the refLoadingIndicator component is available
-watch([isFallbackStateActive, refLoadingIndicator], () => {
-  if (isFallbackStateActive.value && refLoadingIndicator.value)
-    refLoadingIndicator.value.fallbackHandle()
+const userFacility = computed(() => memberProfile.value?.facility || '')
 
-  if (!isFallbackStateActive.value && refLoadingIndicator.value)
-    refLoadingIndicator.value.resolveHandle()
-}, { immediate: true })
-// !SECTION
+// Breadcrumbs from route
+const breadcrumbs = computed<NatcaBreadcrumb[]>(() => {
+  const crumbs: NatcaBreadcrumb[] = [{ label: 'Hub', to: '/' }]
+
+  if (route.meta?.breadcrumbs) {
+    return route.meta.breadcrumbs as NatcaBreadcrumb[]
+  }
+
+  // Auto-generate from route name
+  if (route.path !== '/') {
+    const pageName = route.path.split('/').pop() || ''
+    crumbs.push({
+      label: pageName.charAt(0).toUpperCase() + pageName.slice(1).replace(/-/g, ' '),
+    })
+  }
+
+  return crumbs
+})
+
+// Event handlers
+const handleSearch = (query: string) => {
+  console.log('Search:', query)
+}
+
+const navigateToApp = (app: NatcaApp) => {
+  if (app.id === 'hub') {
+    router.push('/')
+  } else {
+    window.location.href = app.url
+  }
+}
 </script>
 
 <template>
-  <Component
-    v-bind="layoutAttrs"
-    :is="configStore.appContentLayoutNav === AppContentLayoutNav.Vertical ? DefaultLayoutWithVerticalNav : DefaultLayoutWithHorizontalNav"
+  <NatcaShell
+    app-id="hub"
+    app-name="Hub"
+    :tabs="hubTabs"
+    :user="currentUser"
+    :facility="userFacility"
+    :sidebar-sections="sidebarSections"
+    :breadcrumbs="breadcrumbs"
+    :apps="natcaApps"
+    show-search
+    @search="handleSearch"
+    @app-select="navigateToApp"
   >
-    <AppLoadingIndicator ref="refLoadingIndicator" />
+    <template #sidebar-footer>
+      <div v-if="isAuthenticated" style="padding: 8px 12px;">
+        <button
+          style="
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            padding: 8px;
+            border: none;
+            background: transparent;
+            color: rgba(255,255,255,0.6);
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 13px;
+          "
+          @click="logout()"
+        >
+          <VIcon icon="mdi-logout" size="18" />
+          Sign Out
+        </button>
+      </div>
+    </template>
 
-    <RouterView v-slot="{ Component }">
-      <Suspense
-        :timeout="0"
-        @fallback="isFallbackStateActive = true"
-        @resolve="isFallbackStateActive = false"
-      >
-        <Component :is="Component" />
-      </Suspense>
-    </RouterView>
-  </Component>
+    <RouterView />
+  </NatcaShell>
 </template>
-
-<style lang="scss">
-// As we are using `layouts` plugin we need its styles to be imported
-@use "@layouts/styles/default-layout";
-</style>

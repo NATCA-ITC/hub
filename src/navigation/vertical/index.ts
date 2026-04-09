@@ -1,27 +1,12 @@
-export default [
-  {
-    title: 'Dashboard',
-    to: { name: 'root' },
-    icon: { icon: 'mdi-view-dashboard' },
-  },
-  {
-    title: 'Profile',
-    to: { name: 'profile' },
-    icon: { icon: 'mdi-account' },
-  },
-  {
-    title: 'Facilities',
-    to: { name: 'facilities' },
-    icon: { icon: 'mdi-office-building' },
-  },
-  {
-    title: 'Analytics',
-    to: { name: 'analytics' },
-    icon: { icon: 'mdi-chart-line' },
-  },
-  {
-    title: 'Infrastructure',
-    to: { name: 'infrastructure' },
-    icon: { icon: 'mdi-server' },
-  },
+import type { NatcaTab } from '@natca-itc/ui-shell'
+
+// Hub tab navigation — used by the NATCA shell
+export const hubTabs: NatcaTab[] = [
+  { id: 'dashboard', label: 'Dashboard', icon: 'mdi-view-dashboard', to: '/' },
+  { id: 'members', label: 'Members', icon: 'mdi-account-group', to: '/profile' },
+  { id: 'facilities', label: 'Facilities', icon: 'mdi-office-building', to: '/facilities' },
+  { id: 'analytics', label: 'Analytics', icon: 'mdi-chart-line', to: '/analytics' },
+  { id: 'infrastructure', label: 'Infrastructure', icon: 'mdi-server', to: '/infrastructure' },
 ]
+
+export default hubTabs

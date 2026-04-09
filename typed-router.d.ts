@@ -21,12 +21,10 @@ declare module 'vue-router/auto-routes' {
     'root': RouteRecordInfo<'root', '/', Record<never, never>, Record<never, never>>,
     '$error': RouteRecordInfo<'$error', '/:error(.*)', { error: ParamValue<true> }, { error: ParamValue<false> }>,
     'analytics': RouteRecordInfo<'analytics', '/analytics', Record<never, never>, Record<never, never>>,
-    'dashboard': RouteRecordInfo<'dashboard', '/dashboard', Record<never, never>, Record<never, never>>,
     'db-explorer': RouteRecordInfo<'db-explorer', '/db-explorer', Record<never, never>, Record<never, never>>,
     'facilities': RouteRecordInfo<'facilities', '/facilities', Record<never, never>, Record<never, never>>,
     'infrastructure': RouteRecordInfo<'infrastructure', '/infrastructure', Record<never, never>, Record<never, never>>,
     'login': RouteRecordInfo<'login', '/login', Record<never, never>, Record<never, never>>,
     'profile': RouteRecordInfo<'profile', '/profile', Record<never, never>, Record<never, never>>,
-    'second-page': RouteRecordInfo<'second-page', '/second-page', Record<never, never>, Record<never, never>>,
   }
 }

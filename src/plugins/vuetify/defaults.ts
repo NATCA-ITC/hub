@@ -6,20 +6,14 @@ export default {
   },
   VAlert: {
     density: 'comfortable',
-    VBtn: {
-      color: undefined,
-    },
   },
   VAvatar: {
-    // ℹ️ Remove after next release
     variant: 'flat',
   },
   VBadge: {
-    // set v-badge default color to primary
     color: 'primary',
   },
   VBtn: {
-    // set v-btn default color to primary
     color: 'primary',
   },
   VChip: {
@@ -28,31 +22,17 @@ export default {
   VDataTable: {
     VPagination: {
       showFirstLastPage: true,
-      firstIcon: 'tabler-chevrons-left',
-      lastIcon: 'tabler-chevrons-right',
-    },
-  },
-  VDataTableServer: {
-    VPagination: {
-      showFirstLastPage: true,
-      firstIcon: 'tabler-chevrons-left',
-      lastIcon: 'tabler-chevrons-right',
+      firstIcon: 'mdi-chevron-double-left',
+      lastIcon: 'mdi-chevron-double-right',
     },
   },
   VExpansionPanel: {
-    expandIcon: 'tabler-chevron-right',
-    collapseIcon: 'tabler-chevron-right',
-  },
-  VExpansionPanelTitle: {
-    expandIcon: 'tabler-chevron-right',
-    collapseIcon: 'tabler-chevron-right',
+    expandIcon: 'mdi-chevron-right',
+    collapseIcon: 'mdi-chevron-right',
   },
   VList: {
     color: 'primary',
     density: 'compact',
-    VCheckboxBtn: {
-      density: 'compact',
-    },
     VListItem: {
       ripple: false,
       VAvatar: {
@@ -68,7 +48,6 @@ export default {
     variant: 'tonal',
   },
   VTabs: {
-    // set v-tabs default color to primary
     color: 'primary',
     density: 'comfortable',
     VSlideGroup: {
@@ -76,24 +55,15 @@ export default {
     },
   },
   VTooltip: {
-    // set v-tooltip default location to top
     location: 'top',
   },
-  VCheckboxBtn: {
-    color: 'primary',
-  },
   VCheckbox: {
-    // set v-checkbox default color to primary
     color: 'primary',
     density: 'comfortable',
     hideDetails: 'auto',
   },
   VRadioGroup: {
     color: 'primary',
-    density: 'comfortable',
-    hideDetails: 'auto',
-  },
-  VRadio: {
     density: 'comfortable',
     hideDetails: 'auto',
   },
@@ -106,33 +76,10 @@ export default {
       label: true,
     },
   },
-  VRangeSlider: {
-    // set v-range-slider default color to primary
-    color: 'primary',
-    trackSize: 6,
-    thumbSize: 22,
-    density: 'comfortable',
-    thumbLabel: true,
-    hideDetails: 'auto',
-  },
-  VRating: {
-    // set v-rating default color to primary
-    color: 'warning',
-  },
   VProgressLinear: {
     height: 6,
     roundedBar: true,
     rounded: true,
-    bgColor: 'rgba(var(--v-track-bg))',
-  },
-  VSlider: {
-    // set v-range-slider default color to primary
-    color: 'primary',
-    thumbLabel: true,
-    hideDetails: 'auto',
-    thumbSize: 22,
-    trackSize: 6,
-    elevation: 4,
   },
   VTextField: {
     variant: 'outlined',
@@ -144,18 +91,6 @@ export default {
     variant: 'outlined',
     color: 'primary',
     density: 'comfortable',
-    hideDetails: 'auto',
-    menuProps: {
-      contentClass: 'app-autocomplete__content v-autocomplete__content',
-    },
-    VChip: {
-      label: true,
-    },
-  },
-  VCombobox: {
-    variant: 'outlined',
-    density: 'comfortable',
-    color: 'primary',
     hideDetails: 'auto',
     VChip: {
       label: true,
@@ -173,13 +108,7 @@ export default {
     color: 'primary',
     hideDetails: 'auto',
   },
-  VSnackbar: {
-    VBtn: {
-      density: 'comfortable',
-    },
-  },
   VSwitch: {
-    // set v-switch default color to primary
     inset: true,
     color: 'primary',
     hideDetails: 'auto',

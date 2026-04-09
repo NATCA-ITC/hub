@@ -190,6 +190,13 @@ onMounted(() => {
   </div>
 </template>
 
-<style lang="scss">
-@use "@core/scss/template/pages/page-auth";
+<style scoped>
+.auth-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #003366 0%, #001a33 100%);
+}
+
+.auth-card {
+  border-radius: 12px;
+}
 </style>
