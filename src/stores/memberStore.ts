@@ -17,7 +17,7 @@ export const useMemberStore = defineStore('member', () => {
 
   // Configure MyNATCA API service with Auth0 token provider (deprecated - keeping for compatibility)
   const setupAuthTokenProvider = (getToken: () => string | null) => {
-    console.warn('⚠️ setupAuthTokenProvider called but using session-based auth - ignoring')
+    // Session-based auth — token provider not needed
     // No longer needed with session-based auth through platform proxy
   }
 

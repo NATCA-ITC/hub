@@ -93,6 +93,11 @@ const handleProfileAction = (action: string) => {
   }
 }
 
+const handleSearch = (query: string) => {
+  // TODO: implement search
+  console.log('Search:', query)
+}
+
 const navigateToApp = (app: NatcaApp) => {
   if (app.id === 'hub') {
     router.push('/')
@@ -112,8 +117,11 @@ const navigateToApp = (app: NatcaApp) => {
     :sidebar-sections="sidebarSections"
     :breadcrumbs="breadcrumbs"
     :apps="natcaApps"
-    :show-search="false"
+    show-search
+    show-notifications
+    :notification-count="0"
     @profile-action="handleProfileAction"
+    @search="handleSearch"
     @app-select="navigateToApp"
   >
     <RouterView />

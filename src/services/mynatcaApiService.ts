@@ -84,8 +84,6 @@ class MyNATCAApiService {
     // Add request interceptor for session-based auth
     this.apiClient.interceptors.request.use(
       (config) => {
-        // With session-based auth, cookies are automatically included via withCredentials
-        console.log('🔐 Making MyNATCA API request via platform proxy with session cookies')
         return config
       },
       (error) => {
@@ -97,26 +95,13 @@ class MyNATCAApiService {
     this.apiClient.interceptors.response.use(
       (response) => response,
       (error) => {
-        console.error('❌ MyNATCA API Error Details:', {
-          status: error.response?.status,
-          statusText: error.response?.statusText,
-          data: error.response?.data,
-          headers: error.response?.headers,
-          config: {
-            url: error.config?.url,
-            method: error.config?.method,
-            hasAuthHeader: !!error.config?.headers?.Authorization
-          }
-        })
-
-        // Special handling for 401 Unauthorized
+        // Quiet failure — MyNATCA API is supplemental data, not critical
         if (error.response?.status === 401) {
-          console.error('🚫 Authentication failed with MyNATCA API via platform')
-          console.error('💡 This could indicate:')
-          console.error('   - User session expired')
-          console.error('   - Platform authentication not working')
-          console.error('   - Platform proxy not forwarding auth correctly')
-          console.error('   - User needs to log in again')
+          console.warn('MyNATCA API: auth proxy not configured (expected in local dev)')
+        } else if (error.code === 'ECONNABORTED') {
+          console.warn('MyNATCA API: request timed out')
+        } else {
+          console.warn('MyNATCA API error:', error.response?.status || error.message)
         }
 
         return Promise.reject(error)
@@ -126,7 +111,7 @@ class MyNATCAApiService {
 
   // Set the function to get Auth0 token (deprecated - keeping for compatibility)
   setAuthTokenProvider(tokenProvider: () => string | null) {
-    console.warn('⚠️ setAuthTokenProvider called but using session-based auth - ignoring')
+    // Session-based auth — token provider not needed
     // No longer needed with session-based auth
   }
 
