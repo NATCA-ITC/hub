@@ -21,6 +21,10 @@
           <VIcon icon="mdi-map-marker" size="14" />
           <span>{{ memberStore.regionCode }}</span>
         </div>
+        <div v-if="memberStore.facilityCode" class="welcome-card__badge">
+          <VIcon icon="mdi-office-building" size="14" />
+          <span>{{ memberStore.facilityCode }}</span>
+        </div>
       </div>
     </div>
     <div v-else class="welcome-card__unauthenticated">
