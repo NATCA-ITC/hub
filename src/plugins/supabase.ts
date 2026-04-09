@@ -1,5 +1,4 @@
 import { createClient } from '@supabase/supabase-js'
-import type { App } from 'vue'
 
 export interface Member {
   membernumber: string
@@ -62,38 +61,16 @@ export interface Facility {
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseServiceRoleKey = import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY
 
-// Determine schema based on environment
-const isDevelopment = import.meta.env.DEV
-const schema = isDevelopment ? 'dev' : 'public'
-
-// Create Supabase client with service role key for schema access
-const supabaseClient = createClient(supabaseUrl, supabaseServiceRoleKey, {
+// Public schema client — shared read-only tables (members, facilities, regions, positions)
+export const supabase = createClient(supabaseUrl, supabaseServiceRoleKey, {
   auth: {
     autoRefreshToken: true,
     persistSession: false,
-    detectSessionInUrl: false
-  }
+    detectSessionInUrl: false,
+  },
 })
 
-// Create a wrapper that automatically applies correct schema using .schema() method
-export const supabase = new Proxy(supabaseClient, {
-  get(target: any, prop: string) {
-    if (prop === 'from') {
-      return (table: string) => {
-        // Shared tables managed by Platform - use environment-specific schema
-        if (['members', 'facilities', 'regions', 'positions', 'proxy_routes', 'sync_metadata'].includes(table)) {
-          console.log(`🔍 Querying ${schema}.${table}`)
-          return target.schema(schema).from(table)
-        }
-        // Default - public schema for Hub-specific tables
-        return target.from(table)
-      }
-    }
-    return target[prop]
-  }
-})
-
-export default function (app: App) {
-  app.provide('supabase', supabase)
-  app.config.globalProperties.$supabase = supabase
+// Hub schema client — hub-specific tables (user_preferences, etc.)
+export const hubDb = {
+  from: (table: string) => supabase.schema('hub').from(table),
 }
