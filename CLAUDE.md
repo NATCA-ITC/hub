@@ -1,74 +1,200 @@
-# CLAUDE.md
+# MyNATCA Hub — CLAUDE.md
+_Last updated: 2026-04-08_
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+## WHY — Project Purpose
 
-## Overview
+MyNATCA Hub is the admin dashboard for NATCA's MyNATCA platform. It provides ITC staff and authorized members with tools for member management, facility data exploration, infrastructure monitoring (Rackspace email), and database visibility. Hub is the operational control plane — where internal tooling lives.
 
-MyNATCA Hub is a Vue 3 admin dashboard for NATCA (National Air Traffic Controllers Association) members. It's part of a larger MyNATCA platform ecosystem and communicates with a backend Platform service for authentication and API proxying.
+## WHAT — Stack & Structure
 
-## Commands
+**Stack:** Vue 3 + Vuetify 3 + TypeScript + Vite
+**Auth:** NATCA Platform (Auth0/OAuth2) — see Platform Rule below
+**Port:** 1302 (dev server)
 
-```bash
-npm run dev          # Start dev server on port 1302
-npm run build        # Production build
-npm run typecheck    # TypeScript type checking (vue-tsc --noEmit)
-npm run lint         # ESLint with auto-fix
-npm run build:icons  # Build custom iconify icons
+```
+src/
+  pages/              <- File-based routing (unplugin-vue-router)
+  components/         <- App components + dialogs/
+  layouts/            <- Page layouts (default, blank)
+  services/           <- Business logic (memberService, rackspaceEmailService, mynatcaApiService)
+  stores/             <- Pinia state (memberStore)
+  composables/        <- Vue composables (useAuth0, useApi, useSupabase)
+  plugins/            <- Vue plugins (vuetify, supabase, router, pinia)
+  @core/              <- Shared UI framework components (purchased template -- being replaced by @natca-itc/ui-shell)
+  @layouts/           <- Layout framework (being replaced by @natca-itc/ui-shell)
+  types/              <- TypeScript definitions
+  utils/              <- Utilities (exploreDatabase)
+  assets/             <- Images, styles, fonts
+docs/
+  architecture/
+    decisions/        <- ADRs (NNN-title.md)
+  agent_docs/         <- Extended AI context (read on demand)
+.claude/commands/     <- Slash commands (symlinked from Platform dev-standards)
+.claude/rules/        <- Shared rules (symlinked from Platform dev-standards)
 ```
 
-## Architecture
+**Linear:**
+- Hub: https://linear.app/natca/project/hub
+- Platform: https://linear.app/natca/project/platform-e857a658cb7b
 
-### Platform Integration
-- Hub runs on port 1302, Platform backend runs on port 1300
-- All `/api` requests proxy through Vite to Platform backend (configured in `vite.config.ts`)
-- Session-based authentication via Platform's OAuth 2.0 flow (Auth0)
-- The `useAuth0` composable (`src/composables/useAuth0.ts`) manages auth state via Platform session endpoints
+**Notion:** https://www.notion.so/31bd00a63edf815c95a2d5e35bef5f80
+- ADRs and architecture docs are mirrored here (stakeholder-facing)
+- Specs live ONLY in the repo
 
-### Data Layer
-- **Supabase**: Member, facility, region, position data (`src/plugins/supabase.ts`)
-  - Uses `dev` schema in development, `public` schema in production
-  - Service role key required for schema access
-  - Shared tables: `members`, `facilities`, `regions`, `positions`, `proxy_routes`, `sync_metadata`
-- **MyNATCA API**: Detailed member profile data via Platform proxy (`src/services/mynatcaApiService.ts`)
-  - Proxied through `/api/mynatca/*` endpoints
-  - Provides emails, phones, addresses
+### Read On Demand — Agent Docs
+Before working in a specific area, read the relevant file from `docs/agent_docs/`:
+- `architecture.md` — system design and component relationships
+- `platform-integration.md` — how Hub connects through Platform
 
-### State Management
-- Pinia stores in `src/stores/`
-- `memberStore`: Central member data from both Supabase and MyNATCA API
-- Member data is cached for 5 minutes before refetch
+### Key Technical Details
 
-### Auto-imports (via unplugin-auto-import)
+**Auto-imports** (via unplugin-auto-import):
 - Vue Composition API (`ref`, `computed`, `watch`, etc.)
 - Vue Router, VueUse, vue-i18n, Pinia
 - Utilities from `src/@core/utils/`, `src/utils/`, `src/composables/`
 
-### Component Structure
-- Components auto-imported from `src/@core/components/`, `src/views/demos/`, `src/components/`
-- File-based routing via `unplugin-vue-router` - pages in `src/pages/`
-- Layouts in `src/layouts/`, selected via `vite-plugin-vue-meta-layouts`
+**Component auto-registration** (via unplugin-vue-components):
+- Components from `src/@core/components/`, `src/components/`
+- Type declarations auto-generated in `components.d.ts`
 
-### Path Aliases
+**Path aliases:**
+- `@` -> `src/`, `@core` -> `src/@core/`, `@layouts` -> `src/@layouts/`
+- `@images` -> `src/assets/images/`, `@styles` -> `src/assets/styles/`
+
+**Data layer:**
+- Supabase: `dev` schema in development, `public` in production (service role key required)
+- Shared tables (read-only): `members`, `facilities`, `regions`, `positions`
+- MyNATCA API: member profiles proxied through Platform (`/api/mynatca/*`)
+
+---
+
+## NATCA PLATFORM RULE — MANDATORY
+All authentication and NATCA system interactions MUST proxy through the NATCA Platform project.
+- **Never implement auth directly** — all auth flows go through Platform/Auth0
+- **Never call NATCA backend systems directly** — all calls proxy through Platform
+- If an exception is needed, stop and write an ADR first
+- See `docs/agent_docs/platform-integration.md`
+
+---
+
+## Git Workflow
+- **Base branch:** `main`
+- **Code promotion:** feature -> PR to main
+
+---
+
+## HOW — Task Workflow
+
+### Starting Work
+**Option A — From a Linear issue (preferred):**
+Run `/implement-issue NAT-##` — Claude fetches the ticket, reads agent_docs,
+moves to In Progress, creates branch, plans, implements, opens PR.
+
+**Option B — Ad hoc (exploration, cleanup, quick bugs):**
+Start directly without a ticket. You are never blocked by the absence of one.
+Run `/finish-task` at the end — it will prompt to link or create a Linear issue.
+
+### Finishing Work — `/finish-task` before every merge
+1. Lint + validation must pass (see Essential Commands)
+2. Update specs if behavior changed
+3. Write ADR if architectural decision was made -> sync to Notion
+4. Update agent_docs if system structure changed -> sync to Notion
+5. Update Linear issue status + add completion comment
+6. Open PR via `/open-pr`
+
+### PR Rules
+- Opened via `/open-pr` — NATCA template, auto-links Linear issue
+- Lists all docs updated (specs, ADRs, agent_docs, Notion pages)
+- Will not open if lint, typecheck, or tests are failing
+
+---
+
+## Documentation Rules
+
+| Content | Source of Truth | Also synced to |
+|---|---|---|
+| Feature specs | `specs/` in repo | — (repo only) |
+| ADRs | `docs/architecture/decisions/` | **Notion — ALWAYS** |
+| Architecture / agent_docs | `docs/agent_docs/` | **Notion — ALWAYS** |
+| Domain / business logic | `docs/architecture/domain/` | **Notion — ALWAYS** |
+| Requirements changes | Notion | ADR in repo if a decision |
+| Task tracking | Linear | — |
+
+**Notion sync required any time:**
+- An ADR is written or its status changes
+- `docs/agent_docs/` content changes
+- Requirements or business rules change
+
+Run `/sync-to-notion [filepath]` to push content and get the Notion URL back.
+**Specs never go to Notion.**
+
+---
+
+## Essential Commands
+```bash
+# Install
+npm install
+
+# Dev
+npm run dev          # Port 1302, proxies /api to Platform at 1300
+
+# Lint / typecheck — must pass before PR
+npm run lint         # ESLint with auto-fix
+npm run typecheck    # vue-tsc --noEmit
+
+# Build
+npm run build        # Production build
+
+# Pre-merge (run before every PR)
+npm run lint && npm run typecheck && npm run build
 ```
-@         → src/
-@core     → src/@core/
-@layouts  → src/@layouts/
-@images   → src/assets/images/
-@styles   → src/assets/styles/
+
+---
+
+## ADR Format
+New ADRs: `docs/architecture/decisions/NNN-title.md` (check existing for next number).
+After writing, run `/sync-to-notion` and add returned URL to `Notion Page:` field.
+
+```markdown
+# ADR NNN: [Title]
+**Status**: Accepted | Proposed | Deprecated | Superseded
+**Date**: YYYY-MM-DD
+**Notion Page**: [URL — fill in after /sync-to-notion]
+
+**Context**: [Problem and background]
+**Decision**: [What was decided]
+**Consequences**:
+- [Positive]
+- [Negative / trade-off]
+**Alternatives Considered**: [Why others were rejected]
+**Related Decisions**: [Links]
+---
+**Accepted By**: NATCA ITC
+**Implementation Status**: [Status]
 ```
 
-## Key Services
+---
 
-| Service | Purpose |
-|---------|---------|
-| `mynatcaApiService` | Member profiles via Platform proxy |
-| `memberService` | Supabase member queries |
-| `rackspaceEmailService` | Email account management |
-| `aiChatService` | AI conversation features |
+## Git & Branch Rules
+- Branch naming: Linear's suggested branch name (includes issue ID)
+- Commits: Conventional Commits (`feat:`, `fix:`, `docs:`, `chore:`)
+- Never commit to `main` directly — never commit secrets
+- Shared infrastructure changes require team communication first
+- Lint and tests must pass before any PR — no exceptions
+- Base branch for PRs: see Git Workflow section above
 
-## Environment Variables
+## Forbidden Patterns
+- Direct auth implementation — use Platform/Auth0
+- Direct calls to NATCA backend systems — proxy through Platform
+- Merging PRs with lint/typecheck/test failures
+- Writing ADRs or changing architecture docs without syncing to Notion
+- Hardcoded hex colors — use `@natca-itc/ui-shell` design tokens (Phase 2 migration in progress)
 
-Required in `.env`:
-- `VITE_AUTH0_DOMAIN`, `VITE_AUTH0_CLIENT_ID`, `VITE_AUTH0_AUDIENCE` - Auth0 config (must match Platform)
-- `VITE_SUPABASE_URL`, `VITE_SUPABASE_SERVICE_ROLE_KEY` - Supabase connection
-- `VITE_PLATFORM_API_URL` - Platform backend URL (default: http://localhost:1300)
+## Done Checklist
+- Lint, typecheck, and build pass
+- Spec updated if behavior changed
+- ADR written if architectural decision made
+- Notion synced if ADR or architecture changed
+- agent_docs updated if system structure changed
+- Linear issue updated with completion comment and correct status
+- PR opened via `/open-pr`, Linear issue linked, docs listed

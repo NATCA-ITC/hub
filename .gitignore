@@ -179,3 +179,16 @@ coverage/
 # package-lock.json
 # yarn.lock
 # pnpm-lock.yaml
+
+# Temporary files for debugging/testing
+TEMP/
+
+# Claude Code — dev-standards symlinks (created locally by setup.sh)
+.claude/commands/daily-standup.md
+.claude/commands/finish-task.md
+.claude/commands/implement-issue.md
+.claude/commands/open-pr.md
+.claude/commands/platform-task.md
+.claude/commands/sync-to-notion.md
+.claude/commands/validate-setup.md
+.claude/rules/shared

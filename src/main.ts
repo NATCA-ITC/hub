@@ -4,6 +4,10 @@ import { createHead } from '@vueuse/head'
 import App from '@/App.vue'
 import { registerPlugins } from '@core/utils/plugins'
 
+// NATCA Design System (tokens + components) — loaded first
+import '@natca-itc/ui-shell/tokens'
+import '@natca-itc/ui-shell/components'
+
 // Styles
 import '@mdi/font/css/materialdesignicons.css'
 import '@core/scss/template/index.scss'

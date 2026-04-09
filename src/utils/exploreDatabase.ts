@@ -24,8 +24,7 @@ export class DatabaseExplorer {
       'facilities',
       'regions',
       'positions',
-      'member_types',
-      'ai_conversations'
+      'member_types'
     ]
 
     const existingTables: string[] = []

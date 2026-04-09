@@ -1,19 +1,14 @@
 <script setup lang="ts">
-// TODO: Re-enable AI chat search once ai_conversations table is created
-// import AIChatSearch from '@/components/AIChatSearch.vue'
-
 defineOptions({
   inheritAttrs: false,
 })
 </script>
 
 <template>
-  <!-- AI-Powered Master Search - Temporarily disabled -->
   <div
     class="flex-grow-1 mx-4"
     v-bind="$attrs"
   >
-    <!-- <AIChatSearch /> -->
     <VTextField
       placeholder="Search MyNATCA Hub..."
       prepend-inner-icon="mdi-magnify"
