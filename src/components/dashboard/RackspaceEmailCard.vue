@@ -37,72 +37,67 @@
       </div>
 
       <!-- Has Existing Email -->
-      <div v-else-if="existingEmail" class="d-flex flex-column ga-3">
-        <VAlert type="success" density="compact" variant="tonal">
-          <div class="d-flex flex-column">
-            <span class="text-caption mb-1"><strong>Your NATCA Email:</strong></span>
-            <div class="d-flex align-center justify-space-between">
-              <span class="text-body-2">{{ existingEmail }}</span>
-              <VBtn
-                icon="mdi-content-copy"
-                size="x-small"
-                variant="text"
-                @click="copyToClipboard(existingEmail)"
-              />
-            </div>
+      <div v-else-if="existingEmail" class="email-active">
+        <!-- Email display -->
+        <div class="email-display">
+          <div class="email-display__label">Your Email</div>
+          <div class="email-display__row">
+            <VIcon icon="mdi-at" size="16" class="email-display__icon" />
+            <span class="email-display__value">{{ existingEmail }}</span>
+            <VBtn
+              icon="mdi-content-copy"
+              size="x-small"
+              variant="text"
+              density="comfortable"
+              @click="copyToClipboard(existingEmail)"
+            />
+          </div>
+        </div>
+
+        <!-- New password alert (only after reset/create) -->
+        <VAlert v-if="newPassword" type="warning" density="compact" variant="tonal" class="mt-3">
+          <div class="text-caption mb-1"><strong>New Password — save this, it won't show again</strong></div>
+          <div class="d-flex align-center justify-space-between">
+            <code class="text-body-2">{{ newPassword }}</code>
+            <VBtn
+              icon="mdi-content-copy"
+              size="x-small"
+              variant="text"
+              @click="copyToClipboard(newPassword)"
+            />
           </div>
         </VAlert>
 
-        <!-- Show password if just reset -->
-        <VAlert v-if="newPassword" type="warning" density="compact" variant="tonal">
-          <div class="d-flex flex-column">
-            <span class="text-caption mb-1"><strong>New Password (save this!):</strong></span>
-            <div class="d-flex align-center justify-space-between">
-              <span class="text-body-2 font-weight-medium">{{ newPassword }}</span>
-              <VBtn
-                icon="mdi-content-copy"
-                size="x-small"
-                variant="text"
-                @click="copyToClipboard(newPassword)"
-              />
-            </div>
-            <span class="text-caption text-medium-emphasis mt-1">
-              This password will not be shown again. Save it securely.
-            </span>
-          </div>
-        </VAlert>
-
-        <VBtn
-          color="primary"
-          variant="tonal"
-          block
-          href="https://webmail.natca.net"
-          target="_blank"
-        >
-          <VIcon icon="mdi-email-open" class="me-2" />
-          Open Webmail
-        </VBtn>
-
-        <VBtn
-          color="warning"
-          variant="tonal"
-          block
-          @click="showResetConfirmation = true"
-          :loading="resetting"
-        >
-          <VIcon icon="mdi-lock-reset" class="me-2" />
-          Reset Password
-        </VBtn>
-
-        <VBtn
-          color="info"
-          variant="tonal"
-          block
-          @click="showConfigDialog = true"
-        >
-          <VIcon icon="mdi-cog" class="me-2" />
-          Configuration
-        </VBtn>
+        <!-- Action row -->
+        <div class="email-actions">
+          <VBtn
+            color="primary"
+            variant="flat"
+            size="small"
+            href="https://webmail.natca.net"
+            target="_blank"
+            prepend-icon="mdi-email-open-outline"
+          >
+            Webmail
+          </VBtn>
+          <VBtn
+            variant="outlined"
+            size="small"
+            :loading="resetting"
+            prepend-icon="mdi-lock-reset"
+            @click="showResetConfirmation = true"
+          >
+            Reset
+          </VBtn>
+          <VBtn
+            variant="text"
+            size="small"
+            prepend-icon="mdi-cog-outline"
+            @click="showConfigDialog = true"
+          >
+            Config
+          </VBtn>
+        </div>
       </div>
 
       <!-- No Email - Show Options -->
@@ -526,5 +521,49 @@ const copyToClipboard = async (text: string) => {
 
 .ds-card__body {
   padding: var(--space-4, 16px);
+}
+
+.email-display {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--color-border, rgba(255,255,255,0.08));
+  border-radius: var(--radius-default, 6px);
+  padding: var(--space-3, 12px);
+}
+
+.email-display__label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 4px;
+}
+
+.email-display__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+}
+
+.email-display__icon {
+  color: rgba(255,255,255,0.5);
+  flex-shrink: 0;
+}
+
+.email-display__value {
+  flex: 1;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.8125rem;
+  color: rgba(255,255,255,0.9);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.email-actions {
+  display: flex;
+  gap: var(--space-2, 8px);
+  margin-top: var(--space-3, 12px);
+  flex-wrap: wrap;
 }
 </style>
