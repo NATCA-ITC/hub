@@ -225,6 +225,12 @@
   </ul>
   <p><strong>Urgent flag</strong> is orthogonal: pins to top of Hub regardless of filter, always posts to Discord, (future) always emails the full active-member list.</p>
 
+  <h2>Editor: Tiptap (rich text) with markdown stored alongside</h2>
+  <p>Authors use a Tiptap-based WYSIWYG editor — no markdown syntax required. Images drag-drop into Supabase Storage. Under the hood we store three formats per update: <code>body_json</code> (Tiptap canonical), <code>body_md</code> (derived, for Discord + portability), <code>body_html</code> (derived cache). See the <a href="hub-updates-author.html" style="color: var(--natca-sky);">author mockup</a> for the toolbar and rich content area.</p>
+
+  <h2>AI search via pgvector (built-in from Phase 1)</h2>
+  <p>Every published update gets an OpenAI embedding stored in Supabase's pgvector. Members can eventually ask natural-language questions like <em>"What's the latest on H.R. 4412?"</em> and get synthesized answers with citations back to the source stories. Data starts accumulating from day 1; the search UI lands in Phase 5. See ADR 001 for the RAG flow.</p>
+
   <h2>Why liveblog-style stories?</h2>
   <p>The current fragmented approach creates multiple disconnected posts about the same topic (e.g., three separate emails about the same shutdown negotiation). Members can't find the latest state of a story, and older context is lost. A liveblog model — like <a href="https://www.ms.now/liveblog/iran-war-news-today-trump-us-april-10-2026" style="color: var(--natca-sky);">MS.now</a>, Guardian rolling coverage, or NYT live updates — keeps everything about a story on one page, so members always land on the canonical, up-to-date view.</p>
 

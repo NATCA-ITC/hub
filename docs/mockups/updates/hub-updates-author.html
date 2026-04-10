@@ -52,92 +52,260 @@
   outline: none;
 }
 .editor-summary-input:focus { border-color: var(--natca-red); }
-.editor-split {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-3);
+/* Tiptap-style rich editor */
+.tt-editor {
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   overflow: hidden;
-  min-height: 500px;
-}
-@media (max-width: 900px) { .editor-split { grid-template-columns: 1fr; } }
-.editor-pane, .preview-pane {
-  padding: var(--space-4);
-  overflow-y: auto;
-}
-.editor-pane {
-  background: var(--color-bg-elevated);
-  border-right: 1px solid var(--color-border);
-}
-.editor-pane textarea {
-  width: 100%;
-  min-height: 460px;
-  background: transparent;
-  border: none;
-  color: var(--color-text-body);
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  line-height: 1.6;
-  outline: none;
-  resize: none;
-}
-.preview-pane {
   background: var(--color-bg-surface);
-  font-size: var(--text-sm);
-  color: var(--color-text-body);
-  line-height: 1.6;
-}
-.preview-pane h2 {
-  font-family: var(--font-display);
-  color: var(--color-text-primary);
-  font-size: var(--text-lg);
-  margin: var(--space-4) 0 var(--space-2);
-}
-.preview-pane p { margin: 0 0 var(--space-3); }
-.preview-pane ul { padding-left: var(--space-5); margin: 0 0 var(--space-3); }
-.preview-pane blockquote {
-  border-left: 3px solid var(--natca-red);
-  padding-left: var(--space-3);
-  margin: var(--space-3) 0;
-  font-style: italic;
-  color: var(--color-text-primary);
-}
-.pane-header {
+  min-height: 500px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--space-3);
-  padding-bottom: var(--space-2);
-  border-bottom: 1px solid var(--color-border-light);
-  font-size: var(--text-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: var(--color-text-muted);
-  font-weight: 700;
+  flex-direction: column;
+  transition: border-color 0.15s ease;
 }
+.tt-editor:focus-within { border-color: var(--natca-sky); }
 
-.editor-toolbar {
+.tt-toolbar {
+  background: var(--color-bg-elevated);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-2) var(--space-3);
   display: flex;
   gap: var(--space-1);
-  margin-bottom: var(--space-3);
-  padding-bottom: var(--space-3);
-  border-bottom: 1px solid var(--color-border-light);
   flex-wrap: wrap;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
-.editor-toolbar button {
-  background: var(--color-bg-elevated);
-  border: 1px solid var(--color-border);
+.tt-btn {
+  background: transparent;
+  border: 1px solid transparent;
   color: var(--color-text-body);
-  width: 32px;
-  height: 32px;
+  min-width: 30px;
+  height: 30px;
+  padding: 0 var(--space-2);
   border-radius: var(--radius-sm);
   cursor: pointer;
   font-family: var(--font-mono);
   font-size: var(--text-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  gap: 4px;
 }
-.editor-toolbar button:hover { border-color: var(--natca-red); color: var(--natca-red); }
-.editor-toolbar .sep { width: 1px; background: var(--color-border); margin: 0 var(--space-1); }
+.tt-btn:hover {
+  background: rgba(255,255,255,0.05);
+  color: var(--color-text-primary);
+}
+.tt-btn.is-active {
+  background: rgba(0, 168, 252, 0.12);
+  color: var(--natca-sky);
+  border-color: rgba(0, 168, 252, 0.3);
+}
+.tt-btn svg { width: 15px; height: 15px; }
+.tt-sep {
+  width: 1px;
+  align-self: stretch;
+  background: var(--color-border);
+  margin: 0 var(--space-2);
+}
+.tt-btn-group { display: inline-flex; gap: 2px; }
+.tt-btn--upload {
+  color: var(--natca-sky);
+  background: rgba(0, 168, 252, 0.08);
+  border-color: rgba(0, 168, 252, 0.2);
+  padding: 0 var(--space-3);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--text-xs);
+}
+.tt-btn--upload:hover { background: rgba(0, 168, 252, 0.15); }
+
+.tt-content {
+  padding: var(--space-6) var(--space-8);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  line-height: 1.7;
+  flex: 1;
+  overflow-y: auto;
+  background: var(--color-bg-surface);
+  position: relative;
+}
+.tt-content:focus { outline: none; }
+.tt-content h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--text-xl);
+  color: var(--color-text-primary);
+  margin: var(--space-6) 0 var(--space-3);
+  line-height: 1.25;
+}
+.tt-content h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-lg);
+  color: var(--color-text-primary);
+  margin: var(--space-5) 0 var(--space-2);
+}
+.tt-content p { margin: 0 0 var(--space-4); }
+.tt-content ul, .tt-content ol {
+  margin: 0 0 var(--space-4);
+  padding-left: var(--space-6);
+}
+.tt-content li { margin-bottom: var(--space-1); }
+.tt-content blockquote {
+  border-left: 4px solid var(--natca-red);
+  padding: var(--space-2) var(--space-5);
+  margin: var(--space-4) 0;
+  color: var(--color-text-primary);
+  font-style: italic;
+  background: rgba(206, 14, 45, 0.06);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.tt-content a { color: var(--natca-sky); text-decoration: underline; text-underline-offset: 2px; }
+.tt-content code {
+  background: var(--color-bg-elevated);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  color: var(--natca-sky);
+}
+.tt-content strong { color: var(--color-text-primary); font-weight: 700; }
+
+/* Image block (Tiptap node-view simulation) */
+.tt-image {
+  margin: var(--space-5) 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  position: relative;
+  background: var(--color-bg-elevated);
+}
+.tt-image:hover { border-color: var(--natca-sky); }
+.tt-image__file {
+  background: linear-gradient(135deg, rgba(0,51,102,0.3), rgba(206,14,45,0.2));
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  color: rgba(255,255,255,0.7);
+}
+.tt-image__file svg { width: 48px; height: 48px; opacity: 0.5; }
+.tt-image__file span { font-size: var(--text-sm); font-weight: 600; }
+.tt-image__caption {
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-bg-elevated);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.tt-image__url {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-text-faint);
+  margin-left: auto;
+}
+
+/* Drag-drop hint */
+.tt-drop-hint {
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  margin: var(--space-4) 0;
+  background: rgba(255,255,255,0.02);
+}
+.tt-drop-hint strong { color: var(--color-text-primary); }
+.tt-drop-hint kbd {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
+  padding: 1px 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-text-primary);
+}
+
+/* Slash command menu mockup */
+.tt-slash-menu {
+  position: absolute;
+  left: 80px;
+  top: 210px;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-2);
+  width: 260px;
+  z-index: 10;
+}
+.tt-slash-menu__header {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--color-text-muted);
+  padding: var(--space-2) var(--space-3);
+}
+.tt-slash-menu__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  color: var(--color-text-body);
+}
+.tt-slash-menu__item:hover,
+.tt-slash-menu__item.is-focused {
+  background: rgba(0, 168, 252, 0.12);
+  color: var(--color-text-primary);
+}
+.tt-slash-menu__item-icon {
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  flex-shrink: 0;
+}
+.tt-slash-menu__item-meta { flex: 1; min-width: 0; }
+.tt-slash-menu__item-name { font-weight: 600; }
+.tt-slash-menu__item-hint { font-size: 10px; color: var(--color-text-muted); }
+
+.tt-footer {
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+.tt-footer-badges { display: flex; gap: var(--space-2); }
+.tt-badge {
+  padding: 2px 8px;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-text-muted);
+}
+.tt-badge strong { color: var(--natca-sky); font-weight: 600; }
 
 /* Right-rail controls */
 .side-ctl {
@@ -286,7 +454,7 @@
   <div class="mockup-page__header">
     <div>
       <h1 class="mockup-page__title">New Story</h1>
-      <p class="mockup-page__subtitle">Stories hold the headline and a running summary. Add updates later from the <a href="hub-updates-admin.html" style="color: var(--natca-sky);">Author Dashboard</a> to keep coverage consolidated on one page.</p>
+      <p class="mockup-page__subtitle">WYSIWYG editor (Tiptap). Drag-drop images. No markdown syntax required — stored as markdown + JSON + HTML under the hood. Add updates later from the <a href="hub-updates-admin.html" style="color: var(--natca-sky);">Author Dashboard</a>.</p>
     </div>
     <div class="muted small">Last saved: just now · Auto-saving…</div>
   </div>
@@ -304,57 +472,136 @@
       <p class="small muted" style="margin: 0 0 var(--space-3);">📌 This is the <strong style="color:var(--color-text-primary);">story headline</strong> — it stays stable. Updates stream beneath it.</p>
       <textarea class="editor-summary-input" placeholder="Story summary — the stable overview shown at top of the story. Editors can update this as the situation evolves.">Congress is negotiating the FY2026 continuing resolution with the current CR expiring midnight Friday. NATCA leadership is coordinating directly with FAA Administrator Washington on contingency operations. This story will be updated as the situation evolves.</textarea>
 
-      <div class="editor-toolbar">
-        <button title="Bold"><strong>B</strong></button>
-        <button title="Italic"><em>I</em></button>
-        <button title="Heading">H2</button>
-        <div class="sep"></div>
-        <button title="List">•</button>
-        <button title="Numbered list">1.</button>
-        <button title="Quote">&gt;</button>
-        <div class="sep"></div>
-        <button title="Link">🔗</button>
-        <button title="Image">🖼️</button>
-        <button title="Code">&lt;/&gt;</button>
-        <div class="sep"></div>
-        <button title="Preview">👁️</button>
-      </div>
-
       <h3 style="font-family: var(--font-display); font-size: var(--text-sm); text-transform: uppercase; letter-spacing: 0.8px; color: var(--color-text-muted); margin: var(--space-5) 0 var(--space-2);">First Update (opens the story)</h3>
-      <div class="editor-split">
-        <div class="editor-pane">
-          <div class="pane-header">Markdown <span>first_update.body_md</span></div>
-<textarea>Brothers and sisters, as you're aware, Congress remains in active negotiation on the FY2026 continuing resolution. With the current CR set to expire at midnight Friday, NATCA leadership is coordinating directly with FAA Administrator Washington on contingency operations should a shutdown occur.
 
-## Immediate Action Items
-
-All facility representatives must complete the following within the next 48 hours:
-
-- Review the attached FAA/NATCA Joint Shutdown Contingency Memorandum
-- Schedule a local briefing with your membership
-- Update your facility's emergency contact tree in the Hub Members directory
-- Identify any members who have outstanding leave requests
-
-> "This situation remains fluid. We are in constant communication with the Administrator and with Congressional leadership on both sides of the aisle."
-
-## What We Know
-
-Based on the most recent conversations with FAA leadership, air traffic operations will continue under excepted status.</textarea>
+      <div class="tt-editor">
+        <!-- Tiptap toolbar -->
+        <div class="tt-toolbar">
+          <div class="tt-btn-group">
+            <button class="tt-btn" title="Bold (⌘B)"><strong>B</strong></button>
+            <button class="tt-btn" title="Italic (⌘I)"><em>I</em></button>
+            <button class="tt-btn" title="Underline (⌘U)"><u>U</u></button>
+            <button class="tt-btn" title="Strikethrough"><s>S</s></button>
+          </div>
+          <div class="tt-sep"></div>
+          <div class="tt-btn-group">
+            <button class="tt-btn is-active" title="Heading 2">H2</button>
+            <button class="tt-btn" title="Heading 3">H3</button>
+          </div>
+          <div class="tt-sep"></div>
+          <div class="tt-btn-group">
+            <button class="tt-btn" title="Bullet list">•</button>
+            <button class="tt-btn" title="Numbered list">1.</button>
+            <button class="tt-btn" title="Quote">"</button>
+            <button class="tt-btn" title="Code block">&lt;/&gt;</button>
+          </div>
+          <div class="tt-sep"></div>
+          <div class="tt-btn-group">
+            <button class="tt-btn" title="Link (⌘K)">🔗</button>
+            <button class="tt-btn tt-btn--upload" title="Upload image">📷 Add Image</button>
+            <button class="tt-btn" title="Embed video">▶</button>
+            <button class="tt-btn" title="Horizontal rule">—</button>
+          </div>
+          <div class="tt-sep"></div>
+          <div class="tt-btn-group">
+            <button class="tt-btn" title="Undo (⌘Z)">↶</button>
+            <button class="tt-btn" title="Redo (⌘⇧Z)">↷</button>
+          </div>
+          <div style="flex:1;"></div>
+          <div class="tt-btn" style="color: var(--color-text-muted); font-size: 11px; font-family: var(--font-body); font-weight: 500; cursor: default;">
+            Tiptap · Vue 3
+          </div>
         </div>
-        <div class="preview-pane">
-          <div class="pane-header">Preview <span>first_update.body_html</span></div>
+
+        <!-- Rich content area (what the author sees) -->
+        <div class="tt-content" contenteditable="true">
           <p>Brothers and sisters, as you're aware, Congress remains in active negotiation on the FY2026 continuing resolution. With the current CR set to expire at midnight Friday, NATCA leadership is coordinating directly with FAA Administrator Washington on contingency operations should a shutdown occur.</p>
+
           <h2>Immediate Action Items</h2>
           <p>All facility representatives must complete the following within the next 48 hours:</p>
           <ul>
-            <li>Review the attached FAA/NATCA Joint Shutdown Contingency Memorandum</li>
+            <li>Review the attached <strong>FAA/NATCA Joint Shutdown Contingency Memorandum</strong></li>
             <li>Schedule a local briefing with your membership</li>
-            <li>Update your facility's emergency contact tree in the Hub Members directory</li>
+            <li>Update your facility's emergency contact tree in the Hub <a href="#">Members directory</a></li>
             <li>Identify any members who have outstanding leave requests</li>
           </ul>
-          <blockquote>"This situation remains fluid. We are in constant communication with the Administrator and with Congressional leadership on both sides of the aisle."</blockquote>
+
+          <!-- Drag-drop image placeholder (simulating an uploaded image) -->
+          <div class="tt-image">
+            <div class="tt-image__file">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <span>faa-shutdown-memo.png</span>
+              <small style="color: rgba(255,255,255,0.4); font-size: 11px;">Uploaded · 1024×768 · 187 KB</small>
+            </div>
+            <div class="tt-image__caption">
+              <span>📎 FAA/NATCA Joint Contingency Memorandum — page 1 of 4</span>
+              <span class="tt-image__url">updates-media/0193a7f2.png</span>
+            </div>
+          </div>
+
+          <blockquote>
+            "This situation remains fluid. We are in constant communication with the Administrator and with Congressional leadership on both sides of the aisle."
+          </blockquote>
+
           <h2>What We Know</h2>
-          <p>Based on the most recent conversations with FAA leadership, air traffic operations will continue under excepted status.</p>
+          <p>Based on the most recent conversations with FAA leadership, air traffic operations will continue under <em>excepted status</em> as they have in previous shutdowns.</p>
+
+          <div class="tt-drop-hint">
+            <strong>Drag images here</strong> · paste from clipboard · or type <kbd>/image</kbd> for the slash menu<br>
+            <span style="font-size: 11px;">Uploads go to <code style="color: var(--natca-sky); background: var(--color-bg-elevated); padding: 1px 5px; border-radius: 3px; font-family: var(--font-mono);">updates-media/</code> bucket in Supabase Storage</span>
+          </div>
+
+          <!-- Slash command menu (shown open for illustration) -->
+          <div class="tt-slash-menu">
+            <div class="tt-slash-menu__header">Insert block…</div>
+            <div class="tt-slash-menu__item is-focused">
+              <div class="tt-slash-menu__item-icon">📷</div>
+              <div class="tt-slash-menu__item-meta">
+                <div class="tt-slash-menu__item-name">Image</div>
+                <div class="tt-slash-menu__item-hint">Upload or paste a URL</div>
+              </div>
+            </div>
+            <div class="tt-slash-menu__item">
+              <div class="tt-slash-menu__item-icon">📄</div>
+              <div class="tt-slash-menu__item-meta">
+                <div class="tt-slash-menu__item-name">File attachment</div>
+                <div class="tt-slash-menu__item-hint">PDF, DOCX, etc.</div>
+              </div>
+            </div>
+            <div class="tt-slash-menu__item">
+              <div class="tt-slash-menu__item-icon">📊</div>
+              <div class="tt-slash-menu__item-meta">
+                <div class="tt-slash-menu__item-name">Table</div>
+                <div class="tt-slash-menu__item-hint">Simple grid</div>
+              </div>
+            </div>
+            <div class="tt-slash-menu__item">
+              <div class="tt-slash-menu__item-icon">💬</div>
+              <div class="tt-slash-menu__item-meta">
+                <div class="tt-slash-menu__item-name">Callout</div>
+                <div class="tt-slash-menu__item-hint">Highlighted note</div>
+              </div>
+            </div>
+            <div class="tt-slash-menu__item">
+              <div class="tt-slash-menu__item-icon">▶</div>
+              <div class="tt-slash-menu__item-meta">
+                <div class="tt-slash-menu__item-name">Video embed</div>
+                <div class="tt-slash-menu__item-hint">YouTube, Vimeo</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Footer showing storage format -->
+        <div class="tt-footer">
+          <span>🟢 Saved to draft · Author: Nick Daniels</span>
+          <div class="tt-footer-badges">
+            <span class="tt-badge">body_json: <strong>1.2 KB</strong></span>
+            <span class="tt-badge">body_md: <strong>642 B</strong></span>
+            <span class="tt-badge">body_html: <strong>1.8 KB</strong></span>
+            <span class="tt-badge">📷 1 image</span>
+          </div>
         </div>
       </div>
     </div>

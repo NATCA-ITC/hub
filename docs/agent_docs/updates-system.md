@@ -90,8 +90,9 @@ The **child entries**. Each is a timestamped addition to a parent story. This is
 | story_id | uuid FK → stories | required; CASCADE on delete |
 | kind | text CHECK | 'update' / 'breaking' / 'correction' / 'summary' — affects visual styling |
 | headline | text | optional short headline for this specific update (e.g. "2:14 PM — Senate vote scheduled") |
-| body_md | text | markdown source of truth |
-| body_html | text | rendered cache |
+| body_json | jsonb | **canonical source-of-truth — Tiptap ProseMirror document** |
+| body_md | text | markdown serialized from Tiptap JSON (for Discord, portability, full-text search) |
+| body_html | text | HTML rendered from Tiptap JSON (cached for Hub + email) |
 | author_member_id | text | who wrote this specific update |
 | status | text CHECK | 'draft' / 'published' |
 | published_at | timestamptz | set on publish |
@@ -101,9 +102,34 @@ The **child entries**. Each is a timestamped addition to a parent story. This is
 
 Indexes: `(story_id, published_at DESC)` WHERE status='published', `(published_at DESC)` for global latest.
 
-**Denormalization pattern:** when an update transitions to `published`, a trigger (or the publish route) updates the parent story's `last_updated_at` and increments `update_count`. This keeps feed queries fast.
+**All three body columns are maintained on every save.** Tiptap's JSON is canonical; markdown and HTML are derived. Discord fan-out uses `body_md`; Hub rendering uses `body_html`; vector embedding (below) uses `body_md` for tokenization. Stories have the same triple (`summary_json`, `summary_md`, `summary_html`).
+
+### `updates.update_embeddings`
+Per-update vector embeddings for AI-powered search (RAG). One update can produce multiple embedding rows if its body is long enough to need chunking (~500 tokens per chunk).
+
+| Column | Type | Notes |
+|---|---|---|
+| id | uuid PK | |
+| update_id | uuid FK → updates | CASCADE on delete |
+| chunk_index | integer | 0 for most updates; >0 for long updates that are split into chunks |
+| chunk_text | text | the text that was embedded (for re-ranking + display in citations) |
+| embedding | vector(1536) | pgvector; OpenAI text-embedding-3-small output |
+| content_hash | text | hash of `chunk_text`; used to avoid re-embedding unchanged content |
+| model | text | embedding model identifier, for future migrations |
+| created_at | timestamptz | |
+
+Indexes: `USING hnsw (embedding vector_cosine_ops)` — HNSW is the right choice for ~10K embeddings with fast cosine search.
+
+**Embedding lifecycle:**
+- Generated on `update.status → published` via a Platform background job (inline for v1, queue later)
+- Re-generated when `body_md` changes and `content_hash` no longer matches
+- Deleted via CASCADE when the update is deleted
+- Stale check runs nightly to catch any missed updates
 
 ### `updates.subscriptions`
+
+**Denormalization pattern:** when an update transitions to `published`, a trigger (or the publish route) updates the parent story's `last_updated_at` and increments `update_count`. This keeps feed queries fast.
+
 Composite PK `(member_id, topic_id)`. Columns: `subscribed boolean`, `source` ('default' / 'manual' / 'import'), `updated_at`.
 
 Rows only created when a member explicitly changes a subscription. Defaults come from `topics.default_subscribed` until overridden.
@@ -160,15 +186,22 @@ All routes live in `platform/routes/updates.js`. Hub reaches them via its existi
 - `GET /api/updates/author/stories?status=&topic=&q=` — quick-find for Author Dashboard. Returns stories across all statuses including drafts, with search support.
 
 **Writes (require grant):**
-- `POST /api/updates/stories` — create new story. Body includes topic, title, summary, and the first update (kind='update', body). Creates both rows in one transaction.
-- `PATCH /api/updates/stories/:id` — edit story metadata (title, summary, key_points, status, urgent flag)
-- `POST /api/updates/stories/:id/publish` — transition story from draft → live. Publishes the first update, triggers Discord fan-out.
+- `POST /api/updates/stories` — create new story. Body includes topic, title, summary (Tiptap JSON), and the first update (kind='update', body_json). Creates both rows in one transaction. Server serializes to markdown + HTML.
+- `PATCH /api/updates/stories/:id` — edit story metadata (title, summary_json, key_points_json, status, urgent flag)
+- `POST /api/updates/stories/:id/publish` — transition story from draft → live. Publishes the first update, triggers Discord fan-out, triggers embedding generation.
 - `POST /api/updates/stories/:id/resolve` — transition to resolved (no more updates expected)
 - `POST /api/updates/stories/:id/archive`
-- `POST /api/updates/stories/:id/updates` — **add a new update to an existing story**. This is the most common author operation. Body includes kind, optional headline, body_md. On publish, fans out to Discord.
+- `POST /api/updates/stories/:id/updates` — **add a new update to an existing story**. This is the most common author operation. Body includes kind, optional headline, body_json. On publish, fans out to Discord and generates embedding.
 - `PATCH /api/updates/stories/:storyId/updates/:updateId` — edit an update
-- `DELETE /api/updates/stories/:storyId/updates/:updateId` — delete (tombstone) an update; emits a "removed" notice
+- `DELETE /api/updates/stories/:storyId/updates/:updateId` — delete (tombstone) an update; emits a "removed" notice; cascades embedding rows
 - `POST /api/updates/topics` — admin only
+
+**Media upload (require grant):**
+- `POST /api/updates/upload` — multipart file upload from Tiptap's image extension. Validates mime type (image/*, application/pdf), size limit 10MB, streams to Supabase Storage bucket `updates-media/{year}/{month}/{uuid}.{ext}`. Returns `{ url, width, height, mime_type, size }`. Tiptap inserts an image node pointing at the returned URL.
+
+**AI search (Phase 5 — not in v1):**
+- `POST /api/updates/ask` — takes `{ query: string }`, runs RAG pipeline (embed query → pgvector nearest neighbors → fetch top N updates → Claude API with citations prompt), returns `{ answer: string, citations: [{ story_slug, update_id, snippet }] }`
+- `GET /api/updates/stories/:id/related` — returns semantically related stories using story-level embedding averages
 
 ## Fan-out on publish
 
@@ -280,6 +313,34 @@ async function handleUpdatePublished({ story, topic, update }) {
 
 Use when migrating to a forum channel is disruptive. Each topic gets its own text channel; the bot auto-creates a thread on the story's first update and posts subsequent updates into that thread. Works identically from the data model's perspective — same columns, same webhook payload.
 
+## Editor (Tiptap)
+
+Authors use a [Tiptap](https://tiptap.dev/) rich-text editor (`@tiptap/vue-3`), not a raw markdown textarea. NATCA communications staff aren't developers — they need Word/Google-Docs-style WYSIWYG.
+
+### Storage format — triple
+
+Tiptap's JSON is canonical. Markdown and HTML are derived on every save (they're cheap to generate and extremely compressible in Postgres). This gives us:
+- **Rich editing** (JSON → Tiptap's native format)
+- **Portability** (markdown stored from day 1; all integrations that consume text use this)
+- **Fast rendering** (HTML pre-rendered for Hub + email)
+
+Tiptap extensions used:
+- `StarterKit` (bold, italic, headings, lists, blockquote, code, etc.)
+- `Link` with auto-link
+- `Image` (custom node-view for captions)
+- `Placeholder` (for empty editor state)
+- `@tiptap/extension-markdown` (for `getMarkdown()` serializer)
+
+### Image upload pipeline
+
+1. Author drags/pastes/clicks → Tiptap's `Image` extension fires `handleDrop` / `handlePaste` / toolbar click
+2. Custom upload handler streams the file to `POST /api/updates/upload`
+3. Platform validates grant, writes to `updates-media/` bucket, returns URL
+4. Tiptap inserts an image node; auto-save within 2s captures the JSON change
+5. On publish, first image becomes Discord embed thumbnail + email featured image
+
+Bucket: `updates-media` in the same Supabase project. Public read for published content (CDN-cached via Supabase). Write gated via Platform (not RLS on the bucket directly — keeps auth centralized).
+
 ## Hub UI
 
 ### Routes
@@ -332,19 +393,21 @@ No CC code in v1.
 ## Phase plan
 
 - **Phase 0** (this branch): Mockups + ADR + agent_docs only. No functional code.
-- **Phase 1**: Schema migration + Platform API + grants bootstrap
-- **Phase 2**: Hub Vue UI (replaces mockups with real components)
-- **Phase 3**: Discord webhook integration
-- **Phase 4**: Constant Contact integration (still deferred — separate project)
+- **Phase 1**: Schema migration (stories + updates + subscriptions + embeddings tables, pgvector extension, Supabase Storage bucket) + Platform API including upload endpoint + grants bootstrap
+- **Phase 2**: Hub Vue UI with Tiptap editor (replaces mockups with real components)
+- **Phase 3**: Discord forum channel integration (Option B) with Option A text-channel fallback
+- **Phase 4**: Embedding generation pipeline (backfill existing + trigger on publish) — data starts accumulating even before the search UI lands
+- **Phase 5**: AI search — `/api/updates/ask` RAG endpoint, Hub search box, related-stories on story page
+- **Phase 6**: Constant Contact integration (still deferred — separate project)
 
 ## Explicitly NOT in v1
 - Constant Contact send/sync (stub only)
+- AI search UI / `/api/updates/ask` endpoint (schema + pgvector extension exist from Phase 1; embedding generation runs from Phase 4; search UI in Phase 5)
 - Read receipts / view tracking
 - Multiple dashboard cards per member
-- Post search
 - Comments / reactions
 - Scheduled publishing worker (column exists, no cron)
-- Rich media embeds beyond markdown images
+- Collaborative editing (Tiptap + Y.js supports this; add later if needed)
 - Email digest rollups
 
 ## Mockups

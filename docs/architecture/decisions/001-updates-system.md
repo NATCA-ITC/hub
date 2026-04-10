@@ -83,7 +83,78 @@ Publishing an **update** (not a story) is a synchronous Platform operation that:
 
 **Recommendation: deploy as a Discord forum channel.** Forum channels are built for this exact use case — Discord's native browse grid, tag filtering, and follow-post tracking map 1:1 to our stories + topics + subscriptions model. The text-channel + threads pattern works as a fallback if migrating existing channels is disruptive.
 
-### 6. Constant Contact designed-but-deferred
+### 6. Editor: Tiptap (Vue 3) with markdown export + Supabase Storage for images
+
+Authors are NATCA officers and communications staff — not developers. They need a Word/Google-Docs-style WYSIWYG editor, not a raw markdown textarea.
+
+**Editor: [Tiptap](https://tiptap.dev/)** with the official `@tiptap/vue-3` bindings. ProseMirror-based, MIT licensed, proven at scale by Linear, GitLab, Substack, Axios HQ. First-class Vue 3 support. The core editor is free forever; we don't need Pro features.
+
+**Storage: all three formats, generated from Tiptap's canonical JSON:**
+
+| Column | Purpose | How it's generated |
+|---|---|---|
+| `body_json jsonb` | Canonical source-of-truth | Tiptap's native `getJSON()` on save |
+| `body_md text` | Portable fallback, Discord embed text, future integrations | Tiptap's markdown extension serializes from JSON |
+| `body_html text` | Pre-rendered cache for Hub display and email | Tiptap's `getHTML()` on publish |
+
+Storing all three is cheap (text compression in Postgres is excellent) and avoids re-rendering on every read. Markdown is always available for portability and for systems that can't consume Tiptap JSON — addressing the requirement that markdown remains first-class even if authors never see it.
+
+**Images and attachments: Supabase Storage.** New bucket `updates-media/` with:
+- Public read for published posts (CDN-cached)
+- Write gated by `updates_author` grant via Platform-proxied upload endpoint
+- Organized by `{year}/{month}/{uuid}.{ext}` to prevent hot-spots
+
+Upload flow:
+1. Author drags an image into Tiptap (or pastes from clipboard, or clicks 📷)
+2. Tiptap's upload hook POSTs to `POST /api/updates/upload` (new route on Platform)
+3. Platform validates the grant, streams the file to `updates-media/` in Supabase Storage
+4. Returns `{ url, width, height, mime_type }`
+5. Tiptap inserts an image node pointing at the URL
+6. When the post is published, the first image becomes the Discord embed's thumbnail and the email's featured image
+
+**Why this matters for the liveblog model:** rapid-authoring workflows (live coverage, screenshots of FAA memos, event flyers) become native. Authors paste a screenshot and keep typing. This is what makes a news-org liveblog feel alive rather than stale.
+
+### 7. AI search via pgvector embeddings
+
+Every update is embedded into a vector space on publish so members can ask natural-language questions like *"What's the latest on H.R. 4412?"* or *"When is the next CFS conference?"* and get synthesized answers with citations back to the source stories.
+
+**Vector store: pgvector in the same Supabase database.** Supabase has first-class pgvector support — no dedicated vector DB, no separate backup strategy, no sync pipeline. Embeddings live alongside the content they embed.
+
+**Embedding model: OpenAI `text-embedding-3-small`** (1536 dimensions, $0.02/1M tokens). At 500 updates/year × ~500 tokens each, that's $0.005/year in embedding costs — effectively free. Upgrading to `text-embedding-3-large` later is a trivial migration.
+
+**New table: `updates.update_embeddings`**
+```sql
+CREATE TABLE updates.update_embeddings (
+  id              uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  update_id       uuid NOT NULL REFERENCES updates.updates(id) ON DELETE CASCADE,
+  chunk_index     integer NOT NULL DEFAULT 0,
+  chunk_text      text NOT NULL,
+  embedding       vector(1536) NOT NULL,
+  content_hash    text NOT NULL,
+  model           text NOT NULL DEFAULT 'text-embedding-3-small',
+  created_at      timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX ON updates.update_embeddings USING hnsw (embedding vector_cosine_ops);
+```
+
+**Retrieval-Augmented Generation (RAG) flow:**
+1. Member asks a question in a Hub search box (e.g. *"What did NATCA say about the shutdown?"*)
+2. Hub POSTs to `POST /api/updates/ask` on Platform
+3. Platform embeds the query → runs nearest-neighbor search against `updates.update_embeddings` → fetches the top N matching updates + their parent stories
+4. Sends context + question to Claude API (or Anthropic SDK) as a RAG prompt
+5. Claude synthesizes an answer with inline citations like `[1]`, `[2]`
+6. Platform maps citation numbers back to story URLs and returns `{ answer, citations: [{ story_slug, update_id, ... }] }`
+7. Hub renders the answer with clickable citations → deep-linking into `/updates/[slug]#u-[id]`
+
+**Secondary uses of the embedding index:**
+- **Related stories** on the story page (semantic nearest neighbors at story-level)
+- **Duplicate detection** on story creation (warn authors when a new story is semantically close to an existing live story)
+- **Topic suggestions** (type a headline, get the most likely topic based on historical updates in each topic)
+- **Weekly roll-up generation** (summarize all updates in a topic over the past 7 days for a newsletter)
+
+**Not in v1, but designed for:** the embeddings table and pgvector extension can be added in Phase 1 so the data starts accumulating from day 1. The actual `/api/updates/ask` endpoint and Hub search UI can land in a later phase (Phase 5).
+
+### 8. Constant Contact designed-but-deferred
 
 Schema includes all fields needed for Constant Contact integration (`topics.cc_list_id`, `posts.cc_campaign_id`, etc.). Platform has a stub `ccSync()` function marking the integration point. Actual integration lands in `NATCA-ITC/integrations` as an Edge Function that:
 - Maps `updates.subscriptions` → Constant Contact list membership
@@ -100,6 +171,8 @@ Not built in v1, but the data model doesn't need migration when it lands.
 - **Reuses existing infrastructure** — `public.grants`, Discord bot HTTP server, Hub's `useAuth0` composable, Platform session middleware. Minimal new surface area.
 - **Extensible** — new topics = `INSERT` row. Per-topic author grants via existing grants table. Discord channel mapping is a column, not a separate config system.
 - **Constant Contact-ready** — columns exist, but we don't pay the cost of building the integration until it's needed.
+- **AI-search-ready from day 1** — pgvector extension and `update_embeddings` table land in Phase 1, so embeddings accumulate from the first published update. The search UI can land months later without a backfill.
+- **Rich editor for non-technical authors** — Tiptap removes markdown as a barrier without losing markdown as a storage format. PA staff get a familiar Word-like experience; integrations still consume clean markdown.
 - **Dashboard customization** lives in existing `hub.user_preferences` JSON — no new Hub tables.
 
 ### Negative / Trade-offs
@@ -110,6 +183,14 @@ Not built in v1, but the data model doesn't need migration when it lands.
 - **Urgent-flag email behavior deferred** — whether urgent posts should override email unsubscribes is a policy question deferred until Constant Contact integration.
 
 ## Alternatives Considered
+
+**Raw markdown textarea as the editor.** Rejected: NATCA officers and PA staff aren't developers. Asking them to memorize markdown syntax and write image URLs by hand is friction that will result in fewer posts and worse content. Tiptap gives them a familiar WYSIWYG while still storing markdown as a derived format for portability.
+
+**Dedicated vector database (Pinecone / Qdrant / Weaviate).** Rejected: pgvector in the same Supabase Postgres is simpler, cheaper, has unified backups, and handles our scale (10K–100K embeddings over years) with room to spare. Dedicated vector DBs are worth it at 10M+ embeddings or when query patterns require specialized ANN tuning. We have neither.
+
+**Self-hosted embedding model (sentence-transformers on a DO droplet).** Rejected for v1: adds a server to maintain for pennies of saved cost. OpenAI text-embedding-3-small at $0.02/1M tokens costs us less than $1/year for expected volume. Revisit if we ever need self-hosted for privacy reasons.
+
+**Lexical (Meta's editor) instead of Tiptap.** Rejected: the Vue 3 bindings are community-maintained (`lexical-vue`) and lag the React version significantly. Tiptap's Vue 3 support is first-class and maintained by the Tiptap team directly.
 
 **Flat posts table (no story/update hierarchy).** Rejected: this is what we have today in spirit — each announcement is a standalone post, and related posts fragment across multiple URLs. Members can't find the latest state of an evolving story, authors inadvertently create duplicates, and Discord channels get cluttered with disconnected messages about the same event. The liveblog model directly addresses this.
 
