@@ -71,12 +71,17 @@ Platform API middleware checks `req.session.user.grants` (already loaded at logi
 Publishing an **update** (not a story) is a synchronous Platform operation that:
 1. Sets `update.status='published'`, renders markdown → `body_html`
 2. Updates parent story's `last_updated_at` and increments `update_count`
-3. If topic has `discord_channel_id` (or parent story is urgent), POSTs to Discord bot's `/webhook/update-published` endpoint with `{story, topic, update}`
-4. Discord bot formats a rich embed showing the story title, the specific update content, and a "Read full story" link back to Hub
-5. Platform stores returned `discord_message_id` on the `updates` row
-6. Calls stub `ccSync(update)` that logs "deferred" for v1
+3. POSTs to Discord bot's `/webhook/update-published` endpoint with `{story, topic, update}`
+4. Discord bot routes the update based on `topic.discord_channel_id` and the channel's type:
+   - **Forum channel (preferred):** if this is the story's first update, create a new forum post with the story title + initial content and store the post id in `stories.discord_thread_id`. Tag the post with the topic's forum tag. Subsequent updates post as replies in that forum post.
+   - **Text channel (fallback):** if this is the story's first update, post the story embed in the channel and auto-create an attached thread. Store the thread id in `stories.discord_thread_id`. Subsequent updates post as messages inside that thread.
+5. Urgent updates also post a compact `@here` alert in the parent channel/forum with a link to the story post.
+6. Platform stores returned `discord_message_id` on the `updates` row and `discord_thread_id` on the `stories` row (first update only).
+7. Calls stub `ccSync(update)` that logs "deferred" for v1.
 
-Each update is its own Discord message — members see rolling updates in the channel, and each links back to the same consolidated Hub story page. This is intentional: Discord shows the firehose, Hub shows the coherent thread.
+**Consolidation is the key principle:** all updates to one story live in one Discord thread (or forum post), mirroring the one-URL Hub story. Members who follow a story get notifications only for that story, not the whole topic channel.
+
+**Recommendation: deploy as a Discord forum channel.** Forum channels are built for this exact use case — Discord's native browse grid, tag filtering, and follow-post tracking map 1:1 to our stories + topics + subscriptions model. The text-channel + threads pattern works as a fallback if migrating existing channels is disruptive.
 
 ### 6. Constant Contact designed-but-deferred
 

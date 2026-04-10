@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discord Forum Channel (Option B) — Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --discord-bg:        #313338;
+  --discord-sidebar:   #2b2d31;
+  --discord-server:    #1e1f22;
+  --discord-channel:   #313338;
+  --discord-input:     #383a40;
+  --discord-text:      #dbdee1;
+  --discord-muted:     #949ba4;
+  --discord-header:    #ffffff;
+  --discord-link:      #00a8fc;
+  --discord-border:    #26272b;
+  --discord-embed-bg:  #2b2d31;
+  --discord-accent:    #5865f2;
+  --discord-card:      #2b2d31;
+  --discord-card-hover:#35373c;
+}
+* { box-sizing: border-box; }
+body {
+  font-family: 'gg sans', 'Public Sans', -apple-system, system-ui, sans-serif;
+  background: var(--discord-bg);
+  color: var(--discord-text);
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.mockup-note {
+  background: #16a34a;
+  color: white;
+  padding: 12px 20px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+}
+.mockup-note a { color: white; text-decoration: underline; }
+
+.discord {
+  display: grid;
+  grid-template-columns: 72px 240px 1fr;
+  height: calc(100vh - 40px);
+  min-height: 720px;
+}
+
+/* Server list */
+.servers { background: var(--discord-server); padding: 12px 0; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.server { width: 48px; height: 48px; border-radius: 24px; background: var(--discord-sidebar); display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--discord-text); cursor: pointer; transition: border-radius 0.15s; position: relative; }
+.server:hover, .server.active { border-radius: 16px; background: var(--discord-accent); color: white; }
+.server.active::before { content: ''; position: absolute; left: -16px; top: 8px; bottom: 8px; width: 4px; background: white; border-radius: 0 4px 4px 0; }
+.server.natca { background: linear-gradient(135deg, #CE0E2D, #003366); color: white; }
+.server-divider { width: 32px; height: 2px; background: var(--discord-channel); border-radius: 1px; margin: 4px 0; }
+
+/* Channel list */
+.channels { background: var(--discord-sidebar); display: flex; flex-direction: column; }
+.channels-header { padding: 16px; font-size: 16px; font-weight: 700; color: var(--discord-header); border-bottom: 1px solid var(--discord-border); }
+.channels-list { padding: 16px 8px; overflow-y: auto; flex: 1; }
+.channel-cat { font-size: 12px; text-transform: uppercase; font-weight: 700; color: var(--discord-muted); padding: 16px 8px 4px; letter-spacing: 0.5px; }
+.channel { padding: 6px 8px; color: var(--discord-muted); font-size: 16px; cursor: pointer; border-radius: 4px; display: flex; align-items: center; gap: 6px; font-weight: 500; }
+.channel:hover { background: rgba(255,255,255,0.04); color: var(--discord-text); }
+.channel.active { background: rgba(255,255,255,0.08); color: var(--discord-header); }
+.channel::before { content: '#'; color: var(--discord-muted); font-weight: 400; }
+/* Forum channel has a different prefix icon */
+.channel.forum::before { content: ''; }
+.channel.forum .forum-icon {
+  width: 16px; height: 16px;
+  color: var(--discord-muted);
+  flex-shrink: 0;
+}
+.channel.forum.active .forum-icon,
+.channel.forum:hover .forum-icon { color: var(--discord-text); }
+
+/* FORUM VIEW */
+.forum-view { background: var(--discord-channel); display: flex; flex-direction: column; overflow: hidden; }
+.forum-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--discord-border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+  flex-shrink: 0;
+}
+.forum-header h1 {
+  font-size: 16px;
+  color: var(--discord-header);
+  margin: 0;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.forum-header .forum-icon-lg {
+  width: 20px; height: 20px;
+  color: var(--discord-muted);
+}
+.forum-header__topic {
+  color: var(--discord-muted);
+  font-size: 13px;
+  margin-left: 8px;
+  padding-left: 12px;
+  border-left: 1px solid var(--discord-border);
+}
+.forum-header__actions {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.forum-btn-new {
+  background: var(--discord-accent);
+  color: white;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.forum-btn-new:hover { background: #4752c4; }
+.forum-search {
+  background: var(--discord-input);
+  border: none;
+  border-radius: 4px;
+  padding: 6px 10px;
+  color: var(--discord-text);
+  font-size: 13px;
+  width: 200px;
+}
+
+/* Tag filter row */
+.forum-tags-row {
+  padding: 10px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+  flex-shrink: 0;
+}
+.forum-tags-row__label {
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--discord-muted);
+  letter-spacing: 0.5px;
+  margin-right: 4px;
+}
+.forum-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--discord-text);
+  cursor: pointer;
+}
+.forum-tag:hover { background: rgba(255,255,255,0.1); }
+.forum-tag.active { background: var(--discord-accent); border-color: var(--discord-accent); color: white; }
+.forum-tag .dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; opacity: 0.6; }
+.forum-tag-national    .dot { background: #CE0E2D; opacity: 1; }
+.forum-tag-legislative .dot { background: #8B4FB8; opacity: 1; }
+.forum-tag-safety      .dot { background: #E76F00; opacity: 1; }
+.forum-tag-labor       .dot { background: #0D9488; opacity: 1; }
+.forum-tag-training    .dot { background: #10B981; opacity: 1; }
+.forum-tag-benefits    .dot { background: #EAB308; opacity: 1; }
+.forum-tag-events      .dot { background: #3B82F6; opacity: 1; }
+
+/* Forum body — split into grid (left) and opened post (right) */
+.forum-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  flex: 1;
+  min-height: 0;
+}
+@media (max-width: 1400px) {
+  .forum-body { grid-template-columns: 1fr; }
+  .forum-post-detail { display: none; }
+}
+
+/* Post grid — left column */
+.forum-grid {
+  padding: 16px 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.forum-post-card {
+  background: var(--discord-card);
+  border-radius: 6px;
+  padding: 12px 14px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 150ms;
+}
+.forum-post-card:hover { background: var(--discord-card-hover); border-color: rgba(255,255,255,0.08); }
+.forum-post-card.is-open {
+  background: var(--discord-card-hover);
+  border-color: var(--discord-accent);
+}
+.forum-post-card.is-pinned {
+  border-left: 3px solid #f23f42;
+}
+.forum-post-card__tags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.forum-post-card__tag {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  color: white;
+}
+.forum-post-card__tag--urgent { background: #f23f42; }
+.forum-post-card__tag--pinned { background: #faa61a; color: #1e1f22; }
+.forum-post-card__tag--national    { background: #CE0E2D; }
+.forum-post-card__tag--legislative { background: #8B4FB8; }
+.forum-post-card__tag--safety      { background: #E76F00; }
+.forum-post-card__tag--labor       { background: #0D9488; }
+.forum-post-card__tag--training    { background: #10B981; }
+.forum-post-card__tag--benefits    { background: #EAB308; color: #1e1f22; }
+.forum-post-card__tag--events      { background: #3B82F6; }
+
+.forum-post-card__title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--discord-header);
+  margin: 0 0 4px;
+  line-height: 1.3;
+}
+.forum-post-card__preview {
+  font-size: 13px;
+  color: var(--discord-muted);
+  margin: 0 0 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.4;
+}
+.forum-post-card__footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  color: var(--discord-muted);
+}
+.forum-post-card__author-avatar {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #CE0E2D, #003366);
+}
+.forum-post-card__stat {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.forum-post-card__stat.is-live {
+  color: #4ade80;
+  font-weight: 600;
+}
+
+/* Opened post detail — right column */
+.forum-post-detail {
+  background: #2b2d31;
+  border-left: 1px solid rgba(255,255,255,0.04);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.forum-post-detail__header {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  flex-shrink: 0;
+}
+.forum-post-detail__tags {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.forum-post-detail__title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--discord-header);
+  margin: 0 0 6px;
+  line-height: 1.2;
+}
+.forum-post-detail__meta {
+  font-size: 11px;
+  color: var(--discord-muted);
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.forum-post-detail__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 0;
+}
+
+/* Reply item within a post */
+.forum-reply {
+  padding: 8px 20px 8px 60px;
+  position: relative;
+  margin-top: 8px;
+}
+.forum-reply.is-op {
+  background: rgba(88,101,242,0.06);
+  border-left: 3px solid var(--discord-accent);
+  margin-top: 0;
+}
+.forum-reply:hover { background: rgba(0,0,0,0.08); }
+.forum-reply.is-op:hover { background: rgba(88,101,242,0.1); }
+.forum-reply-avatar {
+  position: absolute;
+  left: 20px;
+  top: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #CE0E2D, #003366);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 11px;
+}
+.forum-reply-header {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+.forum-reply-author { color: var(--discord-header); font-weight: 600; font-size: 14px; }
+.forum-reply-bot { background: var(--discord-accent); color: white; font-size: 9px; font-weight: 700; padding: 1px 4px; border-radius: 3px; text-transform: uppercase; }
+.forum-reply-time { color: var(--discord-muted); font-size: 11px; }
+.forum-reply-kind {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-right: 4px;
+}
+.forum-reply-kind--initial { background: rgba(88,101,242,0.2); color: #c9cdfb; }
+.forum-reply-kind--update { background: rgba(255,255,255,0.1); color: var(--discord-muted); }
+.forum-reply-kind--breaking { background: #f23f42; color: white; }
+.forum-reply-kind--correction { background: #E76F00; color: white; }
+.forum-reply-kind--summary { background: #00a8fc; color: white; }
+.forum-reply-body {
+  font-size: 13px;
+  color: var(--discord-text);
+  line-height: 1.5;
+}
+.forum-reply-body strong { color: var(--discord-header); }
+.forum-reply-body p { margin: 0 0 4px; }
+
+.forum-post-detail__input {
+  padding: 12px 16px 16px;
+  flex-shrink: 0;
+}
+.forum-post-detail__input-inner {
+  background: var(--discord-input);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--discord-muted);
+  font-size: 13px;
+}
+</style>
+</head>
+<body>
+
+<div class="mockup-note">
+  📰 Option B — Dedicated Forum channel (recommended). Each story is a <em>forum post</em>, each update is a reply inside it. Discord-native browse + reply pattern.
+  &nbsp;·&nbsp; <a href="index.html">← Back</a> &nbsp;·&nbsp; <a href="discord-story-thread.html">Compare Option A →</a>
+</div>
+
+<div class="discord">
+  <!-- Server list -->
+  <aside class="servers">
+    <div class="server natca">N</div>
+    <div class="server-divider"></div>
+    <div class="server">+</div>
+  </aside>
+
+  <!-- Channel list — note the Updates channel has a forum icon -->
+  <aside class="channels">
+    <div class="channels-header">NATCA Community</div>
+    <div class="channels-list">
+      <div class="channel-cat">📢 Forum</div>
+      <div class="channel forum active">
+        <svg class="forum-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 01-2 2H6l-4 4V4a2 2 0 012-2h8a2 2 0 012 2z"/><path d="M18 9h2a2 2 0 012 2v11l-4-4h-6a2 2 0 01-2-2v-1"/></svg>
+        updates
+      </div>
+      <div class="channel-cat">💬 General</div>
+      <div class="channel">general</div>
+      <div class="channel">introductions</div>
+      <div class="channel">off-topic</div>
+      <div class="channel-cat">🏢 Facilities</div>
+      <div class="channel">zob-cleveland</div>
+      <div class="channel">zau-chicago</div>
+      <div class="channel">zdc-washington</div>
+    </div>
+  </aside>
+
+  <!-- Forum view -->
+  <main class="forum-view">
+    <header class="forum-header">
+      <h1>
+        <svg class="forum-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 01-2 2H6l-4 4V4a2 2 0 012-2h8a2 2 0 012 2z"/><path d="M18 9h2a2 2 0 012 2v11l-4-4h-6a2 2 0 01-2-2v-1"/></svg>
+        updates
+      </h1>
+      <span class="forum-header__topic">Rolling coverage, announcements, bulletins — all stories from NATCA Hub</span>
+      <div class="forum-header__actions">
+        <input class="forum-search" placeholder="🔍 Search posts…">
+        <button class="forum-btn-new">+ New Post</button>
+      </div>
+    </header>
+
+    <!-- Tag filter row (each topic is a forum tag) -->
+    <div class="forum-tags-row">
+      <span class="forum-tags-row__label">Filter by tag:</span>
+      <span class="forum-tag active">All</span>
+      <span class="forum-tag forum-tag-national"><span class="dot"></span>National</span>
+      <span class="forum-tag forum-tag-legislative"><span class="dot"></span>Legislative</span>
+      <span class="forum-tag forum-tag-safety"><span class="dot"></span>Safety</span>
+      <span class="forum-tag forum-tag-labor"><span class="dot"></span>Labor Relations</span>
+      <span class="forum-tag forum-tag-training"><span class="dot"></span>Training</span>
+      <span class="forum-tag forum-tag-benefits"><span class="dot"></span>Benefits</span>
+      <span class="forum-tag forum-tag-events"><span class="dot"></span>Events</span>
+    </div>
+
+    <!-- Split body: grid left, opened post right -->
+    <div class="forum-body">
+
+      <!-- LEFT: Post grid -->
+      <div class="forum-grid">
+
+        <!-- Urgent pinned post (open) -->
+        <div class="forum-post-card is-pinned is-open">
+          <div class="forum-post-card__tags">
+            <span class="forum-post-card__tag forum-post-card__tag--urgent">🚨 Urgent</span>
+            <span class="forum-post-card__tag forum-post-card__tag--pinned">📌 Pinned</span>
+            <span class="forum-post-card__tag forum-post-card__tag--national">National</span>
+          </div>
+          <h3 class="forum-post-card__title">FAA Shutdown 2026 — Rolling Coverage</h3>
+          <p class="forum-post-card__preview">Congress is negotiating the FY2026 continuing resolution. NATCA leadership is coordinating contingency operations. This story is being updated in real time…</p>
+          <div class="forum-post-card__footer">
+            <div class="forum-post-card__author-avatar"></div>
+            <span>NATCA Hub</span>
+            <span class="forum-post-card__stat">💬 12 messages</span>
+            <span class="forum-post-card__stat is-live">● Rolling</span>
+            <span class="forum-post-card__stat">· 7m ago</span>
+          </div>
+        </div>
+
+        <div class="forum-post-card">
+          <div class="forum-post-card__tags">
+            <span class="forum-post-card__tag forum-post-card__tag--legislative">Legislative</span>
+          </div>
+          <h3 class="forum-post-card__title">H.R. 4412 — FAA Funding Bill Progress</h3>
+          <p class="forum-post-card__preview">Rolling coverage of the FY2026 FAA reauthorization and funding bill, including committee markups, floor votes, and NATCA advocacy…</p>
+          <div class="forum-post-card__footer">
+            <div class="forum-post-card__author-avatar"></div>
+            <span>NATCA Hub</span>
+            <span class="forum-post-card__stat">💬 18 messages</span>
+            <span class="forum-post-card__stat is-live">● Rolling</span>
+            <span class="forum-post-card__stat">· 2h ago</span>
+          </div>
+        </div>
+
+        <div class="forum-post-card">
+          <div class="forum-post-card__tags">
+            <span class="forum-post-card__tag forum-post-card__tag--labor">Labor Relations</span>
+          </div>
+          <h3 class="forum-post-card__title">Slate Book Article 35 Interpretation</h3>
+          <p class="forum-post-card__preview">NATCA and the FAA are negotiating an MOU clarifying the application of Article 35 for controllers who transfer during a leave year…</p>
+          <div class="forum-post-card__footer">
+            <div class="forum-post-card__author-avatar"></div>
+            <span>NATCA Hub</span>
+            <span class="forum-post-card__stat">💬 5 messages</span>
+            <span class="forum-post-card__stat is-live">● Rolling</span>
+            <span class="forum-post-card__stat">· 1d ago</span>
+          </div>
+        </div>
+
+        <div class="forum-post-card">
+          <div class="forum-post-card__tags">
+            <span class="forum-post-card__tag forum-post-card__tag--safety">Safety</span>
+          </div>
+          <h3 class="forum-post-card__title">Runway Incursion Reporting — ASRS Update</h3>
+          <p class="forum-post-card__preview">Effective May 1, the Aviation Safety Reporting System will adopt updated guidance for Class A/B/C runway incursions…</p>
+          <div class="forum-post-card__footer">
+            <div class="forum-post-card__author-avatar"></div>
+            <span>NATCA Hub</span>
+            <span class="forum-post-card__stat">💬 3 messages</span>
+            <span class="forum-post-card__stat">· 2d ago</span>
+          </div>
+        </div>
+
+        <div class="forum-post-card">
+          <div class="forum-post-card__tags">
+            <span class="forum-post-card__tag forum-post-card__tag--events">Events</span>
+          </div>
+          <h3 class="forum-post-card__title">NATCA in Washington 2026</h3>
+          <p class="forum-post-card__preview">The annual legislative fly-in returns May 12–14. Registration, Hill visit assignments, travel coordination, and event updates tracked here.</p>
+          <div class="forum-post-card__footer">
+            <div class="forum-post-card__author-avatar"></div>
+            <span>NATCA Hub</span>
+            <span class="forum-post-card__stat">💬 7 messages</span>
+            <span class="forum-post-card__stat">· 3d ago</span>
+          </div>
+        </div>
+
+        <div class="forum-post-card">
+          <div class="forum-post-card__tags">
+            <span class="forum-post-card__tag forum-post-card__tag--training">Training</span>
+          </div>
+          <h3 class="forum-post-card__title">2026 Communicating For Safety Conference</h3>
+          <p class="forum-post-card__preview">NATCA's flagship safety training event returns to Las Vegas August 18–20. Registration, scholarships, and agenda updates…</p>
+          <div class="forum-post-card__footer">
+            <div class="forum-post-card__author-avatar"></div>
+            <span>NATCA Hub</span>
+            <span class="forum-post-card__stat">💬 4 messages</span>
+            <span class="forum-post-card__stat">· 5d ago</span>
+          </div>
+        </div>
+
+        <div class="forum-post-card">
+          <div class="forum-post-card__tags">
+            <span class="forum-post-card__tag forum-post-card__tag--national">National</span>
+          </div>
+          <h3 class="forum-post-card__title">President's Monthly Letter — March Roundup</h3>
+          <p class="forum-post-card__preview">A look back at March priorities: Hill meetings, facility visits, and the upcoming CFS conference planning.</p>
+          <div class="forum-post-card__footer">
+            <div class="forum-post-card__author-avatar"></div>
+            <span>NATCA Hub</span>
+            <span class="forum-post-card__stat">💬 1 message</span>
+            <span class="forum-post-card__stat">· 1w ago</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Opened post detail -->
+      <aside class="forum-post-detail">
+        <header class="forum-post-detail__header">
+          <div class="forum-post-detail__tags">
+            <span class="forum-post-card__tag forum-post-card__tag--urgent">🚨 Urgent</span>
+            <span class="forum-post-card__tag forum-post-card__tag--pinned">📌 Pinned</span>
+            <span class="forum-post-card__tag forum-post-card__tag--national">National</span>
+          </div>
+          <h2 class="forum-post-detail__title">FAA Shutdown 2026 — Rolling Coverage</h2>
+          <div class="forum-post-detail__meta">
+            <span>NATCA Hub · APP</span>
+            <span>Started April 8 · 3:14 PM</span>
+            <span>💬 12 messages</span>
+            <span style="color: #4ade80;">● Rolling</span>
+          </div>
+        </header>
+
+        <div class="forum-post-detail__body">
+
+          <!-- OP (original post — the story headline + initial content) -->
+          <div class="forum-reply is-op">
+            <div class="forum-reply-avatar">ND</div>
+            <div class="forum-reply-header">
+              <span class="forum-reply-author">NATCA Hub</span>
+              <span class="forum-reply-bot">APP</span>
+              <span class="forum-reply-time">April 8 · 3:14 PM</span>
+            </div>
+            <div class="forum-reply-body">
+              <span class="forum-reply-kind forum-reply-kind--initial">Story</span>
+              <p><strong>FAA Shutdown 2026 — Rolling Coverage</strong></p>
+              <p>Congress is negotiating the FY2026 continuing resolution with the current CR expiring midnight Friday. NATCA leadership is coordinating directly with FAA Administrator Washington on contingency operations. <strong>This post will be updated as the situation evolves.</strong></p>
+              <p>Posted by <strong>Nick Daniels · NATCA President</strong> · <a href="#" style="color: var(--discord-link);">Read full story on Hub →</a></p>
+            </div>
+          </div>
+
+          <div class="forum-reply">
+            <div class="forum-reply-avatar" style="background: linear-gradient(135deg, #003366, #CE0E2D);">GP</div>
+            <div class="forum-reply-header">
+              <span class="forum-reply-author">NATCA Hub</span>
+              <span class="forum-reply-bot">APP</span>
+              <span class="forum-reply-time">April 9 · 8:47 AM</span>
+            </div>
+            <div class="forum-reply-body">
+              <span class="forum-reply-kind forum-reply-kind--summary">Summary</span>
+              <p><strong>Where things stand: CR negotiations enter final 72 hours</strong></p>
+              <p>Senate and House leadership remain in active negotiation. Key sticking points: disaster aid and border security riders. NATCA's government affairs team is meeting with Appropriations Committee staff throughout the day.</p>
+              <p style="color: var(--discord-muted); font-size: 11px;">— posted by Gary Peters · General Counsel</p>
+            </div>
+          </div>
+
+          <div class="forum-reply">
+            <div class="forum-reply-avatar">ND</div>
+            <div class="forum-reply-header">
+              <span class="forum-reply-author">NATCA Hub</span>
+              <span class="forum-reply-bot">APP</span>
+              <span class="forum-reply-time">Today · 9:04 AM</span>
+            </div>
+            <div class="forum-reply-body">
+              <span class="forum-reply-kind forum-reply-kind--update">Update</span>
+              <p><strong>FAA Administrator confirms excepted status for controllers</strong></p>
+              <p>All operational air traffic controllers will be designated "excepted" and must report to work as scheduled. Pay will be retroactive.</p>
+              <p style="color: var(--discord-muted); font-size: 11px;">— posted by Nick Daniels</p>
+            </div>
+          </div>
+
+          <div class="forum-reply">
+            <div class="forum-reply-avatar">ND</div>
+            <div class="forum-reply-header">
+              <span class="forum-reply-author">NATCA Hub</span>
+              <span class="forum-reply-bot">APP</span>
+              <span class="forum-reply-time">Today · 10:18 AM</span>
+            </div>
+            <div class="forum-reply-body">
+              <span class="forum-reply-kind forum-reply-kind--correction">Correction</span>
+              <p><strong>Academy training pause affects all phases</strong></p>
+              <p>Earlier we reported only Phase 2 FAA Academy training would pause. The correct information is <strong>all training phases pause on Day 1</strong>.</p>
+              <p style="color: var(--discord-muted); font-size: 11px;">— posted by Nick Daniels</p>
+            </div>
+          </div>
+
+          <div class="forum-reply">
+            <div class="forum-reply-avatar" style="background: linear-gradient(135deg, #6e2a8c, #CE0E2D);">MG</div>
+            <div class="forum-reply-header">
+              <span class="forum-reply-author">NATCA Hub</span>
+              <span class="forum-reply-bot">APP</span>
+              <span class="forum-reply-time">Today · 12:42 PM</span>
+            </div>
+            <div class="forum-reply-body">
+              <span class="forum-reply-kind forum-reply-kind--update">Update</span>
+              <p><strong>House passes CR 308-125 — heads to Senate</strong></p>
+              <p>The House passed the continuing resolution 308-125. The bill includes full FAA funding through June 15. It now heads to the Senate.</p>
+              <p style="color: var(--discord-muted); font-size: 11px;">— posted by Marguerite Graf · Legislative Affairs</p>
+            </div>
+          </div>
+
+          <div class="forum-reply" style="background: rgba(242,63,66,0.08);">
+            <div class="forum-reply-avatar" style="background: linear-gradient(135deg, #6e2a8c, #CE0E2D);">MG</div>
+            <div class="forum-reply-header">
+              <span class="forum-reply-author">NATCA Hub</span>
+              <span class="forum-reply-bot">APP</span>
+              <span class="forum-reply-time">Today · 2:14 PM</span>
+            </div>
+            <div class="forum-reply-body">
+              <span class="forum-reply-kind forum-reply-kind--breaking">🔴 Breaking</span>
+              <p><strong>Senate Majority Leader confirms late-night vote on CR</strong></p>
+              <p>Senate Majority Leader confirmed moments ago that a vote will occur before midnight Friday. NATCA's legislative team is on the Hill providing live updates from the Senate gallery.</p>
+              <p style="color: var(--discord-muted); font-size: 11px;">— posted by Marguerite Graf</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="forum-post-detail__input">
+          <div class="forum-post-detail__input-inner">
+            Reply to this post — only NATCA Hub + authors can post here
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

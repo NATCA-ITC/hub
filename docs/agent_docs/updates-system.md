@@ -176,59 +176,109 @@ Each update fans out independently (not the story). Synchronous for v1 (no queue
 
 1. Set `update.status='published'`, `update.published_at=now()`, render markdown → `body_html`
 2. Update parent story: bump `last_updated_at`, increment `update_count`. If this is the story's first published update, also set `stories.first_published_at` and transition status from `draft` → `live` (or `active` per author choice).
-3. If `topic.discord_channel_id` is set OR parent story is urgent: POST to `http://discord:1303/webhook/update-published` with `{story, topic, update}`. Store returned `discord_message_id` + `discord_posted_at` on the **update** row (each update gets its own Discord message).
-4. Call `ccSync(update)` stub — logs "deferred" and returns for v1.
+3. POST to `http://discord:1303/webhook/update-published` with `{story, topic, update}`. See Discord integration below for routing.
+4. Store returned `discord_message_id` on the update row; if this was the first update, store `discord_thread_id` on the story row.
+5. Call `ccSync(update)` stub — logs "deferred" and returns for v1.
 
-**Discord thread option:** if `story.discord_thread_id` is set, the bot posts subsequent updates into that thread rather than as separate top-level messages. This keeps Discord visually tidy for long-running stories. The bot creates the thread on the first update and stores the id.
+**Key principle:** all updates to one story live in one Discord thread or forum post — never scattered as separate top-level messages.
 
 ## Discord integration
 
-Extends the existing Discord bot HTTP server (`discord/lib/httpServer.js`). New handler in `discord/lib/webhookHandler.js`:
+Two deployment patterns are supported. **Option B (forum channel) is the recommended target state.** The routing logic dispatches based on the channel type.
 
+### Option B — Forum channel (recommended)
+
+Create one Discord **forum channel** (e.g. `#updates`) for the entire Updates system. Configure forum tags to match topics (National, Legislative, Safety, Labor Relations, Training, Benefits, Events). Point all `updates.topics.discord_channel_id` values at this single forum channel — routing happens via tags, not channel.
+
+**Why this is better than one channel per topic:**
+- Browse grid with tag filtering is Discord-native
+- Members can follow individual stories (posts), not whole topics
+- Unread/read tracking per story
+- One channel to admin rather than seven
+- Maps exactly to our Topic → Story → Update model
+
+**Handler:**
 ```js
 async function handleUpdatePublished({ story, topic, update }) {
   const channel = await channelManager.getChannelById(topic.discord_channel_id);
 
-  // Optionally post into a story-specific thread if one exists
-  let target = channel;
-  if (story.discord_thread_id) {
-    target = await channel.threads.fetch(story.discord_thread_id);
-  } else if (story.update_count > 3) {
-    // Auto-create a thread when a story gets chatty
-    const thread = await channel.threads.create({
-      name: story.title.slice(0, 90),
-      autoArchiveDuration: 4320,
+  // ──────── Forum channel path ────────
+  if (channel.type === ChannelType.GuildForum) {
+    // Ensure the topic has a forum tag
+    const tagId = channel.availableTags.find(t => t.name === topic.name)?.id;
+
+    if (!story.discord_thread_id) {
+      // First update → create a new forum post
+      const post = await channel.threads.create({
+        name: story.urgent ? `🚨 ${story.title}` : story.title,
+        appliedTags: [tagId].filter(Boolean),
+        message: {
+          content: story.urgent ? `@here` : null,
+          embeds: [buildStoryOpEmbed(story, topic, update)]
+        },
+        autoArchiveDuration: 10080, // 7 days
+      });
+      return {
+        discord_thread_id: post.id,
+        discord_message_id: post.lastMessageId,
+        discord_posted_at: new Date().toISOString()
+      };
+    }
+
+    // Subsequent update → reply in the existing forum post
+    const post = await channel.threads.fetch(story.discord_thread_id);
+    const msg = await post.send({
+      content: update.kind === 'breaking' && story.urgent ? `@here` : null,
+      embeds: [buildUpdateReplyEmbed(story, topic, update)]
     });
-    story.discord_thread_id = thread.id;
-    target = thread;
+    return {
+      discord_thread_id: story.discord_thread_id,
+      discord_message_id: msg.id,
+      discord_posted_at: new Date().toISOString()
+    };
   }
 
-  const embed = {
-    title: update.headline || story.title,
-    description: update.body_html_preview, // plain text, ~280 chars
-    url: `https://hub.natca.org/updates/${story.slug}#u-${update.id}`,
-    color: hexToInt(topic.color),
-    author: { name: `${story.title} · ${topic.name}` },
-    fields: [
-      { name: 'Kind', value: kindEmoji(update.kind), inline: true },
-      { name: 'Story', value: `${story.update_count} updates`, inline: true },
-    ],
-    timestamp: update.published_at,
-    footer: { text: `MyNATCA Hub · Read full story →` }
-  };
-  const message = await target.send({
-    content: story.urgent && update.kind === 'breaking' ? `@here` : null,
-    embeds: [embed]
+  // ──────── Text channel + thread path (fallback) ────────
+  if (!story.discord_thread_id) {
+    // First update → post in channel + auto-create a thread
+    const parentMsg = await channel.send({
+      content: story.urgent ? `@here` : null,
+      embeds: [buildStoryOpEmbed(story, topic, update)]
+    });
+    const thread = await parentMsg.startThread({
+      name: story.title.slice(0, 100),
+      autoArchiveDuration: 10080,
+    });
+    return {
+      discord_thread_id: thread.id,
+      discord_message_id: parentMsg.id,
+      discord_posted_at: new Date().toISOString()
+    };
+  }
+
+  // Subsequent update → post inside the thread
+  const thread = await channel.threads.fetch(story.discord_thread_id);
+  const msg = await thread.send({
+    content: update.kind === 'breaking' && story.urgent ? `@here` : null,
+    embeds: [buildUpdateReplyEmbed(story, topic, update)]
   });
   return {
-    discord_message_id: message.id,
     discord_thread_id: story.discord_thread_id,
+    discord_message_id: msg.id,
     discord_posted_at: new Date().toISOString()
   };
 }
 ```
 
-Channel mapping is a single column (`updates.topics.discord_channel_id`) — no new config table. Thread creation is automatic for stories with > 3 updates.
+### Channel configuration
+
+- **One `discord_channel_id` per topic.** In Option B, every topic points at the same forum channel id; tags differentiate them. In Option A, each topic points at its own text channel.
+- **`stories.discord_thread_id`** holds the forum post id (Option B) or auto-created thread id (Option A). Same column, same semantic: "where this story's updates live in Discord."
+- **`updates.discord_message_id`** holds the individual reply message id within that thread/post.
+
+### Option A — Text channel + threads (fallback)
+
+Use when migrating to a forum channel is disruptive. Each topic gets its own text channel; the bot auto-creates a thread on the story's first update and posts subsequent updates into that thread. Works identically from the data model's perspective — same columns, same webhook payload.
 
 ## Hub UI
 
