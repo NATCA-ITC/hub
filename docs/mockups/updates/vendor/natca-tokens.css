@@ -1,0 +1,165 @@
+/* ============================================================
+   natca-tokens.css  —  NATCA Design System Tokens v1
+   Drop this file into any project and theme with data-theme.
+   ============================================================ */
+
+:root,
+[data-theme="light"] {
+  /* --- Brand Palette --- */
+  --natca-red:          #CE0E2D;
+  --natca-red-dark:     #A30B24;
+  --natca-red-subtle:   #FDE8EC;
+
+  --natca-navy:         #003366;
+  --natca-blue:         #003366;
+  --natca-blue-deep:    #002952;
+  --natca-blue-dark:    #00254D;
+  --natca-blue-subtle:  #E6EDF5;
+  --natca-sky:          #6AC9FF;
+
+  /* --- Neutrals --- */
+  --color-bg-page:      #FAF9F5;
+  --color-bg-surface:   #FFFFFF;
+  --color-bg-elevated:  #FFFFFF;
+  --color-bg-subtle:    #EFEFEF;
+  --color-bg-dark:      #353535;
+
+  --color-text-primary: #333333;
+  --color-text-body:    #4D4D4D;
+  --color-text-muted:   #666666;
+  --color-text-faint:   #999999;
+  --color-text-inverse: #FFFFFF;
+
+  --color-border:       #DDDDDD;
+  --color-border-light: #EEEEEE;
+  --color-border-focus: #003366;
+
+  /* --- Footer --- */
+  --color-footer-bg:    #414141;
+  --color-footer-text:  #CCCCCC;
+  --color-footer-link:  #6AC9FF;
+
+  /* --- Semantic --- */
+  --color-success:      #2E7D32;
+  --color-success-bg:   #E8F5E9;
+  --color-warning:      #A65D00;
+  --color-warning-bg:   #FDE6C4;
+  --color-danger:       #CE0E2D;
+  --color-danger-bg:    #FDE8EC;
+  --color-info:         #003366;
+  --color-info-bg:      #E6EDF5;
+
+  /* --- Typography --- */
+  --font-display: 'Barlow', sans-serif;
+  --font-display-weight: 600;
+  --font-body:    'Public Sans', sans-serif;
+  --font-mono:    'Courier New', monospace;
+
+  /* --- Type Scale --- */
+  --text-xs:   12px;
+  --text-sm:   13px;
+  --text-base: 15px;
+  --text-md:   17px;
+  --text-lg:   20px;
+  --text-xl:   24px;
+  --text-2xl:  30px;
+  --text-3xl:  38px;
+  --text-4xl:  48px;
+
+  /* --- Spacing (4px base) --- */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* --- Radii --- */
+  --radius-sm: 3px;
+  --radius:    6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* --- Shadows --- */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow:    0 2px 8px rgba(0,0,0,0.10);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.14);
+
+  /* --- Nav Heights --- */
+  --nav-utility-height: 36px;
+  --nav-primary-height: 64px;
+
+  /* --- Brand RGB (for alpha usage) --- */
+  --natca-red-rgb:  206, 14, 45;
+  --natca-blue-rgb: 0, 51, 102;
+
+  /* --- Shell Surfaces (light theme — for future use) --- */
+  --color-shell-base:     var(--color-bg-page);
+  --color-shell-surface:  var(--color-bg-surface);
+  --color-shell-elevated: var(--color-bg-elevated);
+  --color-shell-subtle:   var(--color-bg-subtle);
+  --color-shell-content:  var(--color-bg-page);
+}
+
+/* ============================================================
+   DARK THEME  (data-theme="dark")
+   Used for: member portal, admin, bidding, authenticated views
+   ============================================================ */
+[data-theme="dark"] {
+  --color-bg-page:      #0F1117;
+  --color-bg-surface:   #1A1D27;
+  --color-bg-elevated:  #22263A;
+  --color-bg-subtle:    #2E3347;
+  --color-bg-dark:      #090B12;
+
+  --color-text-primary: #E8EAF0;
+  --color-text-body:    #C4C8D8;
+  --color-text-muted:   #8891A8;
+  --color-text-faint:   #5A6178;
+  --color-text-inverse: #0F1117;
+
+  --color-border:       #2E3347;
+  --color-border-light: #252839;
+  --color-border-focus: #5BA3D9;
+
+  --color-footer-bg:    #090B12;
+  --color-footer-text:  #8891A8;
+  --color-footer-link:  #5BA3D9;
+
+  --natca-blue:         #5BA3D9;
+  --natca-blue-dark:    #4888BC;
+  --natca-blue-subtle:  #0D1E2F;
+  --natca-sky:          #6AC9FF;
+
+  --color-success:      #66BB6A;
+  --color-success-bg:   #1B2E1C;
+  --color-warning:      #FFA726;
+  --color-warning-bg:   #2E1F0A;
+  --color-danger:       #EF5350;
+  --color-danger-bg:    #2E1010;
+  --color-info:         #5BA3D9;
+  --color-info-bg:      #0D1E2F;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.30);
+  --shadow:    0 2px 8px rgba(0,0,0,0.40);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.50);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.60);
+
+  /* --- Brand RGB (for alpha usage) --- */
+  --natca-red-rgb:  206, 14, 45;
+  --natca-blue-rgb: 0, 51, 102;
+
+  /* --- Shell Surfaces (dark theme hierarchy) --- */
+  --color-shell-base:     #0a0f1a;
+  --color-shell-surface:  #0d1420;
+  --color-shell-elevated: #0f1520;
+  --color-shell-subtle:   #0c1119;
+  --color-shell-content:  #111825;
+}
