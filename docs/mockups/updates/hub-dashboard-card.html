@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Card — MyNATCA Hub Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../node_modules/@natca-itc/ui-shell/dist/natca-tokens.css">
+<link rel="stylesheet" href="../../../node_modules/@natca-itc/ui-shell/dist/natca-components.css">
+<link rel="stylesheet" href="mockup-shared.css">
+<style>
+.dash-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--space-5);
+}
+.dash-card {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+.dash-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+}
+.dash-card__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.dash-card__actions {
+  display: flex;
+  gap: var(--space-2);
+}
+.dash-card__icon-btn {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: var(--space-1);
+  font-size: var(--text-lg);
+}
+.dash-card__icon-btn:hover { color: var(--color-text-primary); }
+.profile-card { grid-column: span 4; }
+.email-card { grid-column: span 4; }
+.welcome-card { grid-column: span 4; }
+.updates-card { grid-column: span 8; }
+.quick-card { grid-column: span 4; }
+@media (max-width: 960px) {
+  .profile-card, .email-card, .welcome-card, .updates-card, .quick-card { grid-column: span 12; }
+}
+.updates-feed-item {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border-light);
+  align-items: flex-start;
+}
+.updates-feed-item:last-child { border: none; }
+.updates-feed-item__rail {
+  width: 3px;
+  flex-shrink: 0;
+  align-self: stretch;
+  background: var(--topic-color);
+  border-radius: var(--radius-sm);
+}
+.updates-feed-item__content { flex: 1; }
+.updates-feed-item__meta {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-1);
+}
+.updates-feed-item__title {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 700;
+  margin: 0 0 var(--space-1);
+  color: var(--color-text-primary);
+}
+.updates-feed-item__title a { color: inherit; text-decoration: none; }
+.updates-feed-item__title a:hover { color: var(--natca-sky); }
+.updates-feed-item__summary {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-body);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.urgent-pill {
+  background: var(--natca-red);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.5px;
+}
+.filter-chips-mini {
+  display: flex;
+  gap: var(--space-1);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px dashed var(--color-border);
+}
+.filter-chip-mini {
+  font-size: var(--text-xs);
+  padding: 2px var(--space-2);
+  background: var(--color-bg-elevated);
+  border-radius: var(--radius-full);
+  color: var(--color-text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.filter-chip-mini .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--topic-color, currentColor); }
+/* Dialog mockup (settings) */
+.settings-dialog {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-5);
+  width: 320px;
+  z-index: 5;
+}
+.settings-dialog h4 {
+  font-family: var(--font-display);
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-base);
+}
+.settings-dialog__toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-2) 0;
+  font-size: var(--text-sm);
+}
+.toggle-sw {
+  width: 32px; height: 18px;
+  background: var(--color-border);
+  border-radius: 10px;
+  position: relative;
+  cursor: pointer;
+}
+.toggle-sw::after {
+  content: '';
+  position: absolute;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--color-text-inverse);
+  top: 2px; left: 2px;
+  transition: all 0.15s;
+}
+.toggle-sw.on { background: var(--natca-red); }
+.toggle-sw.on::after { left: 16px; }
+.updates-card-wrapper { position: relative; }
+</style>
+</head>
+<body>
+
+<header class="mockup-topbar">
+  <div class="mockup-topbar__brand">NATCA <span>Hub</span></div>
+  <nav class="mockup-topbar__tabs">
+    <a href="#" class="mockup-topbar__tab is-active">Dashboard</a>
+    <a href="hub-updates-feed.html" class="mockup-topbar__tab">Updates</a>
+    <a href="#" class="mockup-topbar__tab">Members</a>
+    <a href="#" class="mockup-topbar__tab">Facilities</a>
+    <a href="#" class="mockup-topbar__tab">Analytics</a>
+  </nav>
+  <div class="mockup-topbar__user">
+    <span>Jason Doss · ZOB</span>
+    <div class="mockup-topbar__avatar">JD</div>
+  </div>
+</header>
+
+<main class="mockup-page">
+  <div class="mockup-page__header">
+    <div>
+      <h1 class="mockup-page__title">Welcome back, Jason</h1>
+      <p class="mockup-page__subtitle">Here's what's happening at your facility and across NATCA.</p>
+    </div>
+  </div>
+
+  <div class="dash-grid">
+    <!-- Welcome -->
+    <div class="dash-card welcome-card">
+      <div class="dash-card__header">
+        <h3 class="dash-card__title">👋 Welcome</h3>
+      </div>
+      <p class="muted small">Member #: <strong style="color:var(--color-text-primary);">123456</strong></p>
+      <p class="muted small">Region: <strong style="color:var(--color-text-primary);">Great Lakes (NGL)</strong></p>
+      <p class="muted small">Facility: <strong style="color:var(--color-text-primary);">ZOB — Cleveland ARTCC</strong></p>
+    </div>
+
+    <!-- Profile -->
+    <div class="dash-card profile-card">
+      <div class="dash-card__header">
+        <h3 class="dash-card__title">👤 Profile</h3>
+      </div>
+      <p class="muted small">Position: Certified Professional Controller</p>
+      <p class="muted small">Facility Rep: Yes</p>
+      <a class="mock-btn" style="margin-top: var(--space-2);" href="#">View full profile →</a>
+    </div>
+
+    <!-- Rackspace Email -->
+    <div class="dash-card email-card">
+      <div class="dash-card__header">
+        <h3 class="dash-card__title">📧 NATCA Email</h3>
+      </div>
+      <p class="muted small">jason.doss@natca.net</p>
+      <p class="muted small">Active · Rackspace</p>
+      <a class="mock-btn" style="margin-top: var(--space-2);" href="#">Manage →</a>
+    </div>
+
+    <!-- Updates card (the new one!) -->
+    <div class="dash-card updates-card updates-card-wrapper">
+      <div class="dash-card__header">
+        <h3 class="dash-card__title">📰 Latest Updates</h3>
+        <div class="dash-card__actions">
+          <button class="dash-card__icon-btn" title="Filter this card">⚙️</button>
+          <a class="mock-btn" href="hub-updates-feed.html">View all →</a>
+        </div>
+      </div>
+
+      <!-- Active filter chips -->
+      <div class="filter-chips-mini">
+        <span class="muted small" style="margin-right: var(--space-1);">Showing:</span>
+        <span class="filter-chip-mini topic-national"><span class="dot"></span>National</span>
+        <span class="filter-chip-mini topic-legislative"><span class="dot"></span>Legislative</span>
+        <span class="filter-chip-mini topic-safety"><span class="dot"></span>Safety</span>
+        <span class="filter-chip-mini">+ 2 more</span>
+      </div>
+
+      <!-- Urgent pinned first -->
+      <div class="updates-feed-item topic-national">
+        <div class="updates-feed-item__rail"></div>
+        <div class="updates-feed-item__content">
+          <div class="updates-feed-item__meta">
+            <span class="topic-badge topic-national">National</span>
+            <span class="urgent-pill">🚨 Urgent</span>
+            <span>2h ago</span>
+          </div>
+          <h4 class="updates-feed-item__title"><a href="hub-updates-post.html">FAA Shutdown Contingency Plan — Action Required</a></h4>
+          <p class="updates-feed-item__summary">NATCA leadership is coordinating with the FAA on shutdown contingency operations. All facility representatives should review…</p>
+        </div>
+      </div>
+
+      <div class="updates-feed-item topic-legislative">
+        <div class="updates-feed-item__rail"></div>
+        <div class="updates-feed-item__content">
+          <div class="updates-feed-item__meta">
+            <span class="topic-badge topic-legislative">Legislative</span>
+            <span>1d ago</span>
+          </div>
+          <h4 class="updates-feed-item__title"><a href="hub-updates-post.html">House Appropriations Committee Advances FAA Funding Bill</a></h4>
+          <p class="updates-feed-item__summary">The House Transportation Subcommittee approved H.R. 4412 this morning, including full funding for the controller hiring plan…</p>
+        </div>
+      </div>
+
+      <div class="updates-feed-item topic-safety">
+        <div class="updates-feed-item__rail"></div>
+        <div class="updates-feed-item__content">
+          <div class="updates-feed-item__meta">
+            <span class="topic-badge topic-safety">Safety</span>
+            <span>2d ago</span>
+          </div>
+          <h4 class="updates-feed-item__title"><a href="hub-updates-post.html">New ASRS Procedures for Runway Incursion Reporting</a></h4>
+          <p class="updates-feed-item__summary">Effective May 1, the Aviation Safety Reporting System will adopt updated guidance for Class A/B/C runway incursions…</p>
+        </div>
+      </div>
+
+      <div class="updates-feed-item topic-national">
+        <div class="updates-feed-item__rail"></div>
+        <div class="updates-feed-item__content">
+          <div class="updates-feed-item__meta">
+            <span class="topic-badge topic-national">National</span>
+            <span>1w ago</span>
+          </div>
+          <h4 class="updates-feed-item__title"><a href="hub-updates-post.html">President's Monthly Letter — March Roundup</a></h4>
+          <p class="updates-feed-item__summary">A look back at March priorities: Hill meetings, facility visits, and the upcoming CFS conference planning.</p>
+        </div>
+      </div>
+
+      <div class="updates-feed-item topic-legislative">
+        <div class="updates-feed-item__rail"></div>
+        <div class="updates-feed-item__content">
+          <div class="updates-feed-item__meta">
+            <span class="topic-badge topic-legislative">Legislative</span>
+            <span>1w ago</span>
+          </div>
+          <h4 class="updates-feed-item__title"><a href="hub-updates-post.html">Senate Confirms New FAA Deputy Administrator</a></h4>
+          <p class="updates-feed-item__summary">The Senate voted 72–24 to confirm Maria Fernandez as the next FAA Deputy Administrator…</p>
+        </div>
+      </div>
+
+      <!-- Settings dialog (shown open for mockup) -->
+      <div class="settings-dialog">
+        <h4>Customize this card</h4>
+        <p class="small muted" style="margin: 0 0 var(--space-3);">Choose which topics appear in your feed. This is separate from your email subscriptions.</p>
+        <div class="settings-dialog__toggle">
+          <span>🇺🇸 National</span><span class="toggle-sw on"></span>
+        </div>
+        <div class="settings-dialog__toggle">
+          <span>⚖️ Legislative</span><span class="toggle-sw on"></span>
+        </div>
+        <div class="settings-dialog__toggle">
+          <span>🛡️ Safety</span><span class="toggle-sw on"></span>
+        </div>
+        <div class="settings-dialog__toggle">
+          <span>🤝 Bargaining</span><span class="toggle-sw on"></span>
+        </div>
+        <div class="settings-dialog__toggle">
+          <span>🎓 Training</span><span class="toggle-sw"></span>
+        </div>
+        <div class="settings-dialog__toggle">
+          <span>🎁 Benefits</span><span class="toggle-sw"></span>
+        </div>
+        <div class="settings-dialog__toggle">
+          <span>📅 Events</span><span class="toggle-sw on"></span>
+        </div>
+        <div class="settings-dialog__toggle" style="border-top: 1px solid var(--color-border); margin-top: var(--space-3); padding-top: var(--space-3);">
+          <span>Always pin urgent posts</span><span class="toggle-sw on"></span>
+        </div>
+        <div style="display:flex; gap: var(--space-2); margin-top: var(--space-4);">
+          <button class="mock-btn" style="flex:1;">Cancel</button>
+          <button class="mock-btn mock-btn--primary" style="flex:1;">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick links -->
+    <div class="dash-card quick-card">
+      <div class="dash-card__header">
+        <h3 class="dash-card__title">🔗 Quick Links</h3>
+      </div>
+      <ul style="list-style:none; padding:0; margin:0;" class="stack-2">
+        <li><a href="hub-updates-feed.html" style="color: var(--natca-sky); text-decoration:none;">📰 Browse all updates</a></li>
+        <li><a href="hub-updates-preferences.html" style="color: var(--natca-sky); text-decoration:none;">⚙️ Email subscriptions</a></li>
+        <li><a href="#" style="color: var(--natca-sky); text-decoration:none;">👥 Member directory</a></li>
+        <li><a href="#" style="color: var(--natca-sky); text-decoration:none;">🏢 Facility info</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <p style="text-align:center; margin-top: var(--space-10);" class="small muted">
+    👆 The settings dialog is shown open for illustration. In the real UI it opens when the ⚙️ button is clicked.
+  </p>
+</main>
+
+</body>
+</html>

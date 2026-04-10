@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Post Editor — MyNATCA Hub Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../node_modules/@natca-itc/ui-shell/dist/natca-tokens.css">
+<link rel="stylesheet" href="../../../node_modules/@natca-itc/ui-shell/dist/natca-components.css">
+<link rel="stylesheet" href="mockup-shared.css">
+<style>
+.editor-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: var(--space-5);
+}
+@media (max-width: 1100px) { .editor-layout { grid-template-columns: 1fr; } }
+.editor-main {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+.editor-title-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--color-text-primary);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-4);
+  outline: none;
+}
+.editor-title-input::placeholder { color: var(--color-text-faint); }
+.editor-summary-input {
+  width: 100%;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+  padding: var(--space-3);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-4);
+  resize: vertical;
+  min-height: 60px;
+  outline: none;
+}
+.editor-summary-input:focus { border-color: var(--natca-red); }
+.editor-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  min-height: 500px;
+}
+@media (max-width: 900px) { .editor-split { grid-template-columns: 1fr; } }
+.editor-pane, .preview-pane {
+  padding: var(--space-4);
+  overflow-y: auto;
+}
+.editor-pane {
+  background: var(--color-bg-elevated);
+  border-right: 1px solid var(--color-border);
+}
+.editor-pane textarea {
+  width: 100%;
+  min-height: 460px;
+  background: transparent;
+  border: none;
+  color: var(--color-text-body);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  outline: none;
+  resize: none;
+}
+.preview-pane {
+  background: var(--color-bg-surface);
+  font-size: var(--text-sm);
+  color: var(--color-text-body);
+  line-height: 1.6;
+}
+.preview-pane h2 {
+  font-family: var(--font-display);
+  color: var(--color-text-primary);
+  font-size: var(--text-lg);
+  margin: var(--space-4) 0 var(--space-2);
+}
+.preview-pane p { margin: 0 0 var(--space-3); }
+.preview-pane ul { padding-left: var(--space-5); margin: 0 0 var(--space-3); }
+.preview-pane blockquote {
+  border-left: 3px solid var(--natca-red);
+  padding-left: var(--space-3);
+  margin: var(--space-3) 0;
+  font-style: italic;
+  color: var(--color-text-primary);
+}
+.pane-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-border-light);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--color-text-muted);
+  font-weight: 700;
+}
+
+.editor-toolbar {
+  display: flex;
+  gap: var(--space-1);
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border-light);
+  flex-wrap: wrap;
+}
+.editor-toolbar button {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-body);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+.editor-toolbar button:hover { border-color: var(--natca-red); color: var(--natca-red); }
+.editor-toolbar .sep { width: 1px; background: var(--color-border); margin: 0 var(--space-1); }
+
+/* Right-rail controls */
+.side-ctl {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin-bottom: var(--space-4);
+  position: sticky;
+  top: 80px;
+}
+.side-ctl h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-3);
+}
+.field {
+  margin-bottom: var(--space-4);
+}
+.field label {
+  display: block;
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-2);
+  font-weight: 600;
+}
+.field select, .field input[type="datetime-local"] {
+  width: 100%;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-family: var(--font-body);
+}
+.status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3);
+  background: var(--color-bg-elevated);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-3);
+}
+.status-row strong { color: var(--color-text-primary); }
+.checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background: rgba(206,14,45,0.1);
+  border: 1px solid rgba(206,14,45,0.3);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-3);
+  cursor: pointer;
+}
+.checkbox-row input { margin-top: 2px; accent-color: var(--natca-red); }
+.checkbox-row .label strong { display: block; font-size: var(--text-sm); color: var(--natca-red); }
+.checkbox-row .label small { color: var(--color-text-muted); font-size: var(--text-xs); display: block; margin-top: 2px; }
+.fanout {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  background: var(--color-bg-elevated);
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-3);
+}
+.fanout strong { color: var(--color-text-primary); display: block; margin-bottom: var(--space-1); }
+.fanout__item {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-1) 0;
+}
+.fanout__item .on { color: var(--color-success); font-weight: 700; }
+.fanout__item .off { color: var(--color-text-faint); }
+.fanout__item .pending { color: var(--color-warning); }
+
+.actions {
+  display: grid;
+  gap: var(--space-2);
+}
+.grant-notice {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  background: var(--color-bg-elevated);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--natca-sky);
+  margin-top: var(--space-3);
+}
+.grant-notice code { color: var(--natca-sky); font-family: var(--font-mono); font-size: 11px; }
+</style>
+</head>
+<body>
+
+<header class="mockup-topbar">
+  <div class="mockup-topbar__brand">NATCA <span>Hub</span></div>
+  <nav class="mockup-topbar__tabs">
+    <a href="#" class="mockup-topbar__tab">Dashboard</a>
+    <a href="hub-updates-feed.html" class="mockup-topbar__tab is-active">Updates</a>
+    <a href="#" class="mockup-topbar__tab">Members</a>
+    <a href="#" class="mockup-topbar__tab">Facilities</a>
+    <a href="#" class="mockup-topbar__tab">Analytics</a>
+  </nav>
+  <div class="mockup-topbar__user">
+    <span>Nick Daniels · NATCA</span>
+    <div class="mockup-topbar__avatar">ND</div>
+  </div>
+</header>
+
+<main class="mockup-page">
+  <div class="breadcrumbs" style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-4);">
+    <a href="hub-updates-feed.html" style="color: var(--color-text-muted); text-decoration: none;">← Updates</a> · <a href="#" style="color: var(--color-text-muted); text-decoration: none;">Author</a> · Draft
+  </div>
+
+  <div class="mockup-page__header">
+    <div>
+      <h1 class="mockup-page__title">New Post</h1>
+      <p class="mockup-page__subtitle">Write once. Publish to Hub, Discord, and (soon) email in one click.</p>
+    </div>
+    <div class="muted small">Last saved: just now · Auto-saving…</div>
+  </div>
+
+  <div class="editor-layout">
+    <!-- Main editor -->
+    <div class="editor-main">
+      <input class="editor-title-input" value="FAA Shutdown Contingency Plan — Action Required" placeholder="Post title…">
+      <textarea class="editor-summary-input" placeholder="Short summary for cards and email preview (1–2 sentences)…">NATCA leadership is coordinating with the FAA on shutdown contingency operations. All facility representatives should review the attached memorandum and schedule a local briefing within 48 hours.</textarea>
+
+      <div class="editor-toolbar">
+        <button title="Bold"><strong>B</strong></button>
+        <button title="Italic"><em>I</em></button>
+        <button title="Heading">H2</button>
+        <div class="sep"></div>
+        <button title="List">•</button>
+        <button title="Numbered list">1.</button>
+        <button title="Quote">&gt;</button>
+        <div class="sep"></div>
+        <button title="Link">🔗</button>
+        <button title="Image">🖼️</button>
+        <button title="Code">&lt;/&gt;</button>
+        <div class="sep"></div>
+        <button title="Preview">👁️</button>
+      </div>
+
+      <div class="editor-split">
+        <div class="editor-pane">
+          <div class="pane-header">Markdown <span>body_md</span></div>
+<textarea>Brothers and sisters, as you're aware, Congress remains in active negotiation on the FY2026 continuing resolution. With the current CR set to expire at midnight Friday, NATCA leadership is coordinating directly with FAA Administrator Washington on contingency operations should a shutdown occur.
+
+## Immediate Action Items
+
+All facility representatives must complete the following within the next 48 hours:
+
+- Review the attached FAA/NATCA Joint Shutdown Contingency Memorandum
+- Schedule a local briefing with your membership
+- Update your facility's emergency contact tree in the Hub Members directory
+- Identify any members who have outstanding leave requests
+
+> "This situation remains fluid. We are in constant communication with the Administrator and with Congressional leadership on both sides of the aisle."
+
+## What We Know
+
+Based on the most recent conversations with FAA leadership, air traffic operations will continue under excepted status.</textarea>
+        </div>
+        <div class="preview-pane">
+          <div class="pane-header">Preview <span>body_html</span></div>
+          <p>Brothers and sisters, as you're aware, Congress remains in active negotiation on the FY2026 continuing resolution. With the current CR set to expire at midnight Friday, NATCA leadership is coordinating directly with FAA Administrator Washington on contingency operations should a shutdown occur.</p>
+          <h2>Immediate Action Items</h2>
+          <p>All facility representatives must complete the following within the next 48 hours:</p>
+          <ul>
+            <li>Review the attached FAA/NATCA Joint Shutdown Contingency Memorandum</li>
+            <li>Schedule a local briefing with your membership</li>
+            <li>Update your facility's emergency contact tree in the Hub Members directory</li>
+            <li>Identify any members who have outstanding leave requests</li>
+          </ul>
+          <blockquote>"This situation remains fluid. We are in constant communication with the Administrator and with Congressional leadership on both sides of the aisle."</blockquote>
+          <h2>What We Know</h2>
+          <p>Based on the most recent conversations with FAA leadership, air traffic operations will continue under excepted status.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right rail -->
+    <aside>
+      <div class="side-ctl">
+        <h3>Publish Settings</h3>
+
+        <div class="status-row">
+          <span>Status:</span>
+          <strong>Draft</strong>
+        </div>
+
+        <div class="field">
+          <label>Topic</label>
+          <select>
+            <option>🇺🇸 National</option>
+            <option>⚖️ Legislative</option>
+            <option>🛡️ Safety</option>
+            <option>🤝 Bargaining</option>
+            <option>🎓 Training</option>
+            <option>🎁 Benefits</option>
+            <option>📅 Events</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Audience</label>
+          <select>
+            <option>Members only</option>
+            <option>Public (NATCA.org)</option>
+            <option>Both</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Schedule</label>
+          <select>
+            <option>Publish immediately</option>
+            <option>Schedule for later…</option>
+          </select>
+        </div>
+
+        <label class="checkbox-row">
+          <input type="checkbox" checked>
+          <div class="label">
+            <strong>🚨 Mark as Urgent</strong>
+            <small>Pins to top of Hub, @mentions Discord role, bypasses card filters.</small>
+          </div>
+        </label>
+
+        <div class="fanout">
+          <strong>Where this will post:</strong>
+          <div class="fanout__item"><span>Hub Feed</span><span class="on">✓ Auto</span></div>
+          <div class="fanout__item"><span>Hub Dashboard (urgent pin)</span><span class="on">✓ Auto</span></div>
+          <div class="fanout__item"><span>Discord #national-announcements</span><span class="on">✓ Auto</span></div>
+          <div class="fanout__item"><span>Discord @National role</span><span class="on">✓ Mention</span></div>
+          <div class="fanout__item"><span>Constant Contact draft</span><span class="pending">⏳ Deferred</span></div>
+        </div>
+
+        <div class="actions">
+          <button class="mock-btn">Save draft</button>
+          <button class="mock-btn">Preview as member</button>
+          <button class="mock-btn mock-btn--primary">🚀 Publish now</button>
+        </div>
+
+        <div class="grant-notice">
+          ✓ You have <code>updates_admin</code> grant — can publish to any topic.
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+</body>
+</html>

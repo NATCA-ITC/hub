@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discord Embed — Urgent Post Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --discord-bg:        #313338;
+  --discord-sidebar:   #2b2d31;
+  --discord-server:    #1e1f22;
+  --discord-channel:   #313338;
+  --discord-input:     #383a40;
+  --discord-text:      #dbdee1;
+  --discord-muted:     #949ba4;
+  --discord-header:    #ffffff;
+  --discord-link:      #00a8fc;
+  --discord-border:    #26272b;
+  --discord-embed-bg:  #2b2d31;
+  --discord-accent:    #5865f2;
+  --discord-mention-bg:#3d3c4d;
+  --discord-mention:   #c9cdfb;
+}
+* { box-sizing: border-box; }
+body {
+  font-family: 'gg sans', 'Public Sans', -apple-system, system-ui, sans-serif;
+  background: var(--discord-bg);
+  color: var(--discord-text);
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.mockup-note {
+  background: #CE0E2D;
+  color: white;
+  padding: 12px 20px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+}
+.mockup-note a { color: white; text-decoration: underline; }
+
+.discord {
+  display: grid;
+  grid-template-columns: 72px 240px 1fr;
+  height: calc(100vh - 40px);
+  min-height: 720px;
+}
+.servers { background: var(--discord-server); padding: 12px 0; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.server { width: 48px; height: 48px; border-radius: 24px; background: var(--discord-sidebar); display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--discord-text); cursor: pointer; transition: border-radius 0.15s; position: relative; }
+.server:hover, .server.active { border-radius: 16px; background: var(--discord-accent); color: white; }
+.server.active::before { content: ''; position: absolute; left: -16px; top: 8px; bottom: 8px; width: 4px; background: white; border-radius: 0 4px 4px 0; }
+.server.natca { background: linear-gradient(135deg, #CE0E2D, #003366); color: white; }
+.server-divider { width: 32px; height: 2px; background: var(--discord-channel); border-radius: 1px; margin: 4px 0; }
+
+.channels { background: var(--discord-sidebar); display: flex; flex-direction: column; }
+.channels-header { padding: 16px; font-size: 16px; font-weight: 700; color: var(--discord-header); border-bottom: 1px solid var(--discord-border); box-shadow: 0 1px 0 rgba(0,0,0,0.2); }
+.channels-list { padding: 16px 8px; overflow-y: auto; flex: 1; }
+.channel-cat { font-size: 12px; text-transform: uppercase; font-weight: 700; color: var(--discord-muted); padding: 16px 8px 4px; letter-spacing: 0.5px; }
+.channel { padding: 6px 8px; color: var(--discord-muted); font-size: 16px; cursor: pointer; border-radius: 4px; display: flex; align-items: center; gap: 6px; font-weight: 500; position: relative; }
+.channel:hover { background: rgba(255,255,255,0.04); color: var(--discord-text); }
+.channel.active { background: rgba(255,255,255,0.08); color: var(--discord-header); }
+.channel.unread { color: var(--discord-header); font-weight: 700; }
+.channel.unread::after { content: ''; position: absolute; left: -8px; top: 50%; transform: translateY(-50%); width: 4px; height: 8px; background: white; border-radius: 0 2px 2px 0; }
+.channel::before { content: '#'; color: var(--discord-muted); font-weight: 400; }
+.channel .ping { position: absolute; right: 8px; background: #f23f42; color: white; border-radius: 10px; padding: 0 6px; font-size: 11px; font-weight: 700; min-width: 16px; text-align: center; }
+
+.channel-view { background: var(--discord-channel); display: flex; flex-direction: column; }
+.channel-header { padding: 16px 20px; border-bottom: 1px solid var(--discord-border); display: flex; align-items: center; gap: 8px; box-shadow: 0 1px 0 rgba(0,0,0,0.2); }
+.channel-header h1 { font-size: 16px; color: var(--discord-header); margin: 0; font-weight: 700; }
+.channel-header .hash { color: var(--discord-muted); font-size: 24px; }
+.channel-header .topic { color: var(--discord-muted); font-size: 14px; margin-left: 12px; padding-left: 12px; border-left: 1px solid var(--discord-border); }
+
+.messages { flex: 1; overflow-y: auto; padding: 16px 0; }
+.message { padding: 2px 20px 2px 72px; position: relative; margin-top: 16px; }
+.message:hover { background: rgba(0,0,0,0.08); }
+.message.is-urgent {
+  background: rgba(242,63,66,0.08);
+  border-left: 3px solid #f23f42;
+  padding-left: 69px;
+}
+.message.is-urgent:hover { background: rgba(242,63,66,0.14); }
+.message-avatar { position: absolute; left: 20px; top: 2px; width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #CE0E2D, #003366); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 14px; }
+.message-header { display: flex; align-items: baseline; gap: 8px; margin-bottom: 2px; }
+.message-author { color: var(--discord-header); font-weight: 600; font-size: 16px; }
+.message-bot-tag { background: var(--discord-accent); color: white; font-size: 10px; font-weight: 700; padding: 1px 4px; border-radius: 3px; margin-left: 4px; vertical-align: middle; text-transform: uppercase; }
+.message-time { color: var(--discord-muted); font-size: 12px; }
+.message-body { color: var(--discord-text); font-size: 15px; }
+.message-body p { margin: 0; }
+
+.mention {
+  background: var(--discord-mention-bg);
+  color: var(--discord-mention);
+  padding: 0 2px;
+  border-radius: 3px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.mention:hover { background: var(--discord-mention); color: #1e1f22; }
+
+.embed {
+  display: grid;
+  grid-template-columns: 4px 1fr;
+  background: var(--discord-embed-bg);
+  border-radius: 4px;
+  max-width: 520px;
+  margin-top: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(242,63,66,0.3);
+}
+.embed.national .embed-bar { background: #CE0E2D; }
+.embed-content { padding: 12px 16px 16px; }
+.embed-urgent-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f23f42;
+  color: white;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 10px;
+}
+.embed-author { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; font-size: 13px; color: var(--discord-header); font-weight: 600; }
+.embed-author-avatar { width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, #003366, #CE0E2D); }
+.embed-title { color: var(--discord-link); font-size: 16px; font-weight: 700; margin: 0 0 8px; line-height: 1.3; cursor: pointer; text-decoration: none; display: block; }
+.embed-title:hover { text-decoration: underline; }
+.embed-description { color: var(--discord-text); font-size: 14px; margin: 0 0 12px; line-height: 1.5; }
+.embed-fields { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.embed-field-name { font-size: 13px; font-weight: 700; color: var(--discord-header); margin-bottom: 2px; }
+.embed-field-value { font-size: 13px; color: var(--discord-text); }
+.embed-footer { font-size: 12px; color: var(--discord-muted); margin-top: 10px; display: flex; align-items: center; gap: 6px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.04); }
+.embed-footer-icon { width: 16px; height: 16px; border-radius: 50%; background: #CE0E2D; display: inline-flex; align-items: center; justify-content: center; font-size: 9px; color: white; }
+.embed-actions { display: flex; gap: 6px; margin-top: 4px; }
+.embed-button { display: inline-block; background: var(--discord-accent); color: white; padding: 8px 18px; border-radius: 3px; font-size: 14px; font-weight: 600; text-decoration: none; }
+.embed-button:hover { background: #4752c4; }
+.embed-button--danger { background: #f23f42; }
+.embed-button--danger:hover { background: #d93235; }
+.embed-button--ghost { background: transparent; border: 1px solid var(--discord-muted); color: var(--discord-text); }
+.embed-button--ghost:hover { border-color: var(--discord-header); }
+
+.reactions { display: flex; gap: 4px; margin-top: 6px; }
+.reaction {
+  background: var(--discord-embed-bg);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 3px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  color: var(--discord-text);
+  cursor: pointer;
+}
+.reaction:hover { border-color: var(--discord-muted); }
+.reaction .count { color: var(--discord-text); font-weight: 600; font-size: 13px; }
+.reaction.mine { background: rgba(88,101,242,0.15); border-color: var(--discord-accent); }
+.reaction.mine .count { color: var(--discord-link); }
+
+.input-bar { padding: 0 16px 24px; }
+.input-bar__inner { background: var(--discord-input); border-radius: 8px; padding: 11px 16px; color: var(--discord-muted); font-size: 15px; }
+</style>
+</head>
+<body>
+
+<div class="mockup-note">
+  🚨 Discord mockup — urgent post with role @mention, urgent badge, and action buttons.
+  <a href="index.html">← Back to mockup index</a>
+</div>
+
+<div class="discord">
+  <aside class="servers">
+    <div class="server natca">N</div>
+    <div class="server-divider"></div>
+    <div class="server">+</div>
+  </aside>
+
+  <aside class="channels">
+    <div class="channels-header">NATCA Community</div>
+    <div class="channels-list">
+      <div class="channel-cat">📢 Updates</div>
+      <div class="channel active unread">announcements <span class="ping">1</span></div>
+      <div class="channel">legislative-updates</div>
+      <div class="channel">safety-bulletins</div>
+      <div class="channel">bargaining-news</div>
+      <div class="channel">training</div>
+      <div class="channel">benefits</div>
+      <div class="channel">events</div>
+
+      <div class="channel-cat">💬 General</div>
+      <div class="channel">general</div>
+      <div class="channel">off-topic</div>
+
+      <div class="channel-cat">🏢 Facilities</div>
+      <div class="channel">zob-cleveland</div>
+      <div class="channel">zau-chicago</div>
+    </div>
+  </aside>
+
+  <main class="channel-view">
+    <header class="channel-header">
+      <span class="hash">#</span>
+      <h1>announcements</h1>
+      <span class="topic">National updates · urgent cross-post · Everyone must read</span>
+    </header>
+
+    <div class="messages">
+
+      <!-- THE URGENT BOT POST -->
+      <div class="message is-urgent">
+        <div class="message-avatar">🤖</div>
+        <div class="message-header">
+          <span class="message-author" style="color: #CE0E2D;">NATCA Hub</span>
+          <span class="message-bot-tag">APP</span>
+          <span class="message-time">Today at 2:16 PM</span>
+        </div>
+        <div class="message-body">
+          <p><span class="mention">@here</span> <span class="mention">@National</span> <span class="mention">@Facility Reps</span></p>
+          <div class="embed national">
+            <div class="embed-bar"></div>
+            <div class="embed-content">
+              <div class="embed-urgent-banner">🚨 Urgent · Action Required</div>
+              <div class="embed-author">
+                <div class="embed-author-avatar"></div>
+                Nick Daniels · NATCA President
+              </div>
+              <a class="embed-title" href="#">FAA Shutdown Contingency Plan — Action Required</a>
+              <p class="embed-description">NATCA leadership is coordinating with the FAA on shutdown contingency operations. All facility representatives should review the attached memorandum and schedule a local briefing within 48 hours.</p>
+              <div class="embed-fields">
+                <div>
+                  <div class="embed-field-name">Topic</div>
+                  <div class="embed-field-value">🇺🇸 National</div>
+                </div>
+                <div>
+                  <div class="embed-field-name">Deadline</div>
+                  <div class="embed-field-value">April 12 · 5 PM ET</div>
+                </div>
+                <div>
+                  <div class="embed-field-name">Audience</div>
+                  <div class="embed-field-value">All Active Members</div>
+                </div>
+              </div>
+              <div class="embed-actions">
+                <a class="embed-button embed-button--danger" href="#">📖 Read Full Update</a>
+                <a class="embed-button embed-button--ghost" href="#">📎 Download Memo (PDF)</a>
+              </div>
+              <div class="embed-footer">
+                <div class="embed-footer-icon">H</div>
+                MyNATCA Hub · Posted by NATCA President · Also cross-posted to #legislative-updates · hub.natca.org/updates/faa-shutdown-contingency
+              </div>
+            </div>
+          </div>
+          <div class="reactions">
+            <div class="reaction mine">👀 <span class="count">214</span></div>
+            <div class="reaction">🙏 <span class="count">87</span></div>
+            <div class="reaction">📌 <span class="count">12</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reactions / responses -->
+      <div class="message">
+        <div class="message-avatar" style="background: #7289da;">AD</div>
+        <div class="message-header">
+          <span class="message-author" style="color: #7289da;">angela.davis</span>
+          <span class="message-time">Today at 2:18 PM</span>
+        </div>
+        <div class="message-body"><p>Briefing scheduled for ZAU at 1600Z tomorrow. Everyone on shift — see Discord DM for link.</p></div>
+      </div>
+
+      <div class="message">
+        <div class="message-avatar" style="background: #43b581;">TB</div>
+        <div class="message-header">
+          <span class="message-author" style="color: #43b581;">tom.bradley</span>
+          <span class="message-time">Today at 2:21 PM</span>
+        </div>
+        <div class="message-body"><p>ZOB facility contact tree updated. All 487 members have acknowledged receipt. Thanks Nick.</p></div>
+      </div>
+
+      <div class="message">
+        <div class="message-avatar" style="background: #faa61a;">KM</div>
+        <div class="message-header">
+          <span class="message-author" style="color: #faa61a;">kelly.martinez</span>
+          <span class="message-time">Today at 2:24 PM</span>
+        </div>
+        <div class="message-body"><p>For anyone with outstanding leave requests — I've put together a quick FAQ in the thread below 👇</p></div>
+      </div>
+
+    </div>
+
+    <div class="input-bar">
+      <div class="input-bar__inner">Message #announcements</div>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

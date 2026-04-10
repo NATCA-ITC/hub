@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Updates System Mockups — MyNATCA Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../node_modules/@natca-itc/ui-shell/dist/natca-tokens.css">
+<link rel="stylesheet" href="../../../node_modules/@natca-itc/ui-shell/dist/natca-components.css">
+<link rel="stylesheet" href="mockup-shared.css">
+<style>
+.index-hero {
+  padding: var(--space-12) var(--space-6);
+  text-align: center;
+  background: linear-gradient(180deg, rgba(0,51,102,0.2), transparent);
+  border-bottom: 1px solid var(--color-border);
+}
+.index-hero h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: 800;
+  margin: 0 0 var(--space-3);
+  color: var(--color-text-primary);
+}
+.index-hero h1 span { color: var(--natca-red); }
+.index-hero p {
+  color: var(--color-text-body);
+  max-width: 680px;
+  margin: 0 auto var(--space-6);
+  font-size: var(--text-md);
+}
+.index-tag {
+  display: inline-block;
+  background: var(--natca-red-subtle);
+  color: var(--natca-red);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: var(--space-4);
+}
+[data-theme="dark"] .index-tag {
+  background: rgba(206,14,45,0.15);
+}
+.mockup-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-5);
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-6);
+}
+.mockup-tile {
+  display: block;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  text-decoration: none;
+  color: var(--color-text-primary);
+  transition: all 0.2s ease;
+}
+.mockup-tile:hover {
+  border-color: var(--natca-red);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.mockup-tile__section {
+  font-size: var(--text-xs);
+  color: var(--natca-red);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: var(--space-2);
+}
+.mockup-tile__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  margin: 0 0 var(--space-2);
+}
+.mockup-tile__desc {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  margin: 0;
+}
+.mockup-tile__arrow {
+  margin-top: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--natca-sky);
+  font-weight: 600;
+}
+.section-head {
+  max-width: 1280px;
+  margin: var(--space-8) auto var(--space-2);
+  padding: 0 var(--space-6);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--space-3);
+}
+.notes {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-6) var(--space-12);
+}
+.notes h2 { font-family: var(--font-display); color: var(--color-text-primary); }
+.notes p, .notes li { color: var(--color-text-body); font-size: var(--text-base); line-height: 1.7; }
+.notes ul { padding-left: var(--space-6); }
+.notes code {
+  background: var(--color-bg-elevated);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--natca-sky);
+}
+</style>
+</head>
+<body>
+
+<div class="index-hero">
+  <span class="index-tag">Phase 0 — Mockups</span>
+  <h1>MyNATCA <span>Updates</span></h1>
+  <p>Topic-based communication system replacing the current fragmented email workflow. These mockups show the intended visual design before Vue implementation begins. Click any tile to view.</p>
+  <p class="muted small">Branch: <code>feature/updates-system-mockups</code> · See <code>docs/architecture/decisions/001-updates-system.md</code> for the full spec.</p>
+</div>
+
+<div class="section-head">Hub (Member-Facing)</div>
+<div class="mockup-grid">
+  <a class="mockup-tile" href="hub-updates-feed.html">
+    <div class="mockup-tile__section">Primary page</div>
+    <h3 class="mockup-tile__title">Updates Feed</h3>
+    <p class="mockup-tile__desc">Topic-filtered feed with urgent banner pinned to top. The main "browse" experience at <code>/updates</code>.</p>
+    <div class="mockup-tile__arrow">View mockup →</div>
+  </a>
+  <a class="mockup-tile" href="hub-updates-post.html">
+    <div class="mockup-tile__section">Post detail</div>
+    <h3 class="mockup-tile__title">Single Post View</h3>
+    <p class="mockup-tile__desc">Rendered markdown content with topic badge, author, share links. Reached via <code>/updates/[slug]</code>.</p>
+    <div class="mockup-tile__arrow">View mockup →</div>
+  </a>
+  <a class="mockup-tile" href="hub-dashboard-card.html">
+    <div class="mockup-tile__section">Dashboard integration</div>
+    <h3 class="mockup-tile__title">Dashboard Card</h3>
+    <p class="mockup-tile__desc">Configurable card on the Hub landing page. Members pick which topics appear. Urgent posts always pin first.</p>
+    <div class="mockup-tile__arrow">View mockup →</div>
+  </a>
+  <a class="mockup-tile" href="hub-updates-preferences.html">
+    <div class="mockup-tile__section">Member settings</div>
+    <h3 class="mockup-tile__title">Subscription Preferences</h3>
+    <p class="mockup-tile__desc">Per-topic email subscription toggles. Clearly separated from Hub display filters.</p>
+    <div class="mockup-tile__arrow">View mockup →</div>
+  </a>
+</div>
+
+<div class="section-head">Hub (Author-Facing)</div>
+<div class="mockup-grid">
+  <a class="mockup-tile" href="hub-updates-author.html">
+    <div class="mockup-tile__section">Author tools</div>
+    <h3 class="mockup-tile__title">Post Editor</h3>
+    <p class="mockup-tile__desc">Markdown editor with live preview, topic selector, urgent flag, publish controls. Gated by grants.</p>
+    <div class="mockup-tile__arrow">View mockup →</div>
+  </a>
+</div>
+
+<div class="section-head">Discord Fan-Out</div>
+<div class="mockup-grid">
+  <a class="mockup-tile" href="discord-post-preview.html">
+    <div class="mockup-tile__section">Auto-post</div>
+    <h3 class="mockup-tile__title">Discord Embed — Regular</h3>
+    <p class="mockup-tile__desc">How a published post appears in its topic-mapped Discord channel. Color bar, title, summary, link to Hub.</p>
+    <div class="mockup-tile__arrow">View mockup →</div>
+  </a>
+  <a class="mockup-tile" href="discord-post-urgent.html">
+    <div class="mockup-tile__section">Urgent bypass</div>
+    <h3 class="mockup-tile__title">Discord Embed — Urgent</h3>
+    <p class="mockup-tile__desc">Urgent posts add a role @mention and urgent badge. Delivered to topic channel + announcements channel.</p>
+    <div class="mockup-tile__arrow">View mockup →</div>
+  </a>
+</div>
+
+<div class="notes">
+  <h2>What these mockups are for</h2>
+  <p>This is Phase 0 of the Updates system — a visual spec before we write any functional code. The goal is to lock down the UI and interaction patterns so we can build the real Vue components (Phase 2) and Platform API (Phase 1) against a clear target.</p>
+
+  <h2>Three concepts to keep separate</h2>
+  <ul>
+    <li><strong>Topic</strong> — what a post is <em>about</em>. One per post. Drives display, Discord routing, email list mapping.</li>
+    <li><strong>Subscription</strong> — a member's per-topic <em>email delivery</em> preference. Maps to Constant Contact list membership (future).</li>
+    <li><strong>Display filter</strong> — what a member's <em>dashboard card</em> shows. Independent of email. Full <code>/updates</code> page always shows everything.</li>
+  </ul>
+  <p><strong>Urgent flag</strong> is orthogonal: pins to top of Hub regardless of filter, always posts to Discord, (future) always emails the full active-member list.</p>
+
+  <h2>Topics in v1</h2>
+  <ul>
+    <li><span class="topic-badge topic-national">National</span> — mandatory by default, but members can unsubscribe</li>
+    <li><span class="topic-badge topic-legislative">Legislative</span> — political action, bills, advocacy</li>
+    <li><span class="topic-badge topic-safety">Safety</span> — safety bulletins</li>
+    <li><span class="topic-badge topic-bargaining">Bargaining</span> — contract and negotiations</li>
+    <li><span class="topic-badge topic-training">Training</span> — professional development</li>
+    <li><span class="topic-badge topic-benefits">Benefits</span> — member services</li>
+    <li><span class="topic-badge topic-events">Events</span> — conferences and meetings</li>
+  </ul>
+  <p class="small muted">New topics can be added by inserting a row in <code>updates.topics</code>. The schema is fully extensible.</p>
+</div>
+
+</body>
+</html>

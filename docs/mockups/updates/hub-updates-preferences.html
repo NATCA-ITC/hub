@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Subscription Preferences — MyNATCA Hub Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../node_modules/@natca-itc/ui-shell/dist/natca-tokens.css">
+<link rel="stylesheet" href="../../../node_modules/@natca-itc/ui-shell/dist/natca-components.css">
+<link rel="stylesheet" href="mockup-shared.css">
+<style>
+.prefs-layout { max-width: 760px; margin: 0 auto; }
+.explainer-card {
+  background: linear-gradient(135deg, rgba(0,51,102,0.2), rgba(0,51,102,0.05));
+  border: 1px solid var(--natca-blue);
+  border-left: 4px solid var(--natca-sky);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin-bottom: var(--space-6);
+}
+.explainer-card h3 {
+  font-family: var(--font-display);
+  margin: 0 0 var(--space-2);
+  color: var(--color-text-primary);
+  font-size: var(--text-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.explainer-card p { margin: 0; color: var(--color-text-body); font-size: var(--text-sm); }
+.explainer-card strong { color: var(--color-text-primary); }
+
+.topic-row {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  margin-bottom: var(--space-3);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: var(--space-5);
+  align-items: center;
+}
+.topic-row__dot {
+  width: 40px; height: 40px;
+  border-radius: var(--radius-md);
+  background: var(--topic-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-xl);
+}
+.topic-row__info h3 {
+  margin: 0 0 var(--space-1);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.topic-row__info p { margin: 0; color: var(--color-text-muted); font-size: var(--text-sm); }
+.topic-row__info small {
+  display: inline-block;
+  margin-top: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  font-family: var(--font-mono);
+}
+.topic-row__default-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--color-warning);
+  border: 1px solid var(--color-warning);
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+}
+
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+}
+.toggle input { display: none; }
+.toggle__track {
+  position: absolute;
+  inset: 0;
+  background: var(--color-border);
+  border-radius: 14px;
+  transition: background 0.15s;
+}
+.toggle__track::after {
+  content: '';
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--color-text-inverse);
+  top: 3px;
+  left: 3px;
+  transition: left 0.15s;
+  box-shadow: var(--shadow-sm);
+}
+.toggle input:checked + .toggle__track { background: var(--natca-red); }
+.toggle input:checked + .toggle__track::after { left: 27px; }
+
+.digest-card {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  margin-top: var(--space-6);
+}
+.digest-card h3 {
+  font-family: var(--font-display);
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-lg);
+}
+.radio-row {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+  align-items: center;
+  font-size: var(--text-sm);
+  color: var(--color-text-body);
+}
+.radio-row input { accent-color: var(--natca-red); }
+</style>
+</head>
+<body>
+
+<header class="mockup-topbar">
+  <div class="mockup-topbar__brand">NATCA <span>Hub</span></div>
+  <nav class="mockup-topbar__tabs">
+    <a href="#" class="mockup-topbar__tab">Dashboard</a>
+    <a href="hub-updates-feed.html" class="mockup-topbar__tab is-active">Updates</a>
+    <a href="#" class="mockup-topbar__tab">Members</a>
+    <a href="#" class="mockup-topbar__tab">Facilities</a>
+    <a href="#" class="mockup-topbar__tab">Analytics</a>
+  </nav>
+  <div class="mockup-topbar__user">
+    <span>Jason Doss · ZOB</span>
+    <div class="mockup-topbar__avatar">JD</div>
+  </div>
+</header>
+
+<main class="mockup-page">
+  <div class="prefs-layout">
+    <div class="breadcrumbs" style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-4);">
+      <a href="hub-updates-feed.html" style="color: var(--color-text-muted); text-decoration: none;">← Back to Updates</a>
+    </div>
+
+    <div class="mockup-page__header">
+      <div>
+        <h1 class="mockup-page__title">Email Subscriptions</h1>
+        <p class="mockup-page__subtitle">Choose which updates NATCA sends to your inbox.</p>
+      </div>
+    </div>
+
+    <div class="explainer-card">
+      <h3>ℹ️ How this works</h3>
+      <p>These toggles control <strong>email delivery</strong> only — what NATCA sends to your inbox. You can always browse every update in the <a href="hub-updates-feed.html" style="color: var(--natca-sky);">Updates feed</a> regardless of your subscriptions. Your dashboard card filters are managed separately.</p>
+    </div>
+
+    <!-- National -->
+    <div class="topic-row topic-national">
+      <div class="topic-row__dot">🇺🇸</div>
+      <div class="topic-row__info">
+        <h3>National Updates <span class="topic-row__default-badge">Default</span></h3>
+        <p>News from NATCA leadership, presidential letters, nationwide announcements. The core membership communication channel.</p>
+        <small>~2–4 emails per month · Sent to: jason.doss@natca.net</small>
+      </div>
+      <label class="toggle"><input type="checkbox" checked><span class="toggle__track"></span></label>
+    </div>
+
+    <!-- Legislative -->
+    <div class="topic-row topic-legislative">
+      <div class="topic-row__dot">⚖️</div>
+      <div class="topic-row__info">
+        <h3>Legislative &amp; Political Action</h3>
+        <p>Bill updates, advocacy alerts, Hill activity, and opportunities to contact your representatives.</p>
+        <small>~4–8 emails per month</small>
+      </div>
+      <label class="toggle"><input type="checkbox" checked><span class="toggle__track"></span></label>
+    </div>
+
+    <!-- Safety -->
+    <div class="topic-row topic-safety">
+      <div class="topic-row__dot">🛡️</div>
+      <div class="topic-row__info">
+        <h3>Safety Bulletins <span class="topic-row__default-badge">Default</span></h3>
+        <p>Safety alerts, ASRS guidance changes, incident lessons learned, and professional safety resources.</p>
+        <small>~1–3 emails per month</small>
+      </div>
+      <label class="toggle"><input type="checkbox" checked><span class="toggle__track"></span></label>
+    </div>
+
+    <!-- Bargaining -->
+    <div class="topic-row topic-bargaining">
+      <div class="topic-row__dot">🤝</div>
+      <div class="topic-row__info">
+        <h3>Contract &amp; Bargaining <span class="topic-row__default-badge">Default</span></h3>
+        <p>Slate Book updates, MOU announcements, grievance trends, and bargaining unit news.</p>
+        <small>~2–5 emails per month</small>
+      </div>
+      <label class="toggle"><input type="checkbox"><span class="toggle__track"></span></label>
+    </div>
+
+    <!-- Training -->
+    <div class="topic-row topic-training">
+      <div class="topic-row__dot">🎓</div>
+      <div class="topic-row__info">
+        <h3>Training &amp; Professional Development</h3>
+        <p>Training class schedules, CFS conference registration, OJTI programs, and professional development opportunities.</p>
+        <small>~3–6 emails per month</small>
+      </div>
+      <label class="toggle"><input type="checkbox"><span class="toggle__track"></span></label>
+    </div>
+
+    <!-- Benefits -->
+    <div class="topic-row topic-benefits">
+      <div class="topic-row__dot">🎁</div>
+      <div class="topic-row__info">
+        <h3>Benefits &amp; Member Services</h3>
+        <p>Insurance updates, member discounts, financial planning resources, and benefit enrollment windows.</p>
+        <small>~1–2 emails per month</small>
+      </div>
+      <label class="toggle"><input type="checkbox"><span class="toggle__track"></span></label>
+    </div>
+
+    <!-- Events -->
+    <div class="topic-row topic-events">
+      <div class="topic-row__dot">📅</div>
+      <div class="topic-row__info">
+        <h3>Events &amp; Conferences</h3>
+        <p>NIW, CFS, regional meetings, facility events, and social gatherings.</p>
+        <small>~2–4 emails per month</small>
+      </div>
+      <label class="toggle"><input type="checkbox" checked><span class="toggle__track"></span></label>
+    </div>
+
+    <!-- Digest frequency -->
+    <div class="digest-card">
+      <h3>Delivery frequency</h3>
+      <p class="small muted" style="margin: 0 0 var(--space-3);">Choose how often NATCA sends your subscribed updates.</p>
+      <label class="radio-row"><input type="radio" name="freq" checked> <strong style="color:var(--color-text-primary);">Immediately</strong> — get each update as it's published</label>
+      <label class="radio-row"><input type="radio" name="freq"> <strong style="color:var(--color-text-primary);">Daily digest</strong> — one email per day with all new updates</label>
+      <label class="radio-row"><input type="radio" name="freq"> <strong style="color:var(--color-text-primary);">Weekly digest</strong> — one email every Monday morning</label>
+      <p class="small muted" style="margin-top: var(--space-3); padding-top: var(--space-3); border-top: 1px solid var(--color-border-light);">
+        ⚠️ Urgent posts always bypass digest settings and are delivered immediately.
+      </p>
+    </div>
+
+    <div style="display:flex; gap: var(--space-3); margin-top: var(--space-6); padding-top: var(--space-5); border-top: 1px solid var(--color-border);">
+      <button class="mock-btn">Unsubscribe from all</button>
+      <div style="flex:1;"></div>
+      <button class="mock-btn">Cancel</button>
+      <button class="mock-btn mock-btn--primary">Save preferences</button>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>

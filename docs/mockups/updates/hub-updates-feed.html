@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Updates Feed — MyNATCA Hub Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../node_modules/@natca-itc/ui-shell/dist/natca-tokens.css">
+<link rel="stylesheet" href="../../../node_modules/@natca-itc/ui-shell/dist/natca-components.css">
+<link rel="stylesheet" href="mockup-shared.css">
+<style>
+.feed-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: var(--space-8);
+}
+@media (max-width: 960px) { .feed-layout { grid-template-columns: 1fr; } }
+.side-panel {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  position: sticky;
+  top: 80px;
+  align-self: start;
+}
+.side-panel h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-3);
+}
+.side-panel ul { list-style: none; padding: 0; margin: 0; }
+.side-panel li { padding: var(--space-2) 0; border-bottom: 1px solid var(--color-border-light); font-size: var(--text-sm); }
+.side-panel li:last-child { border: none; }
+.side-panel li .topic-badge { margin-right: var(--space-2); }
+.side-link {
+  color: var(--color-text-body);
+  text-decoration: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.side-link:hover { color: var(--natca-sky); }
+.side-link__count { color: var(--color-text-muted); font-size: var(--text-xs); }
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+.search-box {
+  flex: 1;
+  max-width: 320px;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+</style>
+</head>
+<body>
+
+<header class="mockup-topbar">
+  <div class="mockup-topbar__brand">NATCA <span>Hub</span></div>
+  <nav class="mockup-topbar__tabs">
+    <a href="#" class="mockup-topbar__tab">Dashboard</a>
+    <a href="#" class="mockup-topbar__tab is-active">Updates</a>
+    <a href="#" class="mockup-topbar__tab">Members</a>
+    <a href="#" class="mockup-topbar__tab">Facilities</a>
+    <a href="#" class="mockup-topbar__tab">Analytics</a>
+  </nav>
+  <div class="mockup-topbar__user">
+    <span>Jason Doss · ZOB</span>
+    <div class="mockup-topbar__avatar">JD</div>
+  </div>
+</header>
+
+<main class="mockup-page">
+  <div class="mockup-page__header">
+    <div>
+      <h1 class="mockup-page__title">Updates</h1>
+      <p class="mockup-page__subtitle">News, bulletins, and communications from NATCA — filtered by topic.</p>
+    </div>
+    <div style="display:flex; gap: var(--space-2);">
+      <a class="mock-btn" href="hub-updates-preferences.html">⚙️ Subscriptions</a>
+      <a class="mock-btn mock-btn--primary" href="hub-updates-author.html">+ New Post</a>
+    </div>
+  </div>
+
+  <!-- Topic filter chips -->
+  <div class="topic-chip-row">
+    <a href="#" class="topic-chip is-active"><span class="dot"></span>All Topics <span class="topic-chip__count">42</span></a>
+    <a href="#" class="topic-chip topic-national"><span class="dot"></span>National <span class="topic-chip__count">8</span></a>
+    <a href="#" class="topic-chip topic-legislative"><span class="dot"></span>Legislative <span class="topic-chip__count">6</span></a>
+    <a href="#" class="topic-chip topic-safety"><span class="dot"></span>Safety <span class="topic-chip__count">4</span></a>
+    <a href="#" class="topic-chip topic-bargaining"><span class="dot"></span>Bargaining <span class="topic-chip__count">3</span></a>
+    <a href="#" class="topic-chip topic-training"><span class="dot"></span>Training <span class="topic-chip__count">9</span></a>
+    <a href="#" class="topic-chip topic-benefits"><span class="dot"></span>Benefits <span class="topic-chip__count">5</span></a>
+    <a href="#" class="topic-chip topic-events"><span class="dot"></span>Events <span class="topic-chip__count">7</span></a>
+  </div>
+
+  <div class="feed-layout">
+    <div>
+      <div class="toolbar">
+        <div class="search-box">🔍 <span>Search updates…</span></div>
+        <div class="muted small">Showing 1–8 of 42 · Sorted by: <strong style="color:var(--color-text-primary);">Newest first</strong></div>
+      </div>
+
+      <!-- Urgent pinned banner -->
+      <div class="urgent-banner">
+        <div class="urgent-banner__label">🚨 Urgent</div>
+        <h2 class="urgent-banner__title">FAA Shutdown Contingency Plan — Action Required</h2>
+        <p class="urgent-banner__summary">NATCA leadership is coordinating with the FAA on shutdown contingency operations. All facility representatives should review the attached memorandum and schedule a local briefing within 48 hours.</p>
+        <div class="urgent-banner__meta">
+          <span>📌 Pinned</span>
+          <span class="topic-badge topic-national">National</span>
+          <span>Posted 2 hours ago by Nick Daniels</span>
+          <a href="hub-updates-post.html" class="post-card__read" style="margin-left:auto;">Read full update →</a>
+        </div>
+      </div>
+
+      <!-- Post cards -->
+      <article class="post-card topic-legislative">
+        <div class="post-card__rail"></div>
+        <div>
+          <div class="post-card__meta">
+            <span class="topic-badge topic-legislative">Legislative</span>
+            <span>April 9, 2026</span>
+          </div>
+          <h3 class="post-card__title">House Appropriations Committee Advances FAA Funding Bill</h3>
+          <p class="post-card__summary">The House Transportation Subcommittee approved H.R. 4412 this morning, including full funding for the controller hiring plan NATCA has advocated for over the past 18 months.</p>
+          <div class="post-card__footer">
+            <span class="post-card__author">👤 Marguerite Graf · Legislative Affairs</span>
+            <a href="hub-updates-post.html" class="post-card__read">Read more →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="post-card topic-safety">
+        <div class="post-card__rail"></div>
+        <div>
+          <div class="post-card__meta">
+            <span class="topic-badge topic-safety">Safety</span>
+            <span>April 8, 2026</span>
+          </div>
+          <h3 class="post-card__title">New ASRS Procedures for Runway Incursion Reporting</h3>
+          <p class="post-card__summary">Effective May 1, the Aviation Safety Reporting System will adopt updated guidance for Class A/B/C runway incursions. NATCA's safety team has summarized the key changes.</p>
+          <div class="post-card__footer">
+            <span class="post-card__author">👤 Steve Hansen · National Safety Committee</span>
+            <a href="hub-updates-post.html" class="post-card__read">Read more →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="post-card topic-bargaining">
+        <div class="post-card__rail"></div>
+        <div>
+          <div class="post-card__meta">
+            <span class="topic-badge topic-bargaining">Bargaining</span>
+            <span>April 7, 2026</span>
+          </div>
+          <h3 class="post-card__title">Slate Book Article 35 Interpretation — MOU Signed</h3>
+          <p class="post-card__summary">NATCA and the FAA have signed a Memorandum of Understanding clarifying the application of Article 35 (Leave) for controllers who transfer during a leave year.</p>
+          <div class="post-card__footer">
+            <span class="post-card__author">👤 Drew MacQueen · Chief Negotiator</span>
+            <a href="hub-updates-post.html" class="post-card__read">Read more →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="post-card topic-training">
+        <div class="post-card__rail"></div>
+        <div>
+          <div class="post-card__meta">
+            <span class="topic-badge topic-training">Training</span>
+            <span>April 6, 2026</span>
+          </div>
+          <h3 class="post-card__title">Registration Open — 2026 Communicating For Safety Conference</h3>
+          <p class="post-card__summary">NATCA's flagship safety training event returns to Las Vegas August 18–20. Early-bird pricing through May 31. Scholarship applications open now.</p>
+          <div class="post-card__footer">
+            <span class="post-card__author">👤 Training Department</span>
+            <a href="hub-updates-post.html" class="post-card__read">Read more →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="post-card topic-benefits">
+        <div class="post-card__rail"></div>
+        <div>
+          <div class="post-card__meta">
+            <span class="topic-badge topic-benefits">Benefits</span>
+            <span>April 5, 2026</span>
+          </div>
+          <h3 class="post-card__title">NATCA Member Benefits Portal — Spring Enrollment Update</h3>
+          <p class="post-card__summary">Several changes to member benefits are taking effect this quarter, including expanded mental health coverage and a new dental partner.</p>
+          <div class="post-card__footer">
+            <span class="post-card__author">👤 Member Services</span>
+            <a href="hub-updates-post.html" class="post-card__read">Read more →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="post-card topic-events">
+        <div class="post-card__rail"></div>
+        <div>
+          <div class="post-card__meta">
+            <span class="topic-badge topic-events">Events</span>
+            <span>April 3, 2026</span>
+          </div>
+          <h3 class="post-card__title">NATCA in Washington 2026 — Save the Date</h3>
+          <p class="post-card__summary">The annual legislative fly-in returns May 12–14. Regional leadership will coordinate member travel and Hill visit assignments in the coming weeks.</p>
+          <div class="post-card__footer">
+            <span class="post-card__author">👤 Government Affairs</span>
+            <a href="hub-updates-post.html" class="post-card__read">Read more →</a>
+          </div>
+        </div>
+      </article>
+
+      <div style="display:flex; justify-content:center; margin-top: var(--space-8);">
+        <button class="mock-btn">Load more posts</button>
+      </div>
+    </div>
+
+    <!-- Right-rail sidebar -->
+    <aside class="side-panel">
+      <h3>Your Subscriptions</h3>
+      <ul class="stack-2">
+        <li><a class="side-link" href="hub-updates-preferences.html"><span><span class="topic-badge topic-national">●</span>National</span><span class="side-link__count">On</span></a></li>
+        <li><a class="side-link" href="hub-updates-preferences.html"><span><span class="topic-badge topic-legislative">●</span>Legislative</span><span class="side-link__count">On</span></a></li>
+        <li><a class="side-link" href="hub-updates-preferences.html"><span><span class="topic-badge topic-safety">●</span>Safety</span><span class="side-link__count">On</span></a></li>
+        <li><a class="side-link" href="hub-updates-preferences.html"><span><span class="topic-badge topic-bargaining">●</span>Bargaining</span><span class="side-link__count">Off</span></a></li>
+        <li><a class="side-link" href="hub-updates-preferences.html"><span><span class="topic-badge topic-training">●</span>Training</span><span class="side-link__count">Off</span></a></li>
+      </ul>
+      <p class="small muted" style="margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px solid var(--color-border-light);">
+        Subscriptions control <strong>email delivery</strong> only. You can browse all updates here regardless of your subscriptions.
+      </p>
+      <a class="mock-btn mock-btn--ghost" style="width:100%; justify-content:center; margin-top: var(--space-3);" href="hub-updates-preferences.html">Manage subscriptions</a>
+    </aside>
+  </div>
+</main>
+
+</body>
+</html>
