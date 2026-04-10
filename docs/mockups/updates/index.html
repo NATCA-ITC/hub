@@ -129,7 +129,7 @@
 <div class="index-hero">
   <span class="index-tag">Phase 0 — Mockups</span>
   <h1>MyNATCA <span>Updates</span></h1>
-  <p>Topic-based communication system replacing the current fragmented email workflow. These mockups show the intended visual design before Vue implementation begins. Click any tile to view.</p>
+  <p>Topic-based communication system with <strong>liveblog-style stories</strong> that accumulate updates over time — so a single story like "FAA Shutdown 2026" lives on one page with a running timeline instead of fragmenting across disconnected posts. Click any tile to view.</p>
   <p class="muted small">Branch: <code>feature/updates-system-mockups</code> · See <code>docs/architecture/decisions/001-updates-system.md</code> for the full spec.</p>
 </div>
 
@@ -137,14 +137,14 @@
 <div class="mockup-grid">
   <a class="mockup-tile" href="hub-updates-feed.html">
     <div class="mockup-tile__section">Primary page</div>
-    <h3 class="mockup-tile__title">Updates Feed</h3>
-    <p class="mockup-tile__desc">Topic-filtered feed with urgent banner pinned to top. The main "browse" experience at <code>/updates</code>.</p>
+    <h3 class="mockup-tile__title">Stories Feed</h3>
+    <p class="mockup-tile__desc">Topic-filtered feed showing stories as cards with <strong>update counts</strong>, live indicators, and latest-update previews. The main browse experience at <code>/updates</code>.</p>
     <div class="mockup-tile__arrow">View mockup →</div>
   </a>
-  <a class="mockup-tile" href="hub-updates-post.html">
-    <div class="mockup-tile__section">Post detail</div>
-    <h3 class="mockup-tile__title">Single Post View</h3>
-    <p class="mockup-tile__desc">Rendered markdown content with topic badge, author, share links. Reached via <code>/updates/[slug]</code>.</p>
+  <a class="mockup-tile" href="hub-updates-story.html">
+    <div class="mockup-tile__section">Story / Liveblog</div>
+    <h3 class="mockup-tile__title">Story Thread View</h3>
+    <p class="mockup-tile__desc">Stable story headline + editor-maintained summary + pinned key points + chronological stream of timestamped updates. Think news liveblog. Reached via <code>/updates/[slug]</code>.</p>
     <div class="mockup-tile__arrow">View mockup →</div>
   </a>
   <a class="mockup-tile" href="hub-dashboard-card.html">
@@ -163,10 +163,16 @@
 
 <div class="section-head">Hub (Author-Facing)</div>
 <div class="mockup-grid">
+  <a class="mockup-tile" href="hub-updates-admin.html">
+    <div class="mockup-tile__section">Author workflow</div>
+    <h3 class="mockup-tile__title">Author Dashboard</h3>
+    <p class="mockup-tile__desc">Quick-find interface for admins. Search stories, filter by status/topic/author, click <strong>"+ Post Update"</strong> to append to an existing story instead of starting a new one.</p>
+    <div class="mockup-tile__arrow">View mockup →</div>
+  </a>
   <a class="mockup-tile" href="hub-updates-author.html">
-    <div class="mockup-tile__section">Author tools</div>
-    <h3 class="mockup-tile__title">Post Editor</h3>
-    <p class="mockup-tile__desc">Markdown editor with live preview, topic selector, urgent flag, publish controls. Gated by grants.</p>
+    <div class="mockup-tile__section">Story editor</div>
+    <h3 class="mockup-tile__title">New Story Editor</h3>
+    <p class="mockup-tile__desc">Markdown editor for creating a new story + first update. Topic selector, urgent flag, story status, publish controls. Gated by grants.</p>
     <div class="mockup-tile__arrow">View mockup →</div>
   </a>
 </div>
@@ -191,13 +197,24 @@
   <h2>What these mockups are for</h2>
   <p>This is Phase 0 of the Updates system — a visual spec before we write any functional code. The goal is to lock down the UI and interaction patterns so we can build the real Vue components (Phase 2) and Platform API (Phase 1) against a clear target.</p>
 
-  <h2>Three concepts to keep separate</h2>
+  <h2>Data model — Topic → Story → Update</h2>
   <ul>
-    <li><strong>Topic</strong> — what a post is <em>about</em>. One per post. Drives display, Discord routing, email list mapping.</li>
+    <li><strong>Topic</strong> — what a story is <em>about</em> (national, legislative, safety, etc.). Drives display grouping, Discord channel routing, and email list mapping.</li>
+    <li><strong>Story</strong> — a headline + stable summary that <em>accumulates updates over time</em>. Think news liveblog. Has status (Live / Active / Resolved). One URL.</li>
+    <li><strong>Update</strong> — a timestamped entry under a story. Has a kind (Update / Breaking / Correction / Summary). This is what actually gets posted to Discord and (future) email.</li>
+  </ul>
+  <p>Single announcements (like "Registration open for CFS conference") are just stories with one update. The data model is uniform.</p>
+
+  <h2>Three member-facing concepts to keep separate</h2>
+  <ul>
+    <li><strong>Topic</strong> — the category (above).</li>
     <li><strong>Subscription</strong> — a member's per-topic <em>email delivery</em> preference. Maps to Constant Contact list membership (future).</li>
     <li><strong>Display filter</strong> — what a member's <em>dashboard card</em> shows. Independent of email. Full <code>/updates</code> page always shows everything.</li>
   </ul>
   <p><strong>Urgent flag</strong> is orthogonal: pins to top of Hub regardless of filter, always posts to Discord, (future) always emails the full active-member list.</p>
+
+  <h2>Why liveblog-style stories?</h2>
+  <p>The current fragmented approach creates multiple disconnected posts about the same topic (e.g., three separate emails about the same shutdown negotiation). Members can't find the latest state of a story, and older context is lost. A liveblog model — like <a href="https://www.ms.now/liveblog/iran-war-news-today-trump-us-april-10-2026" style="color: var(--natca-sky);">MS.now</a>, Guardian rolling coverage, or NYT live updates — keeps everything about a story on one page, so members always land on the canonical, up-to-date view.</p>
 
   <h2>Topics in v1</h2>
   <ul>

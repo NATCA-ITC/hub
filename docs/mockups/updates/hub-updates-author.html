@@ -256,22 +256,29 @@
 
 <main class="mockup-page">
   <div class="breadcrumbs" style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-4);">
-    <a href="hub-updates-feed.html" style="color: var(--color-text-muted); text-decoration: none;">← Updates</a> · <a href="#" style="color: var(--color-text-muted); text-decoration: none;">Author</a> · Draft
+    <a href="hub-updates-feed.html" style="color: var(--color-text-muted); text-decoration: none;">← Updates</a> · <a href="hub-updates-admin.html" style="color: var(--color-text-muted); text-decoration: none;">Author Dashboard</a> · New Story
   </div>
 
   <div class="mockup-page__header">
     <div>
-      <h1 class="mockup-page__title">New Post</h1>
-      <p class="mockup-page__subtitle">Write once. Publish to Hub, Discord, and (soon) email in one click.</p>
+      <h1 class="mockup-page__title">New Story</h1>
+      <p class="mockup-page__subtitle">Stories hold the headline and a running summary. Add updates later from the <a href="hub-updates-admin.html" style="color: var(--natca-sky);">Author Dashboard</a> to keep coverage consolidated on one page.</p>
     </div>
     <div class="muted small">Last saved: just now · Auto-saving…</div>
+  </div>
+
+  <!-- Mode switcher -->
+  <div style="display: flex; gap: var(--space-2); margin-bottom: var(--space-5); padding: var(--space-2); background: var(--color-bg-elevated); border-radius: var(--radius-md); max-width: 600px;">
+    <button class="mock-btn" style="flex:1; justify-content:center; background: var(--natca-red); color: white; border-color: var(--natca-red);">📰 New Story</button>
+    <a class="mock-btn" style="flex:1; justify-content:center;" href="hub-updates-admin.html">➕ Add Update to Existing Story</a>
   </div>
 
   <div class="editor-layout">
     <!-- Main editor -->
     <div class="editor-main">
-      <input class="editor-title-input" value="FAA Shutdown Contingency Plan — Action Required" placeholder="Post title…">
-      <textarea class="editor-summary-input" placeholder="Short summary for cards and email preview (1–2 sentences)…">NATCA leadership is coordinating with the FAA on shutdown contingency operations. All facility representatives should review the attached memorandum and schedule a local briefing within 48 hours.</textarea>
+      <input class="editor-title-input" value="FAA Shutdown 2026 — Rolling Coverage" placeholder="Story title — stays stable over time, e.g. 'FAA Shutdown 2026 — Rolling Coverage'">
+      <p class="small muted" style="margin: 0 0 var(--space-3);">📌 This is the <strong style="color:var(--color-text-primary);">story headline</strong> — it stays stable. Updates stream beneath it.</p>
+      <textarea class="editor-summary-input" placeholder="Story summary — the stable overview shown at top of the story. Editors can update this as the situation evolves.">Congress is negotiating the FY2026 continuing resolution with the current CR expiring midnight Friday. NATCA leadership is coordinating directly with FAA Administrator Washington on contingency operations. This story will be updated as the situation evolves.</textarea>
 
       <div class="editor-toolbar">
         <button title="Bold"><strong>B</strong></button>
@@ -289,9 +296,10 @@
         <button title="Preview">👁️</button>
       </div>
 
+      <h3 style="font-family: var(--font-display); font-size: var(--text-sm); text-transform: uppercase; letter-spacing: 0.8px; color: var(--color-text-muted); margin: var(--space-5) 0 var(--space-2);">First Update (opens the story)</h3>
       <div class="editor-split">
         <div class="editor-pane">
-          <div class="pane-header">Markdown <span>body_md</span></div>
+          <div class="pane-header">Markdown <span>first_update.body_md</span></div>
 <textarea>Brothers and sisters, as you're aware, Congress remains in active negotiation on the FY2026 continuing resolution. With the current CR set to expire at midnight Friday, NATCA leadership is coordinating directly with FAA Administrator Washington on contingency operations should a shutdown occur.
 
 ## Immediate Action Items
@@ -310,7 +318,7 @@ All facility representatives must complete the following within the next 48 hour
 Based on the most recent conversations with FAA leadership, air traffic operations will continue under excepted status.</textarea>
         </div>
         <div class="preview-pane">
-          <div class="pane-header">Preview <span>body_html</span></div>
+          <div class="pane-header">Preview <span>first_update.body_html</span></div>
           <p>Brothers and sisters, as you're aware, Congress remains in active negotiation on the FY2026 continuing resolution. With the current CR set to expire at midnight Friday, NATCA leadership is coordinating directly with FAA Administrator Washington on contingency operations should a shutdown occur.</p>
           <h2>Immediate Action Items</h2>
           <p>All facility representatives must complete the following within the next 48 hours:</p>
@@ -334,7 +342,16 @@ Based on the most recent conversations with FAA leadership, air traffic operatio
 
         <div class="status-row">
           <span>Status:</span>
-          <strong>Draft</strong>
+          <strong>Draft Story</strong>
+        </div>
+
+        <div class="field">
+          <label>Story Status</label>
+          <select>
+            <option>🔴 Live — active, rolling updates expected</option>
+            <option>📝 Active — may get updates</option>
+            <option>✅ Resolved — no more updates expected</option>
+          </select>
         </div>
 
         <div class="field">
@@ -387,8 +404,9 @@ Based on the most recent conversations with FAA leadership, air traffic operatio
         <div class="actions">
           <button class="mock-btn">Save draft</button>
           <button class="mock-btn">Preview as member</button>
-          <button class="mock-btn mock-btn--primary">🚀 Publish now</button>
+          <button class="mock-btn mock-btn--primary">🚀 Publish story</button>
         </div>
+        <p class="small muted" style="margin-top: var(--space-2); text-align: center;">Add more updates later from the Author Dashboard.</p>
 
         <div class="grant-notice">
           ✓ You have <code>updates_admin</code> grant — can publish to any topic.

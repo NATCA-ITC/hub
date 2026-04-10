@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Story / Liveblog — MyNATCA Hub Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../node_modules/@natca-itc/ui-shell/dist/natca-tokens.css">
+<link rel="stylesheet" href="../../../node_modules/@natca-itc/ui-shell/dist/natca-components.css">
+<link rel="stylesheet" href="mockup-shared.css">
+<style>
+.story-layout {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: var(--space-8);
+  max-width: 1180px;
+  margin: 0 auto;
+}
+@media (max-width: 1000px) { .story-layout { grid-template-columns: 1fr; } }
+
+.story-hero {
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+.story-hero__badges {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  margin-bottom: var(--space-4);
+  flex-wrap: wrap;
+}
+.live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #16a34a;
+  color: white;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+.live-pill::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+.urgent-pill-sm {
+  background: var(--natca-red);
+  color: white;
+  font-size: var(--text-xs);
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+.story-hero h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-3);
+  line-height: 1.1;
+}
+.story-hero__summary {
+  color: var(--color-text-body);
+  font-size: var(--text-md);
+  line-height: 1.6;
+  margin: 0 0 var(--space-4);
+}
+.story-hero__summary-label {
+  display: block;
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-2);
+}
+.story-hero__meta {
+  display: flex;
+  gap: var(--space-5);
+  align-items: center;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  flex-wrap: wrap;
+}
+.story-hero__meta strong { color: var(--color-text-primary); }
+
+.key-points {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--natca-sky);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-5);
+  margin-bottom: var(--space-6);
+}
+.key-points__label {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--natca-sky);
+  letter-spacing: 0.8px;
+  margin-bottom: var(--space-2);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.key-points ul {
+  margin: 0;
+  padding-left: var(--space-5);
+  color: var(--color-text-body);
+  font-size: var(--text-sm);
+}
+.key-points li { margin-bottom: var(--space-1); }
+
+.updates-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+.updates-header h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-text-primary);
+}
+.updates-header__count {
+  background: var(--color-bg-elevated);
+  padding: 2px var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  color: var(--color-text-body);
+  margin-left: var(--space-2);
+  font-weight: 600;
+}
+.sort-toggle { font-size: var(--text-sm); color: var(--color-text-muted); }
+.sort-toggle strong { color: var(--color-text-primary); cursor: pointer; }
+
+.update-entry {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: var(--space-5);
+  padding: var(--space-5) 0;
+  border-bottom: 1px solid var(--color-border-light);
+  position: relative;
+}
+.update-entry:last-child { border-bottom: none; }
+.update-entry.is-latest::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: var(--space-5);
+  bottom: 0;
+  width: 3px;
+  background: var(--natca-red);
+  border-radius: var(--radius-sm);
+}
+.update-timeline {
+  text-align: right;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-family: var(--font-mono);
+}
+.update-timeline__time {
+  color: var(--color-text-primary);
+  font-weight: 700;
+  font-size: var(--text-base);
+  display: block;
+}
+.update-timeline__date {
+  font-size: var(--text-xs);
+  margin-top: 2px;
+  display: block;
+}
+.update-body__kind {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-2);
+}
+.update-body__kind--breaking { background: var(--natca-red); color: white; }
+.update-body__kind--update { background: var(--color-bg-elevated); color: var(--color-text-muted); border: 1px solid var(--color-border); }
+.update-body__kind--correction { background: #E76F00; color: white; }
+.update-body__kind--summary { background: var(--natca-sky); color: var(--color-bg-page); }
+.update-body h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-2);
+  line-height: 1.3;
+}
+.update-body p {
+  color: var(--color-text-body);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  margin: 0 0 var(--space-3);
+}
+.update-body ul {
+  color: var(--color-text-body);
+  padding-left: var(--space-5);
+  margin: 0 0 var(--space-3);
+}
+.update-body li { margin-bottom: var(--space-1); }
+.update-body blockquote {
+  border-left: 3px solid var(--natca-red);
+  padding: var(--space-1) var(--space-4);
+  margin: var(--space-3) 0;
+  color: var(--color-text-primary);
+  background: var(--color-bg-elevated);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-style: italic;
+}
+.update-author {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  margin-top: var(--space-3);
+}
+.update-author__avatar {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--natca-red), var(--natca-navy));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  color: white;
+  font-weight: 700;
+}
+
+.story-sidebar {
+  position: sticky;
+  top: 80px;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.sidebar-card {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+}
+.sidebar-card h4 {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-3);
+}
+.sidebar-card ul { list-style: none; margin: 0; padding: 0; }
+.sidebar-card li {
+  font-size: var(--text-sm);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border-light);
+  color: var(--color-text-body);
+}
+.sidebar-card li:last-child { border-bottom: none; }
+.sidebar-card a { color: var(--natca-sky); text-decoration: none; }
+.sidebar-card a:hover { text-decoration: underline; }
+.sidebar-card .follow-btn {
+  width: 100%;
+  justify-content: center;
+  margin-top: var(--space-2);
+}
+
+.breadcrumbs {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-4);
+}
+.breadcrumbs a { color: var(--color-text-muted); text-decoration: none; }
+.breadcrumbs a:hover { color: var(--natca-sky); }
+</style>
+</head>
+<body>
+
+<header class="mockup-topbar">
+  <div class="mockup-topbar__brand">NATCA <span>Hub</span></div>
+  <nav class="mockup-topbar__tabs">
+    <a href="#" class="mockup-topbar__tab">Dashboard</a>
+    <a href="hub-updates-feed.html" class="mockup-topbar__tab is-active">Updates</a>
+    <a href="#" class="mockup-topbar__tab">Members</a>
+    <a href="#" class="mockup-topbar__tab">Facilities</a>
+    <a href="#" class="mockup-topbar__tab">Analytics</a>
+  </nav>
+  <div class="mockup-topbar__user">
+    <span>Jason Doss · ZOB</span>
+    <div class="mockup-topbar__avatar">JD</div>
+  </div>
+</header>
+
+<main class="mockup-page">
+  <div class="story-layout">
+    <article>
+      <div class="breadcrumbs">
+        <a href="hub-updates-feed.html">← Updates</a> · <a href="hub-updates-feed.html">National</a> · Story
+      </div>
+
+      <header class="story-hero">
+        <div class="story-hero__badges">
+          <span class="topic-badge topic-national">National</span>
+          <span class="urgent-pill-sm">🚨 Urgent</span>
+          <span class="live-pill">Live</span>
+        </div>
+        <h1>FAA Shutdown 2026 — Rolling Coverage</h1>
+        <span class="story-hero__summary-label">📰 Story Summary</span>
+        <p class="story-hero__summary">Congress is negotiating the FY2026 continuing resolution with the current CR expiring midnight Friday. NATCA leadership is coordinating directly with FAA Administrator Washington on contingency operations. This story will be updated as the situation evolves — follow for real-time developments.</p>
+        <div class="story-hero__meta">
+          <span>📅 Started <strong>April 8, 2026</strong></span>
+          <span>🔄 Last updated <strong>7 minutes ago</strong></span>
+          <span>📝 <strong>12 updates</strong></span>
+          <span>👤 Nick Daniels + 3 others</span>
+        </div>
+      </header>
+
+      <div class="key-points">
+        <div class="key-points__label">📌 Key Points (updated by editors)</div>
+        <ul>
+          <li>Controllers in operational positions <strong>must report to work</strong> as scheduled if a shutdown occurs</li>
+          <li>Pay will be retroactively provided once a funding bill is enacted</li>
+          <li>Training classes at the FAA Academy will pause on Day 1 of any shutdown</li>
+          <li>NATCA Member Assistance Program (MAP) remains fully funded and operational</li>
+          <li><strong>Facility Rep action required:</strong> Schedule local briefings within 48 hours</li>
+        </ul>
+      </div>
+
+      <div class="updates-header">
+        <h2>Updates <span class="updates-header__count">12</span></h2>
+        <span class="sort-toggle">Sort: <strong>Newest first ▾</strong></span>
+      </div>
+
+      <div class="update-entry is-latest">
+        <div class="update-timeline">
+          <span class="update-timeline__time">2:14 PM</span>
+          <span class="update-timeline__date">Today · Apr 10</span>
+        </div>
+        <div class="update-body">
+          <span class="update-body__kind update-body__kind--breaking">🔴 Breaking</span>
+          <h3>Senate Majority Leader confirms late-night vote on CR</h3>
+          <p>Senate Majority Leader confirmed moments ago that a vote on the continuing resolution will occur before midnight Friday. NATCA's legislative team is on the Hill and will provide live updates from the Senate gallery.</p>
+          <blockquote>"We have reached a framework agreement. Senators should expect a vote tonight." — Majority Leader, 2:11 PM</blockquote>
+          <div class="update-author">
+            <div class="update-author__avatar">MG</div>
+            <span><strong style="color:var(--color-text-primary);">Marguerite Graf</strong> · Legislative Affairs · 7 min ago</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="update-entry">
+        <div class="update-timeline">
+          <span class="update-timeline__time">12:42 PM</span>
+          <span class="update-timeline__date">Today · Apr 10</span>
+        </div>
+        <div class="update-body">
+          <span class="update-body__kind update-body__kind--update">Update</span>
+          <h3>House passes CR 308-125 — bill now heads to Senate</h3>
+          <p>The House of Representatives has passed the continuing resolution by a vote of 308-125. The bill includes full FAA funding through June 15 and contains the controller hiring language NATCA has advocated for. It now heads to the Senate for consideration.</p>
+          <div class="update-author">
+            <div class="update-author__avatar">MG</div>
+            <span><strong style="color:var(--color-text-primary);">Marguerite Graf</strong> · Legislative Affairs · 1h 40m ago</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="update-entry">
+        <div class="update-timeline">
+          <span class="update-timeline__time">10:18 AM</span>
+          <span class="update-timeline__date">Today · Apr 10</span>
+        </div>
+        <div class="update-body">
+          <span class="update-body__kind update-body__kind--correction">Correction</span>
+          <h3>Correction: Academy training pause affects all phases</h3>
+          <p>Earlier we reported that only Phase 2 FAA Academy training would pause during a shutdown. The correct information, confirmed with FAA Academy leadership, is that <strong>all training phases pause on Day 1</strong>, including Phase 1 basic and initial qualification training.</p>
+          <div class="update-author">
+            <div class="update-author__avatar">ND</div>
+            <span><strong style="color:var(--color-text-primary);">Nick Daniels</strong> · NATCA President · 4h ago</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="update-entry">
+        <div class="update-timeline">
+          <span class="update-timeline__time">9:04 AM</span>
+          <span class="update-timeline__date">Today · Apr 10</span>
+        </div>
+        <div class="update-body">
+          <span class="update-body__kind update-body__kind--update">Update</span>
+          <h3>FAA Administrator confirms excepted status for controllers</h3>
+          <p>In a meeting with NATCA leadership this morning, FAA Administrator Washington confirmed that all operational air traffic controllers will be designated as "excepted" under a shutdown scenario and must report to work as scheduled. Pay will be retroactive once appropriations are restored.</p>
+          <ul>
+            <li>Controllers on operational positions: <strong>report as scheduled</strong></li>
+            <li>Controllers on training: contact your training lead immediately</li>
+            <li>Controllers on pre-approved leave: leave stands, but coordinate with your OM</li>
+          </ul>
+          <div class="update-author">
+            <div class="update-author__avatar">ND</div>
+            <span><strong style="color:var(--color-text-primary);">Nick Daniels</strong> · NATCA President · 5h 12m ago</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="update-entry">
+        <div class="update-timeline">
+          <span class="update-timeline__time">8:47 AM</span>
+          <span class="update-timeline__date">Apr 9</span>
+        </div>
+        <div class="update-body">
+          <span class="update-body__kind update-body__kind--summary">Summary</span>
+          <h3>Where things stand: CR negotiations enter final 72 hours</h3>
+          <p>With the current continuing resolution expiring midnight Friday, April 12, Senate and House leadership remain in active negotiation. Key sticking points include supplemental disaster aid and border security riders. NATCA's government affairs team is meeting with Appropriations Committee staff throughout the day.</p>
+          <div class="update-author">
+            <div class="update-author__avatar">GP</div>
+            <span><strong style="color:var(--color-text-primary);">Gary Peters</strong> · General Counsel · 1 day ago</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="update-entry">
+        <div class="update-timeline">
+          <span class="update-timeline__time">3:14 PM</span>
+          <span class="update-timeline__date">Apr 8</span>
+        </div>
+        <div class="update-body">
+          <span class="update-body__kind update-body__kind--update">Update</span>
+          <h3>Story opened: initial memo to facility reps</h3>
+          <p>NATCA leadership is tracking the FY2026 appropriations negotiations closely. This rolling coverage page will be updated as developments occur. All facility representatives should begin reviewing the attached contingency memorandum and preparing local briefings.</p>
+          <div class="update-author">
+            <div class="update-author__avatar">ND</div>
+            <span><strong style="color:var(--color-text-primary);">Nick Daniels</strong> · NATCA President · 2 days ago</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align: center; padding: var(--space-6) 0; color: var(--color-text-muted); font-size: var(--text-sm);">
+        Showing 6 of 12 updates · <a href="#" style="color: var(--natca-sky);">Load older updates</a>
+      </div>
+    </article>
+
+    <aside class="story-sidebar">
+      <div class="sidebar-card">
+        <h4>Follow this story</h4>
+        <p class="small muted" style="margin: 0 0 var(--space-2);">Get notified when editors post a new update.</p>
+        <a class="mock-btn mock-btn--primary follow-btn" href="#">🔔 Follow story</a>
+      </div>
+
+      <div class="sidebar-card">
+        <h4>Story Contributors</h4>
+        <ul class="stack-2">
+          <li>👤 Nick Daniels · <span class="small muted">6 updates</span></li>
+          <li>👤 Marguerite Graf · <span class="small muted">4 updates</span></li>
+          <li>👤 Gary Peters · <span class="small muted">1 update</span></li>
+          <li>👤 Steve Hansen · <span class="small muted">1 update</span></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-card">
+        <h4>Related Stories</h4>
+        <ul class="stack-2">
+          <li><a href="#">FY2025 Appropriations — Final Passage</a><div class="small muted">National · Resolved · 4 updates</div></li>
+          <li><a href="#">Controller Hiring Plan FY2026</a><div class="small muted">Legislative · Live · 18 updates</div></li>
+          <li><a href="#">NATCA in Washington 2026</a><div class="small muted">Events · Active · 7 updates</div></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-card">
+        <h4>Share</h4>
+        <div style="display: grid; gap: var(--space-2);">
+          <button class="mock-btn">🔗 Copy link</button>
+          <button class="mock-btn">💬 Discuss on Discord</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+</body>
+</html>
