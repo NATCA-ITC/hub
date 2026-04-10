@@ -9,67 +9,77 @@
 <link rel="stylesheet" href="../../../node_modules/@natca-itc/ui-shell/dist/natca-tokens.css">
 <link rel="stylesheet" href="../../../node_modules/@natca-itc/ui-shell/dist/natca-components.css">
 <link rel="stylesheet" href="mockup-shared.css">
+<link rel="stylesheet" href="auth-c-shell.css">
 <style>
 /* Story-specific additions on top of post-card */
 .story-live-pill {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  background: #16a34a;
-  color: white;
+  background: rgba(22, 163, 74, 0.18);
+  color: #4ade80;
+  border: 1px solid rgba(22, 163, 74, 0.4);
   padding: 1px 8px;
   border-radius: var(--radius-full);
   font-size: 10px;
-  font-weight: 800;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.story-live-pill::before {
-  content: '';
-  width: 6px; height: 6px;
-  background: white;
-  border-radius: 50%;
-  animation: pulse 2s infinite;
-}
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+  letter-spacing: 0.8px;
 }
 .updates-count {
-  background: var(--color-bg-elevated);
+  background: transparent;
   border: 1px solid var(--color-border);
-  color: var(--color-text-body);
-  padding: 2px 10px;
+  color: var(--color-text-muted);
+  padding: 1px 8px;
   border-radius: var(--radius-full);
   font-size: var(--text-xs);
   font-weight: 600;
 }
+/* Latest update — inline, not a nested card. Feels like a quoted line. */
 .latest-update-preview {
-  background: var(--color-bg-elevated);
-  border-radius: var(--radius-sm);
-  padding: var(--space-3);
   margin-top: var(--space-3);
-  border-left: 3px solid var(--topic-color);
+  padding-left: var(--space-3);
+  border-left: 2px solid var(--topic-color);
   font-size: var(--text-sm);
 }
 .latest-update-preview__label {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
+  color: var(--color-text-faint);
+  margin-bottom: 2px;
+}
+.latest-update-preview__label strong {
   color: var(--color-text-muted);
-  margin-bottom: 4px;
+  font-weight: 700;
 }
 .latest-update-preview__body {
   color: var(--color-text-body);
   margin: 0;
+  line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+.latest-update-preview__body strong {
+  color: var(--color-text-primary);
+}
+
+/* Make post-card fully clickable via <a> wrapper */
+a.post-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+a.post-card-link:hover .post-card {
+  border-color: var(--natca-sky);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+a.post-card-link .post-card__read {
+  pointer-events: none; /* still shows as visual affordance */
 }
 .feed-layout {
   display: grid;
@@ -132,20 +142,39 @@
 </head>
 <body>
 
-<header class="mockup-topbar">
-  <div class="mockup-topbar__brand">NATCA <span>Hub</span></div>
-  <nav class="mockup-topbar__tabs">
-    <a href="#" class="mockup-topbar__tab">Dashboard</a>
-    <a href="#" class="mockup-topbar__tab is-active">Updates</a>
-    <a href="#" class="mockup-topbar__tab">Members</a>
-    <a href="#" class="mockup-topbar__tab">Facilities</a>
-    <a href="#" class="mockup-topbar__tab">Analytics</a>
-  </nav>
-  <div class="mockup-topbar__user">
-    <span>Jason Doss · ZOB</span>
-    <div class="mockup-topbar__avatar">JD</div>
+<div class="c-shell c-no-sidebar">
+  <div class="c-topbar">
+    <a href="#" class="c-logo-zone"><img src="natca-logo.png" alt="NATCA"></a>
+    <div class="c-divider"></div>
+    <span class="c-wordmark">NATCA</span>
+    <div class="c-app-chip" title="Switch app">
+      <svg class="c-chip-grid" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Hub <span class="c-chip-caret">&#9662;</span>
+    </div>
+    <div class="c-topbar-right">
+      <div class="c-facility"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> ZOB</div>
+      <div class="c-top-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <div class="c-top-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg><div class="c-top-badge"></div></div>
+      <div class="c-avatar">JD</div>
+    </div>
   </div>
-</header>
+  <nav class="c-tabs">
+    <a href="#" class="c-tab"><svg class="c-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</a>
+    <a href="hub-updates-feed.html" class="c-tab c-tab-active"><svg class="c-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16a2 2 0 01-2 2zm0 0a2 2 0 01-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8V6z"/></svg>Updates</a>
+    <a href="#" class="c-tab"><svg class="c-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Members</a>
+    <a href="#" class="c-tab"><svg class="c-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Facilities</a>
+    <a href="#" class="c-tab"><svg class="c-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Analytics</a>
+    <span class="c-tab-more">More &#9662;</span>
+  </nav>
+  <div class="c-breadcrumb-row">
+    <div class="c-breadcrumb">
+      <a href="#">Hub</a>
+      <span class="c-sep">/</span>
+      <span class="c-current">Updates</span>
+    </div>
+    <div class="c-breadcrumb-right">42 stories · 3 rolling</div>
+  </div>
+  <div class="c-body"><div class="c-content">
 
 <main class="mockup-page">
   <div class="mockup-page__header">
@@ -166,7 +195,7 @@
     <a href="#" class="topic-chip topic-national"><span class="dot"></span>National <span class="topic-chip__count">8</span></a>
     <a href="#" class="topic-chip topic-legislative"><span class="dot"></span>Legislative <span class="topic-chip__count">6</span></a>
     <a href="#" class="topic-chip topic-safety"><span class="dot"></span>Safety <span class="topic-chip__count">4</span></a>
-    <a href="#" class="topic-chip topic-bargaining"><span class="dot"></span>Bargaining <span class="topic-chip__count">3</span></a>
+    <a href="#" class="topic-chip topic-bargaining"><span class="dot"></span>Labor Relations <span class="topic-chip__count">3</span></a>
     <a href="#" class="topic-chip topic-training"><span class="dot"></span>Training <span class="topic-chip__count">9</span></a>
     <a href="#" class="topic-chip topic-benefits"><span class="dot"></span>Benefits <span class="topic-chip__count">5</span></a>
     <a href="#" class="topic-chip topic-events"><span class="dot"></span>Events <span class="topic-chip__count">7</span></a>
@@ -179,35 +208,37 @@
         <div class="muted small">Showing 1–8 of 42 · Sorted by: <strong style="color:var(--color-text-primary);">Newest first</strong></div>
       </div>
 
-      <!-- Urgent pinned banner (Live Story) -->
-      <div class="urgent-banner">
-        <div style="display: flex; gap: var(--space-2); margin-bottom: var(--space-3);">
-          <div class="urgent-banner__label" style="margin: 0;">🚨 Urgent</div>
-          <span class="story-live-pill">Live</span>
-          <span class="updates-count" style="border-color: var(--natca-red); color: var(--color-text-primary);">📝 12 updates</span>
+      <!-- Urgent pinned banner (rolling story) -->
+      <a class="post-card-link" href="hub-updates-story.html">
+        <div class="urgent-banner">
+          <div style="display: flex; gap: var(--space-2); margin-bottom: var(--space-3); align-items: center;">
+            <div class="urgent-banner__label" style="margin: 0;">🚨 Urgent</div>
+            <span class="story-live-pill">● Rolling</span>
+            <span class="updates-count" style="border-color: var(--natca-red); color: var(--color-text-primary);">📝 12 updates</span>
+          </div>
+          <h2 class="urgent-banner__title">FAA Shutdown 2026 — Rolling Coverage</h2>
+          <p class="urgent-banner__summary">Congress is negotiating the FY2026 continuing resolution. NATCA leadership is coordinating contingency operations. This story is being updated in real time as negotiations evolve.</p>
+          <div class="latest-update-preview topic-national">
+            <div class="latest-update-preview__label">🔴 Latest · 7 min ago · Marguerite Graf</div>
+            <p class="latest-update-preview__body"><strong>Senate Majority Leader confirms late-night vote on CR</strong> — Senate Majority Leader confirmed moments ago that a vote on the continuing resolution will occur before midnight Friday…</p>
+          </div>
+          <div class="urgent-banner__meta" style="margin-top: var(--space-3);">
+            <span>📌 Pinned</span>
+            <span class="topic-badge topic-national">National</span>
+            <span>Started April 8 · 12 updates from 4 contributors</span>
+            <span class="post-card__read" style="margin-left:auto;">Read full story →</span>
+          </div>
         </div>
-        <h2 class="urgent-banner__title">FAA Shutdown 2026 — Rolling Coverage</h2>
-        <p class="urgent-banner__summary">Congress is negotiating the FY2026 continuing resolution. NATCA leadership is coordinating contingency operations. This story is being updated in real time as negotiations evolve.</p>
-        <div class="latest-update-preview topic-national">
-          <div class="latest-update-preview__label">🔴 Latest · 7 min ago · Marguerite Graf</div>
-          <p class="latest-update-preview__body"><strong>Senate Majority Leader confirms late-night vote on CR</strong> — Senate Majority Leader confirmed moments ago that a vote on the continuing resolution will occur before midnight Friday…</p>
-        </div>
-        <div class="urgent-banner__meta" style="margin-top: var(--space-3);">
-          <span>📌 Pinned</span>
-          <span class="topic-badge topic-national">National</span>
-          <span>Started April 8 · 12 updates from 4 contributors</span>
-          <a href="hub-updates-story.html" class="post-card__read" style="margin-left:auto;">Read full story →</a>
-        </div>
-      </div>
+      </a>
 
       <!-- Post cards -->
       <!-- Live story with many updates -->
-      <article class="post-card topic-legislative">
+      <a class="post-card-link" href="hub-updates-story.html"><article class="post-card topic-legislative">
         <div class="post-card__rail"></div>
         <div>
           <div class="post-card__meta">
             <span class="topic-badge topic-legislative">Legislative</span>
-            <span class="story-live-pill">Live</span>
+            <span class="story-live-pill">● Rolling</span>
             <span class="updates-count">📝 18 updates</span>
             <span>Started Mar 24</span>
           </div>
@@ -219,13 +250,13 @@
           </div>
           <div class="post-card__footer" style="margin-top: var(--space-3);">
             <span class="post-card__author">👤 Marguerite Graf + 2 others</span>
-            <a href="hub-updates-story.html" class="post-card__read">View full story →</a>
+            <span class="post-card__read">View full story →</span>
           </div>
         </div>
-      </article>
+      </article></a>
 
       <!-- Active story with a few updates -->
-      <article class="post-card topic-safety">
+      <a class="post-card-link" href="hub-updates-story.html"><article class="post-card topic-safety">
         <div class="post-card__rail"></div>
         <div>
           <div class="post-card__meta">
@@ -241,36 +272,36 @@
           </div>
           <div class="post-card__footer" style="margin-top: var(--space-3);">
             <span class="post-card__author">👤 Steve Hansen · Safety Committee</span>
-            <a href="hub-updates-story.html" class="post-card__read">View full story →</a>
+            <span class="post-card__read">View full story →</span>
           </div>
         </div>
-      </article>
+      </article></a>
 
       <!-- Live story -->
-      <article class="post-card topic-bargaining">
+      <a class="post-card-link" href="hub-updates-story.html"><article class="post-card topic-bargaining">
         <div class="post-card__rail"></div>
         <div>
           <div class="post-card__meta">
-            <span class="topic-badge topic-bargaining">Bargaining</span>
-            <span class="story-live-pill">Live</span>
+            <span class="topic-badge topic-bargaining">Labor Relations</span>
+            <span class="story-live-pill">● Rolling</span>
             <span class="updates-count">📝 5 updates</span>
             <span>Started Apr 3</span>
           </div>
           <h3 class="post-card__title">Slate Book Article 35 Interpretation</h3>
-          <p class="post-card__summary">NATCA and the FAA are negotiating a Memorandum of Understanding clarifying the application of Article 35 (Leave) for controllers who transfer during a leave year. Bargaining unit affected members should follow this story for resolution.</p>
+          <p class="post-card__summary">NATCA and the FAA are negotiating a Memorandum of Understanding clarifying the application of Article 35 (Leave) for controllers who transfer during a leave year. Labor Relations unit affected members should follow this story for resolution.</p>
           <div class="latest-update-preview topic-bargaining">
             <div class="latest-update-preview__label">Latest · 1d ago · Drew MacQueen</div>
             <p class="latest-update-preview__body"><strong>MOU draft circulated to affected RVPs</strong> — A draft MOU has been shared with Regional Vice Presidents for feedback. Expected signing next week pending minor language changes…</p>
           </div>
           <div class="post-card__footer" style="margin-top: var(--space-3);">
             <span class="post-card__author">👤 Drew MacQueen · Chief Negotiator</span>
-            <a href="hub-updates-story.html" class="post-card__read">View full story →</a>
+            <span class="post-card__read">View full story →</span>
           </div>
         </div>
-      </article>
+      </article></a>
 
       <!-- Single-update story (a simple announcement) -->
-      <article class="post-card topic-training">
+      <a class="post-card-link" href="hub-updates-story.html"><article class="post-card topic-training">
         <div class="post-card__rail"></div>
         <div>
           <div class="post-card__meta">
@@ -282,12 +313,12 @@
           <p class="post-card__summary">NATCA's flagship safety training event returns to Las Vegas August 18–20. Early-bird pricing through May 31. Scholarship applications open now.</p>
           <div class="post-card__footer">
             <span class="post-card__author">👤 Training Department</span>
-            <a href="hub-updates-story.html" class="post-card__read">Read announcement →</a>
+            <span class="post-card__read">Read announcement →</span>
           </div>
         </div>
-      </article>
+      </article></a>
 
-      <article class="post-card topic-benefits">
+      <a class="post-card-link" href="hub-updates-story.html"><article class="post-card topic-benefits">
         <div class="post-card__rail"></div>
         <div>
           <div class="post-card__meta">
@@ -299,12 +330,12 @@
           <p class="post-card__summary">Several changes to member benefits are taking effect this quarter. This story tracks enrollment windows, new partners, and coverage changes.</p>
           <div class="post-card__footer">
             <span class="post-card__author">👤 Member Services</span>
-            <a href="hub-updates-story.html" class="post-card__read">View full story →</a>
+            <span class="post-card__read">View full story →</span>
           </div>
         </div>
-      </article>
+      </article></a>
 
-      <article class="post-card topic-events">
+      <a class="post-card-link" href="hub-updates-story.html"><article class="post-card topic-events">
         <div class="post-card__rail"></div>
         <div>
           <div class="post-card__meta">
@@ -316,10 +347,10 @@
           <p class="post-card__summary">The annual legislative fly-in returns May 12–14. This story tracks registration, Hill visit assignments, travel coordination, and event updates as they happen.</p>
           <div class="post-card__footer">
             <span class="post-card__author">👤 Government Affairs</span>
-            <a href="hub-updates-story.html" class="post-card__read">View full story →</a>
+            <span class="post-card__read">View full story →</span>
           </div>
         </div>
-      </article>
+      </article></a>
 
       <div style="display:flex; justify-content:center; margin-top: var(--space-8);">
         <button class="mock-btn">Load more posts</button>
@@ -333,7 +364,7 @@
         <li><a class="side-link" href="hub-updates-preferences.html"><span><span class="topic-badge topic-national">●</span>National</span><span class="side-link__count">On</span></a></li>
         <li><a class="side-link" href="hub-updates-preferences.html"><span><span class="topic-badge topic-legislative">●</span>Legislative</span><span class="side-link__count">On</span></a></li>
         <li><a class="side-link" href="hub-updates-preferences.html"><span><span class="topic-badge topic-safety">●</span>Safety</span><span class="side-link__count">On</span></a></li>
-        <li><a class="side-link" href="hub-updates-preferences.html"><span><span class="topic-badge topic-bargaining">●</span>Bargaining</span><span class="side-link__count">Off</span></a></li>
+        <li><a class="side-link" href="hub-updates-preferences.html"><span><span class="topic-badge topic-bargaining">●</span>Labor Relations</span><span class="side-link__count">Off</span></a></li>
         <li><a class="side-link" href="hub-updates-preferences.html"><span><span class="topic-badge topic-training">●</span>Training</span><span class="side-link__count">Off</span></a></li>
       </ul>
       <p class="small muted" style="margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px solid var(--color-border-light);">
@@ -343,6 +374,8 @@
     </aside>
   </div>
 </main>
+
+</div></div></div>
 
 </body>
 </html>

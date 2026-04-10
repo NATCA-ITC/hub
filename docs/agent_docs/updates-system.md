@@ -114,7 +114,7 @@ Rows only created when a member explicitly changes a subscription. Defaults come
 | national | National Updates | true | true | mdi-flag |
 | legislative | Legislative & Political Action | false | false | mdi-gavel |
 | safety | Safety Bulletins | true | false | mdi-shield-alert |
-| bargaining | Contract & Bargaining | true | false | mdi-handshake |
+| labor_relations | Contract & Labor Relations | true | false | mdi-handshake |
 | training | Training & Professional Development | false | false | mdi-school |
 | benefits | Benefits & Member Services | false | false | mdi-gift |
 | events | Events & Conferences | false | false | mdi-calendar |

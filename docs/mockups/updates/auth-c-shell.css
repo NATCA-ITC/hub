@@ -1,0 +1,267 @@
+/* ============================================================
+   Auth C Shell — full-page adaptation of natca-ui-shell
+   natca-header-variants.html Auth Option C (Hybrid Shell).
+   Used by all Hub mockups. No changes to the c-* class names.
+   ============================================================ */
+
+body {
+  margin: 0;
+  background: #0a0f1a;
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+}
+
+.c-shell {
+  display: flex;
+  flex-direction: column;
+  background: #0a0f1a;
+  min-height: 100vh;
+  font-family: var(--font-body);
+}
+
+/* Top bar */
+.c-topbar {
+  background: var(--natca-navy);
+  height: 52px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.c-logo-zone {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.c-logo-zone img {
+  height: 28px;
+  width: auto;
+}
+.c-wordmark {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: white;
+  white-space: nowrap;
+}
+.c-divider {
+  width: 1px;
+  height: 28px;
+  background: rgba(255,255,255,0.12);
+  margin: 0 12px 0 10px;
+  flex-shrink: 0;
+}
+.c-app-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: 14px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+  transition: all 150ms;
+  white-space: nowrap;
+}
+.c-app-chip:hover {
+  background: rgba(255,255,255,0.14);
+  border-color: rgba(255,255,255,0.2);
+}
+.c-app-chip .c-chip-grid { opacity: 0.5; flex-shrink: 0; }
+.c-app-chip .c-chip-caret { font-size: 9px; opacity: 0.4; margin-left: 2px; }
+
+.c-topbar-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.c-facility {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(0,51,102,0.15);
+  border: 1px solid rgba(0,51,102,0.25);
+  border-radius: 7px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--natca-sky);
+  white-space: nowrap;
+  height: 32px;
+}
+.c-top-icon {
+  width: 32px;
+  height: 32px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: rgba(255,255,255,0.4);
+  transition: all 150ms;
+  position: relative;
+}
+.c-top-icon:hover {
+  background: rgba(255,255,255,0.09);
+  color: white;
+  border-color: rgba(255,255,255,0.14);
+}
+.c-top-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 7px;
+  height: 7px;
+  background: var(--natca-red);
+  border-radius: 50%;
+  border: 1.5px solid var(--natca-navy);
+}
+.c-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--natca-red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* Tabs row */
+.c-tabs {
+  background: #0f1520;
+  height: 44px;
+  display: flex;
+  align-items: stretch;
+  padding: 0 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  flex-shrink: 0;
+  gap: 0;
+  position: sticky;
+  top: 52px;
+  z-index: 99;
+}
+.c-tab {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 16px;
+  font-family: var(--font-display);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.4);
+  text-decoration: none;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color 150ms, border-color 150ms;
+}
+.c-tab:hover { color: rgba(255,255,255,0.8); }
+.c-tab.c-tab-active {
+  color: white;
+  border-bottom-color: var(--natca-red);
+}
+.c-tab-icon {
+  width: 14px;
+  height: 14px;
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+.c-tab:hover .c-tab-icon,
+.c-tab.c-tab-active .c-tab-icon { opacity: 1; }
+.c-tab-more {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 14px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.3);
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color 150ms;
+}
+.c-tab-more:hover { color: rgba(255,255,255,0.7); }
+
+/* Breadcrumb row */
+.c-breadcrumb-row {
+  background: #0c1119;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  flex-shrink: 0;
+  position: sticky;
+  top: 96px;
+  z-index: 98;
+}
+.c-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: rgba(255,255,255,0.3);
+}
+.c-breadcrumb a {
+  color: rgba(255,255,255,0.3);
+  text-decoration: none;
+}
+.c-breadcrumb a:hover { color: rgba(255,255,255,0.65); }
+.c-breadcrumb .c-sep { color: rgba(255,255,255,0.12); }
+.c-breadcrumb .c-current { color: rgba(255,255,255,0.6); }
+.c-breadcrumb-right {
+  margin-left: auto;
+  font-size: 11px;
+  color: rgba(255,255,255,0.25);
+}
+
+/* Content area — where the actual page lives */
+.c-body {
+  display: flex;
+  flex: 1;
+  background: #111825;
+  min-height: 0;
+}
+.c-content {
+  flex: 1;
+  overflow: visible;
+  padding: 28px 32px;
+}
+
+/* No-sidebar variant (default for Hub Updates) — nothing extra needed */
+.c-shell.c-no-breadcrumb .c-breadcrumb-row { display: none; }
+
+/* When .mockup-page sits inside .c-content it already has padding — strip its own */
+.c-content .mockup-page {
+  padding: 0;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* Make body text color work within c-shell dark theme */
+.c-content {
+  color: var(--color-text-primary);
+}

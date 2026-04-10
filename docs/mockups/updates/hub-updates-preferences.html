@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="../../../node_modules/@natca-itc/ui-shell/dist/natca-tokens.css">
 <link rel="stylesheet" href="../../../node_modules/@natca-itc/ui-shell/dist/natca-components.css">
 <link rel="stylesheet" href="mockup-shared.css">
+<link rel="stylesheet" href="auth-c-shell.css">
 <style>
 .prefs-layout { max-width: 760px; margin: 0 auto; }
 .explainer-card {
@@ -134,20 +135,41 @@
 </head>
 <body>
 
-<header class="mockup-topbar">
-  <div class="mockup-topbar__brand">NATCA <span>Hub</span></div>
-  <nav class="mockup-topbar__tabs">
-    <a href="#" class="mockup-topbar__tab">Dashboard</a>
-    <a href="hub-updates-feed.html" class="mockup-topbar__tab is-active">Updates</a>
-    <a href="#" class="mockup-topbar__tab">Members</a>
-    <a href="#" class="mockup-topbar__tab">Facilities</a>
-    <a href="#" class="mockup-topbar__tab">Analytics</a>
-  </nav>
-  <div class="mockup-topbar__user">
-    <span>Jason Doss · ZOB</span>
-    <div class="mockup-topbar__avatar">JD</div>
+<div class="c-shell c-no-sidebar">
+  <div class="c-topbar">
+    <a href="#" class="c-logo-zone"><img src="natca-logo.png" alt="NATCA"></a>
+    <div class="c-divider"></div>
+    <span class="c-wordmark">NATCA</span>
+    <div class="c-app-chip" title="Switch app">
+      <svg class="c-chip-grid" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Hub <span class="c-chip-caret">&#9662;</span>
+    </div>
+    <div class="c-topbar-right">
+      <div class="c-facility"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> ZOB</div>
+      <div class="c-top-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <div class="c-top-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg><div class="c-top-badge"></div></div>
+      <div class="c-avatar">JD</div>
+    </div>
   </div>
-</header>
+  <nav class="c-tabs">
+    <a href="#" class="c-tab"><svg class="c-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</a>
+    <a href="hub-updates-feed.html" class="c-tab c-tab-active"><svg class="c-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 14h-8M15 18h-5M10 6h8v4h-8V6z"/><path d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16"/></svg>Updates</a>
+    <a href="#" class="c-tab"><svg class="c-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Members</a>
+    <a href="#" class="c-tab"><svg class="c-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Facilities</a>
+    <a href="#" class="c-tab"><svg class="c-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Analytics</a>
+    <span class="c-tab-more">More &#9662;</span>
+  </nav>
+  <div class="c-breadcrumb-row">
+    <div class="c-breadcrumb">
+      <a href="#">Hub</a>
+      <span class="c-sep">/</span>
+      <a href="hub-updates-feed.html">Updates</a>
+      <span class="c-sep">/</span>
+      <span class="c-current">Email Subscriptions</span>
+    </div>
+    <div class="c-breadcrumb-right">7 topics available</div>
+  </div>
+  <div class="c-body"><div class="c-content">
 
 <main class="mockup-page">
   <div class="prefs-layout">
@@ -200,11 +222,11 @@
       <label class="toggle"><input type="checkbox" checked><span class="toggle__track"></span></label>
     </div>
 
-    <!-- Bargaining -->
+    <!-- Labor Relations -->
     <div class="topic-row topic-bargaining">
       <div class="topic-row__dot">🤝</div>
       <div class="topic-row__info">
-        <h3>Contract &amp; Bargaining <span class="topic-row__default-badge">Default</span></h3>
+        <h3>Contract &amp; Labor Relations <span class="topic-row__default-badge">Default</span></h3>
         <p>Slate Book updates, MOU announcements, grievance trends, and bargaining unit news.</p>
         <small>~2–5 emails per month</small>
       </div>
@@ -264,6 +286,8 @@
     </div>
   </div>
 </main>
+
+</div></div></div>
 
 </body>
 </html>
