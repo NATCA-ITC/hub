@@ -73,7 +73,8 @@ The **parent container**. Holds the stable headline + summary + metadata. Every 
 | last_updated_at | timestamptz | most recent update's published_at (denormalized for sort) |
 | resolved_at | timestamptz | |
 | expires_at | timestamptz | optional auto-archive |
-| discord_thread_id | text | optional; Discord thread that collects this story's updates |
+| discord_message_id | text | the OP message in the announcement channel (published, editable, syncs to followers) |
+| discord_thread_id | text | the thread attached to the OP (where updates + discussion live) |
 | cc_campaign_id | text | deferred |
 | cc_campaign_status | text | |
 | cc_synced_at | timestamptz | |
@@ -217,87 +218,101 @@ Each update fans out independently (not the story). Synchronous for v1 (no queue
 
 ## Discord integration
 
-Two deployment patterns are supported. **Option B (forum channel) is the recommended target state.** The routing logic dispatches based on the channel type.
+**One Announcement channel per topic.** Each topic gets its own Discord Announcement channel (e.g. `#pay-benefits`, `#legislative`, `#safety`). Announcement channels enable native cross-server following — regional and facility servers can subscribe to whichever topic channels they want and automatically receive published messages.
 
-### Option B — Forum channel (recommended)
+### Why announcement channels (not forum channels)
 
-Create one Discord **forum channel** (e.g. `#updates`) for the entire Updates system. Configure forum tags to match topics (National, Legislative, Safety, Labor Relations, Training, Benefits, Events). Point all `updates.topics.discord_channel_id` values at this single forum channel — routing happens via tags, not channel.
+Forum channels have a nicer browse grid, but they **cannot be followed cross-server** (Discord limitation: forum channels can't be Announcement-type). Cross-server broadcast was a requirement from NATCA leadership. Announcement channels give us:
+- **Native cross-server following** — regional servers follow `#pay-benefits` and get every story + edits automatically
+- **Edit sync to followers** — when the bot updates a story's OP embed, the edit propagates to all following servers
+- **Read-only discipline via permissions** — members view + discuss in threads, only the bot posts top-level
+- **Thread support** — each story OP gets an attached thread for individual updates + member discussion
+- **Per-channel muting** — members mute topics they don't care about (native)
 
-**Why this is better than one channel per topic:**
-- Browse grid with tag filtering is Discord-native
-- Members can follow individual stories (posts), not whole topics
-- Unread/read tracking per story
-- One channel to admin rather than seven
-- Maps exactly to our Topic → Story → Update model
+### Pattern: post OP → publish → create thread → updates in thread
 
-**Handler:**
+```
+#pay-benefits (Announcement channel, read-only)
+├── [Embed] Pay Parity Act — Rolling Coverage     ← bot posts + publishes; edits to keep current
+│   └── Thread: "Pay Parity Act" (14 replies)     ← updates + member discussion
+│       ├── [Bot] Update: House committee markup scheduled
+│       ├── [Bot] Breaking: Bill passes subcommittee 8-4
+│       ├── [Member] Does this affect locality pay?
+│       └── [Bot] Update: Full committee vote next week
+├── [Embed] FY2026 Locality Pay Tables Released    ← single-update story, no thread
+├── [Embed] Shutdown Pay FAQ                       ← bot edits OP as situation evolves
+│   └── Thread: "Shutdown Pay FAQ" (6 replies)
+└── ...
+```
+
+### Cross-server behavior
+
+| Action | Visible on national server? | Cross-posts to followers? |
+|---|---|---|
+| Bot posts story OP (embed) + publishes | Yes | Yes |
+| Bot edits the OP (summary refresh) | Yes | **Yes — edits sync** |
+| Bot creates thread on the OP | Yes | No |
+| Bot posts update in the thread | Yes | No |
+| Member replies in thread | Yes | No |
+
+Followers see: the story headline + current summary (always fresh via bot edits). Members who want the full timeline click through to the national server's thread or open Hub.
+
+### Handler
+
 ```js
 async function handleUpdatePublished({ story, topic, update }) {
   const channel = await channelManager.getChannelById(topic.discord_channel_id);
 
-  // ──────── Forum channel path ────────
-  if (channel.type === ChannelType.GuildForum) {
-    // Ensure the topic has a forum tag
-    const tagId = channel.availableTags.find(t => t.name === topic.name)?.id;
-
-    if (!story.discord_thread_id) {
-      // First update → create a new forum post
-      const post = await channel.threads.create({
-        name: story.urgent ? `🚨 ${story.title}` : story.title,
-        appliedTags: [tagId].filter(Boolean),
-        message: {
-          content: story.urgent ? `@here` : null,
-          embeds: [buildStoryOpEmbed(story, topic, update)]
-        },
-        autoArchiveDuration: 10080, // 7 days
-      });
-      return {
-        discord_thread_id: post.id,
-        discord_message_id: post.lastMessageId,
-        discord_posted_at: new Date().toISOString()
-      };
-    }
-
-    // Subsequent update → reply in the existing forum post
-    const post = await channel.threads.fetch(story.discord_thread_id);
-    const msg = await post.send({
-      content: update.kind === 'breaking' && story.urgent ? `@here` : null,
-      embeds: [buildUpdateReplyEmbed(story, topic, update)]
-    });
-    return {
-      discord_thread_id: story.discord_thread_id,
-      discord_message_id: msg.id,
-      discord_posted_at: new Date().toISOString()
-    };
-  }
-
-  // ──────── Text channel + thread path (fallback) ────────
-  if (!story.discord_thread_id) {
-    // First update → post in channel + auto-create a thread
-    const parentMsg = await channel.send({
+  if (!story.discord_message_id) {
+    // ──── First update: post the story OP in the announcement channel ────
+    const opMsg = await channel.send({
       content: story.urgent ? `@here` : null,
       embeds: [buildStoryOpEmbed(story, topic, update)]
     });
-    const thread = await parentMsg.startThread({
+
+    // Publish the message (cross-posts to following servers)
+    await opMsg.crosspost();
+
+    // Create a thread for updates + discussion
+    const thread = await opMsg.startThread({
       name: story.title.slice(0, 100),
-      autoArchiveDuration: 10080,
+      autoArchiveDuration: 10080, // 7 days
     });
+
+    // Post the first update inside the thread
+    const updateMsg = await thread.send({
+      embeds: [buildUpdateReplyEmbed(story, topic, update)]
+    });
+
     return {
-      discord_thread_id: thread.id,
-      discord_message_id: parentMsg.id,
+      discord_message_id: opMsg.id,    // the OP (editable, published)
+      discord_thread_id: thread.id,     // the thread (updates + discussion)
+      update_discord_message_id: updateMsg.id,
       discord_posted_at: new Date().toISOString()
     };
   }
 
-  // Subsequent update → post inside the thread
+  // ──── Subsequent update: post in the existing thread ────
   const thread = await channel.threads.fetch(story.discord_thread_id);
-  const msg = await thread.send({
+
+  // Unarchive if thread was auto-archived
+  if (thread.archived) await thread.setArchived(false);
+
+  const updateMsg = await thread.send({
     content: update.kind === 'breaking' && story.urgent ? `@here` : null,
     embeds: [buildUpdateReplyEmbed(story, topic, update)]
   });
+
+  // Refresh the OP embed with latest summary (edit syncs to followers)
+  const opMsg = await channel.messages.fetch(story.discord_message_id);
+  await opMsg.edit({
+    embeds: [buildStoryOpEmbed(story, topic, update)]
+  });
+
   return {
+    discord_message_id: story.discord_message_id,
     discord_thread_id: story.discord_thread_id,
-    discord_message_id: msg.id,
+    update_discord_message_id: updateMsg.id,
     discord_posted_at: new Date().toISOString()
   };
 }
@@ -305,13 +320,34 @@ async function handleUpdatePublished({ story, topic, update }) {
 
 ### Channel configuration
 
-- **One `discord_channel_id` per topic.** In Option B, every topic points at the same forum channel id; tags differentiate them. In Option A, each topic points at its own text channel.
-- **`stories.discord_thread_id`** holds the forum post id (Option B) or auto-created thread id (Option A). Same column, same semantic: "where this story's updates live in Discord."
-- **`updates.discord_message_id`** holds the individual reply message id within that thread/post.
+- **One `discord_channel_id` per topic.** Each topic points at its own Announcement channel.
+- **`stories.discord_message_id`** — the OP message in the announcement channel. Published (cross-posted to followers). Bot edits this to keep the story summary current.
+- **`stories.discord_thread_id`** — the thread attached to the OP. Individual updates + member discussion live here.
+- **`updates.discord_message_id`** — each update's reply message within the thread.
 
-### Option A — Text channel + threads (fallback)
+### Permissions (per announcement channel)
 
-Use when migrating to a forum channel is disruptive. Each topic gets its own text channel; the bot auto-creates a thread on the story's first update and posts subsequent updates into that thread. Works identically from the data model's perspective — same columns, same webhook payload.
+```
+@everyone:
+  View Channel: ✅
+  Send Messages: ❌                  ← read-only channel
+  Send Messages in Threads: ✅       ← members can discuss
+  Create Public Threads: ❌          ← only bot creates threads
+
+@NATCA Hub (bot role):
+  Send Messages: ✅
+  Manage Messages: ✅                ← for editing/pinning
+  Create Public Threads: ✅
+  Send Messages in Threads: ✅
+```
+
+### Cross-server setup (regional/facility servers)
+
+Regional server admins:
+1. Go to the national server's announcement channel (e.g. `#pay-benefits`)
+2. Click **Follow** → pick a channel in their server to receive posts
+3. Every published story OP (and edits) automatically appears in their channel
+4. Members on the regional server see current story summaries without joining the national server
 
 ## Editor (Tiptap)
 

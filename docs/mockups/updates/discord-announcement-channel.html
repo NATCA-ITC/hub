@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discord Announcement Channel — Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --discord-bg:        #313338;
+  --discord-sidebar:   #2b2d31;
+  --discord-server:    #1e1f22;
+  --discord-channel:   #313338;
+  --discord-input:     #383a40;
+  --discord-text:      #dbdee1;
+  --discord-muted:     #949ba4;
+  --discord-header:    #ffffff;
+  --discord-link:      #00a8fc;
+  --discord-border:    #26272b;
+  --discord-embed-bg:  #2b2d31;
+  --discord-accent:    #5865f2;
+}
+* { box-sizing: border-box; }
+body {
+  font-family: 'gg sans', 'Public Sans', -apple-system, system-ui, sans-serif;
+  background: var(--discord-bg);
+  color: var(--discord-text);
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.mockup-note {
+  background: #CE0E2D;
+  color: white;
+  padding: 12px 20px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+}
+.mockup-note a { color: white; text-decoration: underline; }
+
+.discord {
+  display: grid;
+  grid-template-columns: 72px 240px 1fr 380px;
+  height: calc(100vh - 40px);
+  min-height: 720px;
+}
+
+/* Server sidebar */
+.servers { background: var(--discord-server); padding: 12px 0; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.server { width: 48px; height: 48px; border-radius: 24px; background: var(--discord-sidebar); display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--discord-text); cursor: pointer; transition: border-radius 0.15s; position: relative; }
+.server:hover, .server.active { border-radius: 16px; background: var(--discord-accent); color: white; }
+.server.active::before { content: ''; position: absolute; left: -16px; top: 8px; bottom: 8px; width: 4px; background: white; border-radius: 0 4px 4px 0; }
+.server.natca { background: linear-gradient(135deg, #CE0E2D, #003366); color: white; }
+.server-divider { width: 32px; height: 2px; background: var(--discord-channel); border-radius: 1px; margin: 4px 0; }
+
+/* Channel list */
+.channels { background: var(--discord-sidebar); display: flex; flex-direction: column; }
+.channels-header { padding: 16px; font-size: 16px; font-weight: 700; color: var(--discord-header); border-bottom: 1px solid var(--discord-border); }
+.channels-list { padding: 16px 8px; overflow-y: auto; flex: 1; }
+.channel-cat { font-size: 12px; text-transform: uppercase; font-weight: 700; color: var(--discord-muted); padding: 16px 8px 4px; letter-spacing: 0.5px; }
+.channel { padding: 6px 8px; color: var(--discord-muted); font-size: 15px; cursor: pointer; border-radius: 4px; display: flex; align-items: center; gap: 6px; font-weight: 500; }
+.channel:hover { background: rgba(255,255,255,0.04); color: var(--discord-text); }
+.channel.active { background: rgba(255,255,255,0.08); color: var(--discord-header); }
+.channel .ch-icon { width: 18px; height: 18px; flex-shrink: 0; opacity: 0.5; }
+.channel.active .ch-icon { opacity: 0.8; }
+.channel .follow-badge { font-size: 9px; background: var(--discord-accent); color: white; padding: 1px 5px; border-radius: 8px; margin-left: auto; font-weight: 700; }
+
+/* Main channel area */
+.channel-view { background: var(--discord-channel); display: flex; flex-direction: column; }
+.channel-header { padding: 12px 16px; border-bottom: 1px solid var(--discord-border); display: flex; align-items: center; gap: 8px; box-shadow: 0 1px 0 rgba(0,0,0,0.2); }
+.channel-header h1 { font-size: 16px; color: var(--discord-header); margin: 0; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.channel-header .ch-type { font-size: 11px; color: var(--discord-muted); background: rgba(255,255,255,0.06); padding: 2px 8px; border-radius: 10px; font-weight: 600; }
+.channel-header .topic { color: var(--discord-muted); font-size: 13px; margin-left: 8px; padding-left: 12px; border-left: 1px solid var(--discord-border); }
+
+.messages { flex: 1; overflow-y: auto; padding: 16px 0; }
+.message { padding: 4px 20px 4px 72px; position: relative; margin-top: 16px; }
+.message:hover { background: rgba(0,0,0,0.06); }
+.message-avatar { position: absolute; left: 20px; top: 4px; width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #CE0E2D, #003366); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 14px; }
+.message-header { display: flex; align-items: baseline; gap: 8px; margin-bottom: 2px; }
+.message-author { color: var(--discord-header); font-weight: 600; font-size: 16px; }
+.message-bot-tag { background: var(--discord-accent); color: white; font-size: 10px; font-weight: 700; padding: 1px 4px; border-radius: 3px; text-transform: uppercase; }
+.message-time { color: var(--discord-muted); font-size: 12px; }
+.message-body { color: var(--discord-text); font-size: 15px; }
+.message-body p { margin: 0; }
+
+/* Published indicator */
+.published-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--discord-muted);
+}
+.published-badge svg { width: 14px; height: 14px; color: #43b581; }
+
+/* Embed */
+.embed { display: grid; grid-template-columns: 4px 1fr; background: var(--discord-embed-bg); border-radius: 4px; max-width: 520px; margin-top: 4px; overflow: hidden; }
+.embed-bar { background: #CE0E2D; }
+.embed-bar.legislative { background: #8B4FB8; }
+.embed-bar.safety { background: #E76F00; }
+.embed-bar.labor { background: #0D9488; }
+.embed-content { padding: 12px 16px 14px; }
+.embed-author { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; font-size: 13px; color: var(--discord-header); font-weight: 600; }
+.embed-author-avatar { width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, #003366, #CE0E2D); }
+.embed-title { color: var(--discord-link); font-size: 16px; font-weight: 700; margin: 0 0 6px; line-height: 1.3; cursor: pointer; text-decoration: none; display: block; }
+.embed-title:hover { text-decoration: underline; }
+.embed-description { color: var(--discord-text); font-size: 14px; margin: 0 0 10px; line-height: 1.45; }
+.embed-fields { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 8px; }
+.embed-field-name { font-size: 12px; font-weight: 700; color: var(--discord-header); margin-bottom: 1px; }
+.embed-field-value { font-size: 12px; color: var(--discord-text); }
+.embed-footer { font-size: 11px; color: var(--discord-muted); margin-top: 8px; display: flex; align-items: center; gap: 6px; }
+.embed-footer-icon { width: 14px; height: 14px; border-radius: 50%; background: #CE0E2D; display: inline-flex; align-items: center; justify-content: center; font-size: 8px; color: white; }
+.embed-status { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 2px 8px; border-radius: 10px; margin-bottom: 8px; }
+.embed-status--rolling { background: rgba(22,163,74,0.18); color: #4ade80; }
+.embed-status--resolved { background: rgba(255,255,255,0.08); color: var(--discord-muted); }
+.embed-status--urgent { background: rgba(242,63,66,0.2); color: #f87171; }
+
+/* Thread indicator */
+.thread-indicator {
+  margin: 8px 0 0 0;
+  max-width: 520px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: var(--discord-link);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 150ms;
+}
+.thread-indicator:hover { background: rgba(88,101,242,0.08); border-color: rgba(88,101,242,0.2); }
+.thread-indicator .thread-count { font-weight: 700; }
+.thread-indicator .thread-last { color: var(--discord-muted); font-weight: 400; margin-left: auto; font-size: 12px; }
+.thread-indicator.is-open { background: rgba(88,101,242,0.12); border-color: rgba(88,101,242,0.35); }
+
+.input-bar { padding: 0 16px 20px; }
+.input-bar__inner { background: var(--discord-input); border-radius: 8px; padding: 11px 16px; color: var(--discord-muted); font-size: 14px; text-align: center; font-style: italic; }
+
+/* Thread side panel */
+.thread-panel {
+  background: #2b2d31;
+  border-left: 1px solid rgba(255,255,255,0.04);
+  display: flex;
+  flex-direction: column;
+}
+.thread-panel-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+}
+.thread-panel-title-wrap { flex: 1; min-width: 0; }
+.thread-panel-title { font-size: 15px; font-weight: 700; color: var(--discord-header); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.thread-panel-channel { font-size: 11px; color: var(--discord-muted); }
+.thread-panel-close { background: none; border: none; color: var(--discord-muted); font-size: 20px; cursor: pointer; padding: 4px; }
+.thread-panel-close:hover { color: white; }
+
+.thread-messages { flex: 1; overflow-y: auto; padding: 12px 0; }
+.thread-msg { padding: 6px 16px 6px 56px; position: relative; margin-top: 6px; }
+.thread-msg:hover { background: rgba(0,0,0,0.06); }
+.thread-msg.is-breaking { background: rgba(242,63,66,0.06); border-left: 3px solid #f23f42; padding-left: 53px; }
+.thread-msg-avatar { position: absolute; left: 16px; top: 6px; width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #CE0E2D, #003366); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 11px; }
+.thread-msg-header { display: flex; align-items: baseline; gap: 6px; margin-bottom: 1px; }
+.thread-msg-author { color: var(--discord-header); font-weight: 600; font-size: 14px; }
+.thread-msg-bot { background: var(--discord-accent); color: white; font-size: 9px; font-weight: 700; padding: 1px 4px; border-radius: 3px; text-transform: uppercase; }
+.thread-msg-time { color: var(--discord-muted); font-size: 11px; }
+.thread-msg-kind { display: inline-block; font-size: 9px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; padding: 1px 5px; border-radius: 3px; margin-right: 4px; }
+.thread-msg-kind--update { background: rgba(255,255,255,0.1); color: var(--discord-muted); }
+.thread-msg-kind--breaking { background: #f23f42; color: white; }
+.thread-msg-kind--correction { background: #E76F00; color: white; }
+.thread-msg-kind--summary { background: #00a8fc; color: white; }
+.thread-msg-body { font-size: 13px; color: var(--discord-text); line-height: 1.5; }
+.thread-msg-body strong { color: var(--discord-header); }
+.thread-msg-body p { margin: 0 0 4px; }
+.thread-msg-who { font-size: 11px; color: var(--discord-muted); margin-top: 2px; }
+
+.thread-origin { text-align: center; font-size: 11px; color: var(--discord-muted); padding: 8px 16px 12px; }
+
+.thread-input { padding: 0 12px 14px; }
+.thread-input__inner { background: var(--discord-input); border-radius: 8px; padding: 9px 12px; color: var(--discord-muted); font-size: 13px; }
+
+.annotation {
+  background: rgba(88,101,242,0.08);
+  border: 1px dashed rgba(88,101,242,0.3);
+  color: #c9cdfb;
+  padding: 8px 12px;
+  margin: 12px 20px;
+  border-radius: 6px;
+  font-size: 12px;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<div class="mockup-note">
+  📢 Announcement channels — one per topic. Stories are embeds (published + editable). Updates live in threads. Cross-server following is native.
+  &nbsp;·&nbsp; <a href="index.html">← Back to mockup index</a>
+</div>
+
+<div class="discord">
+  <!-- Server list -->
+  <aside class="servers">
+    <div class="server natca active">N</div>
+    <div class="server-divider"></div>
+    <div class="server" style="font-size: 11px;">🏢</div>
+    <div class="server" style="background: #2b2d31; font-size: 10px; color: var(--discord-muted);">ZOB</div>
+    <div class="server-divider"></div>
+    <div class="server">+</div>
+  </aside>
+
+  <!-- Channel list — announcement channels with megaphone icon -->
+  <aside class="channels">
+    <div class="channels-header">NATCA National</div>
+    <div class="channels-list">
+      <div class="channel-cat">📢 Updates (read-only)</div>
+      <div class="channel active">
+        <svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        pay-benefits
+      </div>
+      <div class="channel">
+        <svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        legislative
+      </div>
+      <div class="channel">
+        <svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        safety
+      </div>
+      <div class="channel">
+        <svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        labor-relations
+      </div>
+      <div class="channel">
+        <svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        staffing-workforce
+      </div>
+      <div class="channel">
+        <svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        training
+      </div>
+      <div class="channel">
+        <svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        events
+      </div>
+
+      <div class="channel-cat">💬 Discussion</div>
+      <div class="channel"><svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/></svg>general</div>
+      <div class="channel"><svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/></svg>off-topic</div>
+
+      <div class="channel-cat">🏢 Facilities</div>
+      <div class="channel"><svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/></svg>zob-cleveland</div>
+      <div class="channel"><svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/></svg>zau-chicago</div>
+    </div>
+  </aside>
+
+  <!-- Main: #pay-benefits announcement channel -->
+  <main class="channel-view">
+    <header class="channel-header">
+      <h1>
+        <svg style="width:20px;height:20px;opacity:0.5;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        pay-benefits
+        <span class="ch-type">Announcement</span>
+      </h1>
+      <span class="topic">Pay parity, locality pay, compensation, retirement, member benefits · Read-only — discuss in threads</span>
+    </header>
+
+    <div class="messages">
+
+      <!-- Older resolved story -->
+      <div class="message">
+        <div class="message-avatar">🤖</div>
+        <div class="message-header">
+          <span class="message-author" style="color: #CE0E2D;">NATCA Hub</span>
+          <span class="message-bot-tag">APP</span>
+          <span class="message-time">March 28</span>
+        </div>
+        <div class="message-body">
+          <div class="embed">
+            <div class="embed-bar"></div>
+            <div class="embed-content">
+              <span class="embed-status embed-status--resolved">✓ Resolved</span>
+              <a class="embed-title" href="#">FY2026 Locality Pay Tables Released</a>
+              <p class="embed-description">The Office of Personnel Management published final FY2026 locality pay tables. All NATCA-represented facilities received at minimum a 2.3% locality adjustment effective PP01 2026.</p>
+              <div class="embed-footer">
+                <div class="embed-footer-icon">H</div>
+                MyNATCA Hub · 1 update · Resolved Mar 28
+              </div>
+            </div>
+          </div>
+          <div class="published-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9z"/></svg>
+            Published · Visible to following servers
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTIVE STORY with thread open -->
+      <div class="message" style="background: rgba(88,101,242,0.04);">
+        <div class="message-avatar">🤖</div>
+        <div class="message-header">
+          <span class="message-author" style="color: #CE0E2D;">NATCA Hub</span>
+          <span class="message-bot-tag">APP</span>
+          <span class="message-time">April 2 (edited today 2:14 PM)</span>
+        </div>
+        <div class="message-body">
+          <p style="margin: 0 0 4px; color: var(--discord-muted); font-size: 12px;">@here</p>
+          <div class="embed">
+            <div class="embed-bar"></div>
+            <div class="embed-content">
+              <span class="embed-status embed-status--urgent">🚨 Urgent</span>
+              <span class="embed-status embed-status--rolling">● Rolling</span>
+              <div class="embed-author">
+                <div class="embed-author-avatar"></div>
+                Nick Daniels · NATCA President
+              </div>
+              <a class="embed-title" href="#">FAA Shutdown 2026 — Pay &amp; Benefits Impact</a>
+              <p class="embed-description">NATCA leadership is coordinating with FAA on pay continuity during the FY2026 CR negotiations. Controllers designated "excepted" must report as scheduled — pay will be retroactive once appropriations are restored. MAP counseling remains fully operational.</p>
+              <div class="embed-fields">
+                <div>
+                  <div class="embed-field-name">Status</div>
+                  <div class="embed-field-value">● Rolling</div>
+                </div>
+                <div>
+                  <div class="embed-field-name">Updates</div>
+                  <div class="embed-field-value">8 so far</div>
+                </div>
+                <div>
+                  <div class="embed-field-name">Latest</div>
+                  <div class="embed-field-value">2:14 PM today</div>
+                </div>
+              </div>
+              <div class="embed-footer">
+                <div class="embed-footer-icon">H</div>
+                MyNATCA Hub · hub.natca.org/updates/shutdown-pay-benefits · 📖 Read full story →
+              </div>
+            </div>
+          </div>
+          <div class="published-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9z"/></svg>
+            Published · Last edited 2:14 PM · Edit synced to 12 following servers
+          </div>
+          <!-- Thread indicator -->
+          <div class="thread-indicator is-open">
+            <svg style="width:16px;height:16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+            <span class="thread-count">8 messages</span>
+            <span class="thread-last">· Last reply 12 min ago</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="annotation">
+        👆 This embed is the story OP — bot edits it whenever the summary changes. The "(edited)" badge shows it was refreshed. Edits sync to all 12 following servers automatically. Thread panel is open on the right →
+      </div>
+
+      <!-- Another story -->
+      <div class="message">
+        <div class="message-avatar">🤖</div>
+        <div class="message-header">
+          <span class="message-author" style="color: #CE0E2D;">NATCA Hub</span>
+          <span class="message-bot-tag">APP</span>
+          <span class="message-time">April 8</span>
+        </div>
+        <div class="message-body">
+          <div class="embed">
+            <div class="embed-bar"></div>
+            <div class="embed-content">
+              <span class="embed-status embed-status--rolling">● Rolling</span>
+              <a class="embed-title" href="#">Pay Parity Act — H.R. 4412 Compensation Provisions</a>
+              <p class="embed-description">The pay parity provisions in H.R. 4412 include controller-specific locality pay adjustments and premium pay recalculation. NATCA's legislative team is tracking floor amendments.</p>
+              <div class="embed-footer">
+                <div class="embed-footer-icon">H</div>
+                MyNATCA Hub · 5 updates · Rolling
+              </div>
+            </div>
+          </div>
+          <div class="thread-indicator">
+            <svg style="width:16px;height:16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+            <span class="thread-count">5 messages</span>
+            <span class="thread-last">· 2d ago</span>
+          </div>
+          <div class="published-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9z"/></svg>
+            Published
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="input-bar">
+      <div class="input-bar__inner">This is a read-only announcement channel. Discuss updates in their threads.</div>
+    </div>
+  </main>
+
+  <!-- Thread side panel (open for the Shutdown story) -->
+  <aside class="thread-panel">
+    <header class="thread-panel-header">
+      <div class="thread-panel-title-wrap">
+        <div class="thread-panel-title">FAA Shutdown 2026 — Pay &amp; Benefits Impact</div>
+        <div class="thread-panel-channel">#pay-benefits · 8 messages</div>
+      </div>
+      <button class="thread-panel-close">×</button>
+    </header>
+
+    <div class="thread-messages">
+      <div class="thread-origin">Thread started April 2</div>
+
+      <div class="thread-msg">
+        <div class="thread-msg-avatar">ND</div>
+        <div class="thread-msg-header">
+          <span class="thread-msg-author">NATCA Hub</span>
+          <span class="thread-msg-bot">APP</span>
+          <span class="thread-msg-time">Apr 2 · 3:14 PM</span>
+        </div>
+        <div class="thread-msg-body">
+          <span class="thread-msg-kind thread-msg-kind--update">Initial</span>
+          <p>Story opened. All members with pay-related concerns should follow this thread for updates.</p>
+          <div class="thread-msg-who">— posted by Nick Daniels</div>
+        </div>
+      </div>
+
+      <div class="thread-msg">
+        <div class="thread-msg-avatar" style="background: linear-gradient(135deg,#003366,#CE0E2D);">GP</div>
+        <div class="thread-msg-header">
+          <span class="thread-msg-author">NATCA Hub</span>
+          <span class="thread-msg-bot">APP</span>
+          <span class="thread-msg-time">Apr 5 · 10:00 AM</span>
+        </div>
+        <div class="thread-msg-body">
+          <span class="thread-msg-kind thread-msg-kind--summary">Summary</span>
+          <p><strong>Pay implications if shutdown occurs</strong></p>
+          <p>Excepted employees work without pay during a lapse. Retroactive pay is guaranteed by law (Government Employee Fair Treatment Act) once appropriations are restored.</p>
+          <div class="thread-msg-who">— posted by Gary Peters, General Counsel</div>
+        </div>
+      </div>
+
+      <div class="thread-msg">
+        <div class="thread-msg-avatar" style="background: #7289da;">MR</div>
+        <div class="thread-msg-header">
+          <span class="thread-msg-author" style="color: #7289da;">mike.reis</span>
+          <span class="thread-msg-time">Apr 5 · 10:22 AM</span>
+        </div>
+        <div class="thread-msg-body">
+          <p>Does the retroactive pay include premium and Sunday differential?</p>
+        </div>
+      </div>
+
+      <div class="thread-msg">
+        <div class="thread-msg-avatar" style="background: linear-gradient(135deg,#003366,#CE0E2D);">GP</div>
+        <div class="thread-msg-header">
+          <span class="thread-msg-author">NATCA Hub</span>
+          <span class="thread-msg-bot">APP</span>
+          <span class="thread-msg-time">Apr 5 · 11:15 AM</span>
+        </div>
+        <div class="thread-msg-body">
+          <span class="thread-msg-kind thread-msg-kind--update">Update</span>
+          <p><strong>Yes — all premium pay is included.</strong> The GEFTA guarantees retroactive pay at the rate employees would have been paid, including night differential, Sunday premium, and COLA.</p>
+          <div class="thread-msg-who">— posted by Gary Peters</div>
+        </div>
+      </div>
+
+      <div class="thread-msg">
+        <div class="thread-msg-avatar">ND</div>
+        <div class="thread-msg-header">
+          <span class="thread-msg-author">NATCA Hub</span>
+          <span class="thread-msg-bot">APP</span>
+          <span class="thread-msg-time">Apr 10 · 9:04 AM</span>
+        </div>
+        <div class="thread-msg-body">
+          <span class="thread-msg-kind thread-msg-kind--update">Update</span>
+          <p><strong>FAA Administrator confirms excepted status</strong></p>
+          <p>All operational controllers must report as scheduled. MAP counseling remains fully funded.</p>
+          <div class="thread-msg-who">— posted by Nick Daniels</div>
+        </div>
+      </div>
+
+      <div class="thread-msg is-breaking">
+        <div class="thread-msg-avatar" style="background: linear-gradient(135deg,#6e2a8c,#CE0E2D);">MG</div>
+        <div class="thread-msg-header">
+          <span class="thread-msg-author">NATCA Hub</span>
+          <span class="thread-msg-bot">APP</span>
+          <span class="thread-msg-time">Today · 2:14 PM</span>
+        </div>
+        <div class="thread-msg-body">
+          <span class="thread-msg-kind thread-msg-kind--breaking">🔴 Breaking</span>
+          <p><strong>Senate vote scheduled tonight — CR includes full pay continuity</strong></p>
+          <p>The CR framework includes language guaranteeing uninterrupted pay for excepted employees. Vote expected before midnight.</p>
+          <div class="thread-msg-who">— posted by Marguerite Graf</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="thread-input">
+      <div class="thread-input__inner">Reply in thread…</div>
+    </div>
+  </aside>
+</div>
+
+</body>
+</html>

@@ -68,20 +68,26 @@ Platform API middleware checks `req.session.user.grants` (already loaded at logi
 
 ### 5. Fan-out on publish (Platform → Discord bot)
 
+**One Announcement channel per topic.** Each topic gets its own Discord Announcement channel (e.g. `#pay-benefits`, `#legislative`, `#safety`). Announcement channels enable native cross-server following — regional and facility servers subscribe to topic channels and automatically receive published messages and edits.
+
 Publishing an **update** (not a story) is a synchronous Platform operation that:
 1. Sets `update.status='published'`, renders markdown → `body_html`
 2. Updates parent story's `last_updated_at` and increments `update_count`
 3. POSTs to Discord bot's `/webhook/update-published` endpoint with `{story, topic, update}`
-4. Discord bot routes the update based on `topic.discord_channel_id` and the channel's type:
-   - **Forum channel (preferred):** if this is the story's first update, create a new forum post with the story title + initial content and store the post id in `stories.discord_thread_id`. Tag the post with the topic's forum tag. Subsequent updates post as replies in that forum post.
-   - **Text channel (fallback):** if this is the story's first update, post the story embed in the channel and auto-create an attached thread. Store the thread id in `stories.discord_thread_id`. Subsequent updates post as messages inside that thread.
-5. Urgent updates also post a compact `@here` alert in the parent channel/forum with a link to the story post.
-6. Platform stores returned `discord_message_id` on the `updates` row and `discord_thread_id` on the `stories` row (first update only).
+4. Discord bot routes to the topic's announcement channel:
+   - **First update:** Post the story OP embed → `crosspost()` to publish to followers → create a thread on the OP for updates + discussion → post the first update in the thread. Store `discord_message_id` (the OP) and `discord_thread_id` (the thread) on the story.
+   - **Subsequent updates:** Post the update as a reply in the existing thread. Then **edit the OP embed** to refresh the story summary — the edit automatically syncs to all following servers.
+5. Urgent updates include `@here` in the OP and in breaking thread replies.
+6. Platform stores returned IDs on the story and update rows.
 7. Calls stub `ccSync(update)` that logs "deferred" for v1.
 
-**Consolidation is the key principle:** all updates to one story live in one Discord thread (or forum post), mirroring the one-URL Hub story. Members who follow a story get notifications only for that story, not the whole topic channel.
+**Why announcement channels, not forum channels:** Forum channels have a nicer browse grid, but they cannot be followed cross-server (Discord limitation). Cross-server broadcast was a requirement from NATCA leadership. Announcement channels give us:
+- **Native cross-server following** with edit sync (regional servers see the latest story summary automatically)
+- **Read-only broadcast discipline** via permissions (members discuss in threads, not the channel)
+- **Per-topic muting** (members mute entire channels natively)
+- The OP-edit + thread-reply pattern gives followers the current state while national server members get the full update timeline
 
-**Recommendation: deploy as a Discord forum channel.** Forum channels are built for this exact use case — Discord's native browse grid, tag filtering, and follow-post tracking map 1:1 to our stories + topics + subscriptions model. The text-channel + threads pattern works as a fallback if migrating existing channels is disruptive.
+**Consolidation principle holds:** all updates to one story live in one thread. The OP embed is the "always-current summary" visible to followers; the thread is the detailed history visible on the national server and on Hub.
 
 ### 6. Editor: Tiptap (Vue 3) with markdown export + Supabase Storage for images
 
