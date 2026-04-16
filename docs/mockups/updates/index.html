@@ -138,7 +138,7 @@
   <a class="mockup-tile" href="hub-content-standards.html" style="border: 1px solid var(--natca-sky);">
     <div class="mockup-tile__section" style="color: #4ade80;">Start here</div>
     <h3 class="mockup-tile__title">Content Standards</h3>
-    <p class="mockup-tile__desc">The three-axis taxonomy (Content Type + Topic + Lifecycle), Hub ↔ DMS bridge pattern, cross-platform flow, and example cards by content type. Like ui-shell's Design Standards page, but for content.</p>
+    <p class="mockup-tile__desc">The four-axis taxonomy (Content Type + Topic + Area + Lifecycle), Hub ↔ DMS bridge pattern, cross-platform flow, and example cards by content type. Like ui-shell's Design Standards page, but for content.</p>
     <div class="mockup-tile__arrow">View standards →</div>
   </a>
 </div>
@@ -192,7 +192,7 @@
   <a class="mockup-tile" href="discord-announcement-channel.html" style="border: 1px solid var(--natca-sky);">
     <div class="mockup-tile__section" style="color: #4ade80;">Recommended</div>
     <h3 class="mockup-tile__title">Announcement Channels</h3>
-    <p class="mockup-tile__desc">One <strong>Announcement channel per topic</strong> (<code>#pay-benefits</code>, <code>#legislative</code>, etc.). Stories are published embeds that the bot edits to stay current — <strong>edits sync to all following servers</strong>. Updates + discussion live in threads. Read-only broadcast discipline.</p>
+    <p class="mockup-tile__desc">One <strong>Announcement channel per topic</strong> (<code>#pay</code>, <code>#legislative</code>, <code>#union</code>, etc.). Stories are published embeds that the bot edits to stay current — <strong>edits sync to all following servers</strong>. Updates + discussion live in threads. Read-only broadcast discipline.</p>
     <div class="mockup-tile__arrow">View mockup →</div>
   </a>
   <a class="mockup-tile" href="discord-post-preview.html">
@@ -221,8 +221,8 @@
 
   <h2>Data model — Topic → Story → Update</h2>
   <ul>
-    <li><strong>Topic</strong> — what a story is <em>about</em> (national, legislative, safety, etc.). Drives display grouping, Discord channel routing, and email list mapping.</li>
-    <li><strong>Story</strong> — a headline + stable summary that <em>accumulates updates over time</em>. Think news liveblog. Has status (Live / Active / Resolved). One URL.</li>
+    <li><strong>Topic</strong> — what domain a story belongs to (Pay, Benefits, Working Conditions, Legislative, Safety, Union). Drives Discord channel routing and email list mapping.</li>
+    <li><strong>Story</strong> — a headline + stable summary that <em>accumulates updates over time</em>. Think news liveblog. One URL. Lifecycle is derived (Developing → Active → Resolved).</li>
     <li><strong>Update</strong> — a timestamped entry under a story. Has a kind (Update / Breaking / Correction / Summary). This is what actually gets posted to Discord and (future) email.</li>
   </ul>
   <p>Single announcements (like "Registration open for CFS conference") are just stories with one update. The data model is uniform.</p>
@@ -244,17 +244,16 @@
   <h2>Why liveblog-style stories?</h2>
   <p>The current fragmented approach creates multiple disconnected posts about the same topic (e.g., three separate emails about the same shutdown negotiation). Members can't find the latest state of a story, and older context is lost. A liveblog model — like <a href="https://www.ms.now/liveblog/iran-war-news-today-trump-us-april-10-2026" style="color: var(--natca-sky);">MS.now</a>, Guardian rolling coverage, or NYT live updates — keeps everything about a story on one page, so members always land on the canonical, up-to-date view.</p>
 
-  <h2>Topics in v1</h2>
+  <h2>Topics (6)</h2>
   <ul>
-    <li><span class="topic-badge topic-national">National</span> — mandatory by default, but members can unsubscribe</li>
-    <li><span class="topic-badge topic-legislative">Legislative</span> — political action, bills, advocacy</li>
-    <li><span class="topic-badge topic-safety">Safety</span> — safety bulletins</li>
-    <li><span class="topic-badge topic-bargaining">Labor Relations</span> — contract and negotiations</li>
-    <li><span class="topic-badge topic-training">Training</span> — professional development</li>
-    <li><span class="topic-badge topic-benefits">Benefits</span> — member services</li>
-    <li><span class="topic-badge topic-events">Events</span> — conferences and meetings</li>
+    <li><span class="topic-badge topic-national">Pay</span> — raises, locality pay, compensation, premium pay</li>
+    <li><span class="topic-badge topic-benefits">Benefits</span> — health, retirement, TSP, mental health, MAP</li>
+    <li><span class="topic-badge topic-bargaining">Working Conditions</span> — staffing, NCEPT, equipment, scheduling, ABACUS</li>
+    <li><span class="topic-badge topic-legislative">Legislative</span> — bills, reauthorization, political action, Hill visits</li>
+    <li><span class="topic-badge topic-safety">Safety</span> — bulletins, ASRS, incidents, professional standards</li>
+    <li><span class="topic-badge topic-events">Union</span> — CFS, NIW, elections, convention, committees, membership</li>
   </ul>
-  <p class="small muted">New topics can be added by inserting a row in <code>updates.topics</code>. The schema is fully extensible.</p>
+  <p class="small muted">New topics can be added by inserting a row in <code>updates.topics</code>. Each topic has predefined <strong>Areas</strong> for sub-filtering (e.g., Working Conditions → NCEPT / Employee Movement). See <a href="hub-content-standards.html" style="color:var(--natca-sky);">Content Standards</a> for the full four-axis taxonomy.</p>
 </div>
 
 </body>
