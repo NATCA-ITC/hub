@@ -368,8 +368,9 @@ body {
     <table class="axis-table">
       <thead>
         <tr>
-          <th style="width:20%;">Axis</th>
-          <th style="width:30%;">Question it answers</th>
+          <th style="width:15%;">Axis</th>
+          <th style="width:25%;">Question it answers</th>
+          <th style="width:10%;">Who sets it?</th>
           <th style="width:25%;">Values</th>
           <th style="width:25%;">Where it's used</th>
         </tr>
@@ -378,23 +379,39 @@ body {
         <tr>
           <td><strong style="color:var(--color-text-primary);">Content Type</strong></td>
           <td>What <em>kind</em> of thing is this?</td>
+          <td>Author picks</td>
           <td>Update, Document, Action Needed, Event</td>
           <td>Discord tags, Hub card styling, feed filters</td>
         </tr>
         <tr>
           <td><strong style="color:var(--color-text-primary);">Topic</strong></td>
-          <td>What <em>area</em> does this belong to?</td>
+          <td>What <em>domain</em> does this belong to?</td>
+          <td>Author picks</td>
           <td>Pay, Benefits, Working Conditions, Legislative, Safety, Union</td>
-          <td>Discord channel routing, Hub topic filter chips, email subscription lists</td>
+          <td>Discord channel routing, Hub topic filter, email lists</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--color-text-primary);">Area</strong></td>
+          <td>What <em>specific subject</em> within the topic?</td>
+          <td>Author picks (from topic-filtered list)</td>
+          <td>Predefined per topic (e.g., NCEPT, FEHB, ASRS — see below)</td>
+          <td>Hub sub-filter within a topic, Discord embed chip, search facet</td>
         </tr>
         <tr>
           <td><strong style="color:var(--color-text-primary);">Lifecycle</strong></td>
           <td>Where is this in its <em>life</em>?</td>
+          <td>System derives</td>
           <td>Developing, Active, Action Needed, Resolved, Reference</td>
           <td>Discord tags, Hub status badges, auto-archive rules</td>
         </tr>
       </tbody>
     </table>
+
+    <div style="background: rgba(0,168,252,0.08); border: 1px solid rgba(0,168,252,0.25); border-left: 4px solid var(--natca-sky); border-radius: var(--radius-md); padding: var(--space-4) var(--space-5); margin-top: var(--space-4);">
+      <p style="margin:0; font-size: var(--text-sm); color: var(--color-text-body); line-height: 1.6;">
+        <strong style="color: var(--natca-sky);">Author picks 3 things, system handles 1.</strong> Content Type + Topic + Area = author decisions. Lifecycle = derived from content type + author actions (resolve, archive). This keeps the authoring experience to three dropdowns — and the Area dropdown filters based on the Topic selection.
+      </p>
+    </div>
   </div>
 
   <!-- ============================================================
@@ -536,7 +553,7 @@ body {
        ============================================================ -->
   <div class="cs-section">
     <div class="cs-section-title">Topics</div>
-    <p class="cs-section-desc">Axis 2 — what area does this belong to? Topics map 1:1 to Discord forum channels and email subscription lists. Each story belongs to exactly one topic. New topics can be added without code changes.</p>
+    <p class="cs-section-desc">Axis 2 — what domain does this belong to? Topics map 1:1 to Discord forum channels and email subscription lists. Each story belongs to exactly one topic. New topics can be added without code changes.</p>
 
     <div style="background:var(--color-bg-surface); border:1px solid var(--color-border); border-radius:var(--radius-lg); overflow:hidden;">
       <div class="topic-swatch">
@@ -591,7 +608,221 @@ body {
   </div>
 
   <!-- ============================================================
-       SECTION 4: Lifecycle
+       SECTION 4: Areas
+       ============================================================ -->
+  <div class="cs-section">
+    <div class="cs-section-title">Areas</div>
+    <p class="cs-section-desc">Axis 3 — what specific subject within the topic? Each topic has a predefined list of areas. Authors pick from a filtered dropdown after selecting the topic. New areas can be added per topic without code changes.</p>
+
+    <div style="background: rgba(0,168,252,0.08); border: 1px solid rgba(0,168,252,0.25); border-left: 4px solid var(--natca-sky); border-radius: var(--radius-md); padding: var(--space-4) var(--space-5); margin-bottom: var(--space-6);">
+      <p style="margin:0 0 var(--space-2); font-size: var(--text-sm); color: var(--color-text-body); line-height: 1.6;">
+        <strong style="color: var(--natca-sky);">Why areas aren't Discord tags.</strong> Discord limits channels to 20 tags and posts to 5 tags. We're already using 8 tags per channel (4 content types + 4 lifecycle stages). That leaves 12 slots — enough for most topics, but some topics (like Union with 10+ committees) would exceed the limit. Instead, areas render as <strong>chips in the embed body</strong> on Discord and as <strong>filter chips on the Hub topic page</strong>. No Discord tag limit applies.
+      </p>
+    </div>
+
+    <table class="axis-table">
+      <thead>
+        <tr>
+          <th style="width: 18%;">Topic</th>
+          <th>Areas (predefined, extensible)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong style="color: var(--topic-national);">Pay</strong></td>
+          <td>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Base Pay / GS Scale</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Locality Pay</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Premium Pay</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Overtime</span>
+          </td>
+        </tr>
+        <tr>
+          <td><strong style="color: var(--topic-benefits);">Benefits</strong></td>
+          <td>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Health / FEHB</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Retirement / TSP</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Mental Health / MAP</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Leave / FMLA</span>
+          </td>
+        </tr>
+        <tr>
+          <td><strong style="color: var(--topic-bargaining);">Working Conditions</strong></td>
+          <td>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">NCEPT / Employee Movement</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Equipment / Technology</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Scheduling</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Facilities</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">ABACUS</span>
+          </td>
+        </tr>
+        <tr>
+          <td><strong style="color: var(--topic-legislative);">Legislative</strong></td>
+          <td>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">FAA Reauthorization</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Appropriations</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Political Action / PAC</span>
+          </td>
+        </tr>
+        <tr>
+          <td><strong style="color: var(--topic-safety);">Safety</strong></td>
+          <td>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">ASRS / Reporting</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Runway Safety</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Professional Standards</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">CISM</span>
+          </td>
+        </tr>
+        <tr>
+          <td><strong style="color: var(--topic-events);">Union</strong></td>
+          <td>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">ITC</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Conferences</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Political Action</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Elections</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">CRWG</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Safety Committee</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Training Committee</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Membership</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px; opacity: 0.5;">+ more committees as needed</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-family:var(--font-display); color:var(--color-text-primary); margin: var(--space-8) 0 var(--space-3);">How areas render on each platform</h3>
+
+    <table class="axis-table">
+      <thead>
+        <tr>
+          <th style="width: 18%;">Platform</th>
+          <th style="width: 35%;">How areas appear</th>
+          <th>Filterable?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong style="color:var(--color-text-primary);">Hub — topic page</strong></td>
+          <td>Filter chips below the topic header. Click "NCEPT" to show only NCEPT stories within Working Conditions.</td>
+          <td>Yes — client-side filter, instant</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--color-text-primary);">Hub — story card</strong></td>
+          <td>Small chip next to the topic badge: <span class="topic-badge topic-bargaining" style="font-size:10px;">Working Conditions</span> <span style="background:var(--color-bg-elevated);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:2px 8px;font-size:10px;color:var(--color-text-body);">NCEPT</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--color-text-primary);">Hub — AI search</strong></td>
+          <td>Area is indexed as a structured facet. "Show me all NCEPT documents" works as a query.</td>
+          <td>Yes — via pgvector + metadata filter</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--color-text-primary);">Discord — forum post</strong></td>
+          <td>Chip in the embed metadata fields (not a Discord tag). Shows as "Area: NCEPT / Employee Movement" in the embed.</td>
+          <td>No — Discord search only (not tag filter). Members use Hub for area filtering.</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--color-text-primary);">Discord — announcement</strong></td>
+          <td>Same — area shown in the embed fields as a chip. Not a Discord tag.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--color-text-primary);">Email</strong></td>
+          <td>Not used for email routing (subscriptions are topic-level). Area appears in the email body for context.</td>
+          <td>No</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-family:var(--font-display); color:var(--color-text-primary); margin: var(--space-8) 0 var(--space-3);">Example: Hub topic page with area filter</h3>
+
+    <div style="background: var(--color-bg-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-5); margin-bottom: var(--space-4);">
+      <!-- Simulated topic page header -->
+      <div style="display:flex; align-items:center; gap: var(--space-3); margin-bottom: var(--space-4);">
+        <div style="width:8px; height:32px; background:var(--topic-bargaining); border-radius:var(--radius-sm);"></div>
+        <h3 style="font-family:var(--font-display); font-size:var(--text-xl); font-weight:800; color:var(--color-text-primary); margin:0;">Working Conditions</h3>
+        <span style="font-size:var(--text-sm); color:var(--color-text-muted);">24 stories</span>
+      </div>
+
+      <!-- Area filter chips -->
+      <div style="display:flex; gap:var(--space-2); flex-wrap:wrap; margin-bottom:var(--space-5); padding-bottom:var(--space-4); border-bottom:1px solid var(--color-border-light);">
+        <span style="font-size:var(--text-xs); color:var(--color-text-muted); font-weight:700; text-transform:uppercase; letter-spacing:0.5px; padding:4px 0;">Filter by area:</span>
+        <span class="topic-chip is-active" style="font-size:var(--text-xs); padding:3px 10px; cursor:pointer;">All</span>
+        <span class="topic-chip" style="font-size:var(--text-xs); padding:3px 10px; cursor:pointer; background:rgba(13,148,136,0.15); border-color:rgba(13,148,136,0.3); color:#0d9488;">NCEPT</span>
+        <span class="topic-chip" style="font-size:var(--text-xs); padding:3px 10px; cursor:pointer;">Equipment / Technology</span>
+        <span class="topic-chip" style="font-size:var(--text-xs); padding:3px 10px; cursor:pointer;">Scheduling</span>
+        <span class="topic-chip" style="font-size:var(--text-xs); padding:3px 10px; cursor:pointer;">Facilities</span>
+        <span class="topic-chip" style="font-size:var(--text-xs); padding:3px 10px; cursor:pointer;">ABACUS</span>
+      </div>
+
+      <!-- Sample story cards with area chips -->
+      <div style="display:flex; flex-direction:column; gap:var(--space-3);">
+        <div style="background:var(--color-bg-elevated); border:1px solid var(--color-border); border-radius:var(--radius-md); padding:var(--space-4); border-left:3px solid var(--topic-bargaining);">
+          <div style="display:flex; gap:var(--space-2); align-items:center; margin-bottom:var(--space-2); flex-wrap:wrap;">
+            <span class="cs-tag cs-tag--type" style="font-size:10px;">📋 Document</span>
+            <span class="cs-tag cs-tag--lifecycle" style="font-size:10px;">📌 Reference</span>
+            <span style="background:var(--color-bg-surface);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:2px 8px;font-size:10px;color:var(--color-text-body);font-weight:600;">NCEPT / Employee Movement</span>
+          </div>
+          <div style="font-family:var(--font-display); font-weight:700; color:var(--color-text-primary); margin-bottom:var(--space-1);">Long-Term Hold (LTH) SOP — Updated Procedures</div>
+          <div style="font-size:var(--text-sm); color:var(--color-text-body);">Off-the-boards reduced from 12 to 6 months. New LTH categories in SWB.</div>
+        </div>
+
+        <div style="background:var(--color-bg-elevated); border:1px solid var(--color-border); border-radius:var(--radius-md); padding:var(--space-4); border-left:3px solid var(--topic-bargaining);">
+          <div style="display:flex; gap:var(--space-2); align-items:center; margin-bottom:var(--space-2); flex-wrap:wrap;">
+            <span class="cs-tag cs-tag--type" style="font-size:10px;">📰 Update</span>
+            <span class="cs-tag cs-tag--lifecycle" style="font-size:10px;">🔄 Developing</span>
+            <span style="background:var(--color-bg-surface);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:2px 8px;font-size:10px;color:var(--color-text-body);font-weight:600;">NCEPT / Employee Movement</span>
+          </div>
+          <div style="font-family:var(--font-display); font-weight:700; color:var(--color-text-primary); margin-bottom:var(--space-1);">Controller Staffing Crisis — 2026 Hiring Pipeline</div>
+          <div style="font-size:var(--text-sm); color:var(--color-text-body);">~10,200 CPCs vs ~13,000 target. 1,800 FY2026 hiring goal.</div>
+        </div>
+
+        <div style="background:var(--color-bg-elevated); border:1px solid var(--color-border); border-radius:var(--radius-md); padding:var(--space-4); border-left:3px solid var(--topic-bargaining);">
+          <div style="display:flex; gap:var(--space-2); align-items:center; margin-bottom:var(--space-2); flex-wrap:wrap;">
+            <span class="cs-tag cs-tag--type" style="font-size:10px;">📰 Update</span>
+            <span class="cs-tag cs-tag--lifecycle" style="font-size:10px;">🔄 Developing</span>
+            <span style="background:var(--color-bg-surface);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:2px 8px;font-size:10px;color:var(--color-text-body);font-weight:600;">Equipment / Technology</span>
+          </div>
+          <div style="font-family:var(--font-display); font-weight:700; color:var(--color-text-primary); margin-bottom:var(--space-1);">ERAM 3.4 — Nationwide Deployment</div>
+          <div style="font-size:var(--text-sm); color:var(--color-text-body);">15% fewer nuisance alerts, weather overlay improvements. Wave 1 complete.</div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--font-display); color:var(--color-text-primary); margin: var(--space-8) 0 var(--space-3);">Example: Discord embed with area chip</h3>
+
+    <div style="background: #2b2d31; border-radius: var(--radius-md); padding: var(--space-5); max-width: 560px;">
+      <div style="display: grid; grid-template-columns: 4px 1fr; border-radius: 4px; overflow: hidden;">
+        <div style="background: var(--topic-bargaining);"></div>
+        <div style="padding: 12px 16px; background: #2b2d31;">
+          <div style="font-size: 13px; color: white; font-weight: 600; margin-bottom: 6px;">NATCA Hub · Working Conditions</div>
+          <div style="font-size: 16px; color: #00a8fc; font-weight: 700; margin-bottom: 6px;">Long-Term Hold (LTH) SOP — Updated Procedures</div>
+          <div style="font-size: 14px; color: #dbdee1; margin-bottom: 10px;">Off-the-boards reduced from 12 to 6 months. New LTH categories in SWB. Reference for current and future FacReps.</div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
+            <div style="flex:1;">
+              <div style="font-size: 12px; font-weight: 700; color: white;">Type</div>
+              <div style="font-size: 12px; color: #dbdee1;">📋 Document</div>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size: 12px; font-weight: 700; color: white;">Status</div>
+              <div style="font-size: 12px; color: #dbdee1;">📌 Reference</div>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size: 12px; font-weight: 700; color: white;">Area</div>
+              <div style="font-size: 12px; color: #dbdee1;">NCEPT / Employee Movement</div>
+            </div>
+          </div>
+          <div style="font-size: 11px; color: #949ba4; margin-top: 8px;">MyNATCA Hub · hub.natca.org/updates/lth-sop-2026</div>
+        </div>
+      </div>
+      <p style="font-size: 11px; color: #949ba4; margin: 8px 0 0; text-align: center;">
+        👆 Area appears as an embed field, not a Discord tag — no tag limit applies
+      </p>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SECTION 5: Lifecycle
        ============================================================ -->
   <div class="cs-section">
     <div class="cs-section-title">Lifecycle</div>
