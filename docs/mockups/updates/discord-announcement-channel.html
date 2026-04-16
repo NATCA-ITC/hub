@@ -27,6 +27,7 @@ body {
   background: var(--discord-bg);
   color: var(--discord-text);
   margin: 0;
+  padding-top: 40px; /* space for mockup-nav */
   font-size: 15px;
   line-height: 1.4;
 }
@@ -44,7 +45,7 @@ body {
 .discord {
   display: grid;
   grid-template-columns: 72px 240px 1fr 380px;
-  height: calc(100vh - 40px);
+  height: calc(100vh - 80px); /* minus mockup-nav + mockup-note */
   min-height: 720px;
 }
 
@@ -201,6 +202,26 @@ body {
 </style>
 </head>
 <body>
+
+<div class="mockup-nav">
+  <a href="index.html" class="mockup-nav__logo">
+    <img src="natca-logo.png" alt="NATCA">
+    <span class="mockup-nav__logo-text">Hub Updates</span>
+    <span class="mockup-nav__logo-sub">Phase 0 Mockups</span>
+  </a>
+  <a href="index.html" class="">Index</a>
+  <a href="hub-content-standards.html" class="">Standards</a>
+  <span class="mockup-nav__sep"></span>
+  <a href="hub-updates-feed.html" class="">Feed</a>
+  <a href="hub-updates-story.html" class="">Story</a>
+  <a href="hub-dashboard-card.html" class="">Dashboard</a>
+  <a href="hub-updates-preferences.html" class="">Subscriptions</a>
+  <span class="mockup-nav__sep"></span>
+  <a href="hub-updates-admin.html" class="">Author</a>
+  <a href="hub-updates-author.html" class="">Editor</a>
+  <span class="mockup-nav__sep"></span>
+  <a href="discord-announcement-channel.html" class="is-active">Discord</a>
+</div>
 
 <div class="mockup-note">
   📢 Announcement channels — one per topic. Stories are embeds (published + editable). Updates live in threads. Cross-server following is native.

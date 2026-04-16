@@ -15,8 +15,9 @@
    ============================================================ */
 body {
   background: var(--color-bg-page);
-  padding-top: 52px;
+  padding-top: 92px; /* 40px mockup-nav + 52px cs-control-bar */
 }
+.cs-control-bar { top: 40px; } /* sit below the mockup-nav */
 
 /* Control bar */
 .cs-control-bar {
@@ -333,6 +334,26 @@ body {
 </style>
 </head>
 <body>
+
+<div class="mockup-nav">
+  <a href="index.html" class="mockup-nav__logo">
+    <img src="natca-logo.png" alt="NATCA">
+    <span class="mockup-nav__logo-text">Hub Updates</span>
+    <span class="mockup-nav__logo-sub">Phase 0 Mockups</span>
+  </a>
+  <a href="index.html" class="">Index</a>
+  <a href="hub-content-standards.html" class="is-active">Standards</a>
+  <span class="mockup-nav__sep"></span>
+  <a href="hub-updates-feed.html" class="">Feed</a>
+  <a href="hub-updates-story.html" class="">Story</a>
+  <a href="hub-dashboard-card.html" class="">Dashboard</a>
+  <a href="hub-updates-preferences.html" class="">Subscriptions</a>
+  <span class="mockup-nav__sep"></span>
+  <a href="hub-updates-admin.html" class="">Author</a>
+  <a href="hub-updates-author.html" class="">Editor</a>
+  <span class="mockup-nav__sep"></span>
+  <a href="discord-announcement-channel.html" class="">Discord</a>
+</div>
 
 <!-- Control bar (matches ui-shell Design Standards bar) -->
 <div class="cs-control-bar">
