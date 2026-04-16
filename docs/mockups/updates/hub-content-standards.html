@@ -378,13 +378,13 @@ body {
         <tr>
           <td><strong style="color:var(--color-text-primary);">Content Type</strong></td>
           <td>What <em>kind</em> of thing is this?</td>
-          <td>Document, Coverage, Action Needed, Advisory, Announcement, Event</td>
+          <td>Update, Document, Action Needed, Event</td>
           <td>Discord tags, Hub card styling, feed filters</td>
         </tr>
         <tr>
           <td><strong style="color:var(--color-text-primary);">Topic</strong></td>
           <td>What <em>area</em> does this belong to?</td>
-          <td>Pay, Benefits, Working Conditions, Legislative, Safety</td>
+          <td>Pay, Benefits, Working Conditions, Legislative, Safety, Union</td>
           <td>Discord channel routing, Hub topic filter chips, email subscription lists</td>
         </tr>
         <tr>
@@ -402,49 +402,43 @@ body {
        ============================================================ -->
   <div class="cs-section">
     <div class="cs-section-title">Content Types</div>
-    <p class="cs-section-desc">Axis 1 — what kind of thing is this? The content type determines how the story is displayed in Hub and how it's tagged in Discord. Each story gets exactly one content type.</p>
+    <p class="cs-section-desc">Axis 1 — what kind of thing is this? The content type determines how the story is displayed in Hub and how it's tagged in Discord. Each story gets exactly one content type. Authors pick the type; the lifecycle is derived automatically.</p>
 
     <table class="axis-table">
-      <thead><tr><th>Type</th><th>When to use</th><th>Example</th><th>Hub display</th></tr></thead>
+      <thead><tr><th>Type</th><th>When to use</th><th>Example</th><th>Default lifecycle</th></tr></thead>
       <tbody>
         <tr>
-          <td><span class="cs-tag cs-tag--type">📋 Document</span></td>
-          <td>SOPs, MOUs, contract interpretations, official policy</td>
-          <td>Long-Term Hold SOP, Slate Book Article 35 MOU</td>
-          <td>Document card with "Related Documents" linking to DMS</td>
+          <td><span class="cs-tag cs-tag--type">📰 Update</span></td>
+          <td>The default — news, coverage, announcements, advisories, anything that isn't a document, event, or action item</td>
+          <td>Pay raise, staffing numbers, ASRS changes, FAA shutdown coverage, election results</td>
+          <td>Starts <strong>Developing</strong> (if rolling) or <strong>Active</strong> (if one-time). Author resolves when done.</td>
         </tr>
         <tr>
-          <td><span class="cs-tag cs-tag--type">📰 Coverage</span></td>
-          <td>Rolling, multi-update stories — the liveblog</td>
-          <td>FAA Reauthorization, Controller Staffing Crisis</td>
-          <td>Story with update timeline, "Developing" indicator</td>
+          <td><span class="cs-tag cs-tag--type">📋 Document</span></td>
+          <td>Official artifacts that link to DMS — SOPs, MOUs, contract interpretations, policies</td>
+          <td>Long-Term Hold SOP, Slate Book Article 35 MOU</td>
+          <td>Immediately <strong>Reference</strong>. Documents are evergreen from publish.</td>
         </tr>
         <tr>
           <td><span class="cs-tag cs-tag--type">⚡ Action Needed</span></td>
           <td>Members must do something by a date</td>
-          <td>NIW registration deadline, vote on tentative agreement</td>
-          <td>Action card with deadline countdown, CTA button</td>
-        </tr>
-        <tr>
-          <td><span class="cs-tag cs-tag--type">ℹ️ Advisory</span></td>
-          <td>Awareness — no action required, not rolling</td>
-          <td>ASRS procedure changes, new ERAM version deploying</td>
-          <td>Info card, neutral styling</td>
-        </tr>
-        <tr>
-          <td><span class="cs-tag cs-tag--type">📢 Announcement</span></td>
-          <td>One-time communication, no expected follow-up</td>
-          <td>Locality pay tables released, election results</td>
-          <td>Simple card, no update timeline</td>
+          <td>TA vote, benefits enrollment, scholarship application</td>
+          <td><strong>Action Needed</strong> until deadline passes, then auto-<strong>Resolved</strong>.</td>
         </tr>
         <tr>
           <td><span class="cs-tag cs-tag--type">📅 Event</span></td>
           <td>Has start/end dates</td>
           <td>CFS Conference, NATCA in Washington, regional training</td>
-          <td>Event card with date range, registration link</td>
+          <td><strong>Active</strong> until event date passes, then auto-<strong>Resolved</strong>.</td>
         </tr>
       </tbody>
     </table>
+
+    <div style="background: rgba(0,168,252,0.08); border: 1px solid rgba(0,168,252,0.25); border-left: 4px solid var(--natca-sky); border-radius: var(--radius-md); padding: var(--space-4) var(--space-5); margin-bottom: var(--space-6);">
+      <p style="margin:0; font-size: var(--text-sm); color: var(--color-text-body); line-height: 1.6;">
+        <strong style="color: var(--natca-sky);">Why only 4 types?</strong> Earlier iterations had 6 (Coverage, Advisory, Announcement were separate). In practice, whether a post gets follow-up updates is a lifecycle question (Developing vs Resolved), not a content type question. An "advisory" that gets 3 updates IS coverage. An "announcement" is just an update that's already resolved. <strong style="color: var(--color-text-primary);">Update</strong> covers all of these — the lifecycle does the rest.
+      </p>
+    </div>
 
     <h3 style="font-family:var(--font-display); color:var(--color-text-primary); margin: var(--space-6) 0 var(--space-3);">Example cards by content type</h3>
     <div class="example-grid">
@@ -504,27 +498,10 @@ body {
       </div>
 
       <div class="example-card">
-        <div class="example-card__header">ℹ️ Advisory</div>
-        <div class="example-card__body" style="border-left: 4px solid var(--topic-safety);">
-          <div class="example-card__tags">
-            <span class="cs-tag cs-tag--type">ℹ️ Advisory</span>
-            <span class="cs-tag cs-tag--lifecycle">🔄 Developing</span>
-          </div>
-          <h3 class="example-card__title" style="margin-top: var(--space-2);">ASRS Reporting — May 2026 Changes</h3>
-          <p class="example-card__desc">Electronic-only filing, 14-day window, new severity classification. Phased rollout starting May 1.</p>
-        </div>
-        <div class="example-card__meta">
-          <span>Safety</span>
-          <span>3 updates</span>
-          <span>Effective May 1</span>
-        </div>
-      </div>
-
-      <div class="example-card">
-        <div class="example-card__header">📢 Announcement</div>
+        <div class="example-card__header">📰 Update (one-time)</div>
         <div class="example-card__body" style="border-left: 4px solid var(--topic-benefits);">
           <div class="example-card__tags">
-            <span class="cs-tag cs-tag--type">📢 Announcement</span>
+            <span class="cs-tag cs-tag--type">📰 Update</span>
             <span class="cs-tag cs-tag--lifecycle">✅ Resolved</span>
           </div>
           <h3 class="example-card__title" style="margin-top: var(--space-2);">FY2026 Locality Pay Tables Released</h3>
@@ -602,6 +579,14 @@ body {
         </div>
         <div class="topic-swatch__channel">#safety</div>
       </div>
+      <div class="topic-swatch">
+        <div class="topic-swatch__color" style="background: var(--topic-events);"></div>
+        <div>
+          <div class="topic-swatch__name">Union</div>
+          <div class="topic-swatch__desc">CFS, NIW, elections, convention, committees, membership, internal NATCA business</div>
+        </div>
+        <div class="topic-swatch__channel">#union</div>
+      </div>
     </div>
   </div>
 
@@ -653,34 +638,24 @@ body {
       <thead><tr><th>Content Type</th><th>Typical Path</th><th>Example</th></tr></thead>
       <tbody>
         <tr>
-          <td><span class="cs-tag cs-tag--type">📋 Document</span></td>
-          <td>→ <span class="cs-tag cs-tag--lifecycle">📌 Reference</span> (immediate)</td>
-          <td>LTH SOP, Slate Book MOU</td>
+          <td><span class="cs-tag cs-tag--type">📰 Update</span></td>
+          <td><span class="cs-tag cs-tag--lifecycle">🔄 Developing</span> → <span class="cs-tag cs-tag--lifecycle">✅ Resolved</span> (rolling)<br>or → <span class="cs-tag cs-tag--lifecycle">✅ Resolved</span> immediately (one-time)</td>
+          <td>Shutdown coverage, pay raise, ASRS changes, election results</td>
         </tr>
         <tr>
-          <td><span class="cs-tag cs-tag--type">📰 Coverage</span></td>
-          <td><span class="cs-tag cs-tag--lifecycle">🔄 Developing</span> → <span class="cs-tag cs-tag--lifecycle">✅ Resolved</span></td>
-          <td>Government shutdown, FAA reauthorization</td>
+          <td><span class="cs-tag cs-tag--type">📋 Document</span></td>
+          <td>→ <span class="cs-tag cs-tag--lifecycle">📌 Reference</span> (immediate)</td>
+          <td>LTH SOP, Slate Book MOU, NOTAM lessons learned</td>
         </tr>
         <tr>
           <td><span class="cs-tag cs-tag--type">⚡ Action Needed</span></td>
-          <td><span class="cs-tag cs-tag--lifecycle">⚡ Action Needed</span> → <span class="cs-tag cs-tag--lifecycle">✅ Resolved</span></td>
-          <td>NIW registration, TA vote</td>
-        </tr>
-        <tr>
-          <td><span class="cs-tag cs-tag--type">ℹ️ Advisory</span></td>
-          <td><span class="cs-tag cs-tag--lifecycle">🟢 Active</span> → <span class="cs-tag cs-tag--lifecycle">📌 Reference</span></td>
-          <td>ASRS changes, ERAM deployment</td>
-        </tr>
-        <tr>
-          <td><span class="cs-tag cs-tag--type">📢 Announcement</span></td>
-          <td>→ <span class="cs-tag cs-tag--lifecycle">✅ Resolved</span> (immediate)</td>
-          <td>Locality pay tables, election results</td>
+          <td><span class="cs-tag cs-tag--lifecycle">⚡ Action Needed</span> → <span class="cs-tag cs-tag--lifecycle">✅ Resolved</span> (at deadline)</td>
+          <td>TA vote, benefits enrollment, scholarship application</td>
         </tr>
         <tr>
           <td><span class="cs-tag cs-tag--type">📅 Event</span></td>
           <td><span class="cs-tag cs-tag--lifecycle">🟢 Active</span> → <span class="cs-tag cs-tag--lifecycle">✅ Resolved</span> (after event)</td>
-          <td>CFS Conference, NIW fly-in</td>
+          <td>CFS Conference, NIW fly-in, regional training</td>
         </tr>
       </tbody>
     </table>
