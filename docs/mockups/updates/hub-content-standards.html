@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Content Standards — MyNATCA Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vendor/natca-tokens.css">
+<link rel="stylesheet" href="vendor/natca-components.css">
+<link rel="stylesheet" href="mockup-shared.css">
+<style>
+/* ============================================================
+   CONTENT STANDARDS PAGE — mirrors ui-shell Design Standards
+   ============================================================ */
+body {
+  background: var(--color-bg-page);
+  padding-top: 52px;
+}
+
+/* Control bar */
+.cs-control-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 9999;
+  background: var(--natca-navy);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding: 0 var(--space-6);
+  height: 52px;
+  font-family: var(--font-body);
+}
+.cs-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-right: auto;
+}
+.cs-logo img { height: 28px; width: auto; }
+.cs-logo-text {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: white;
+}
+.cs-logo-sub {
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  margin-left: var(--space-1);
+}
+.cs-nav-btn {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--radius-full);
+  padding: 5px 14px;
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: rgba(255,255,255,0.6);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 150ms;
+}
+.cs-nav-btn:hover { background: rgba(255,255,255,0.14); color: white; }
+.cs-nav-btn.active { background: var(--natca-red); color: white; border-color: var(--natca-red); }
+.cs-sep { width: 1px; height: 24px; background: rgba(255,255,255,0.12); }
+
+/* Page layout */
+.cs-page { max-width: 1100px; margin: 0 auto; padding: 0 var(--space-6); }
+.cs-hero {
+  padding: var(--space-12) 0 var(--space-8);
+  border-bottom: 1px solid var(--color-border);
+}
+.cs-hero h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-3);
+  line-height: 1.1;
+}
+.cs-hero h1 span { color: var(--natca-red); }
+.cs-hero p {
+  color: var(--color-text-body);
+  font-size: var(--text-md);
+  max-width: 720px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.cs-section {
+  padding: var(--space-10) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.cs-section-title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+  padding-bottom: var(--space-3);
+  border-bottom: 3px solid var(--natca-red);
+  display: inline-block;
+}
+.cs-section-desc {
+  color: var(--color-text-body);
+  font-size: var(--text-base);
+  max-width: 720px;
+  margin-bottom: var(--space-8);
+  line-height: 1.6;
+}
+
+/* Axis overview table */
+.axis-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: var(--space-8);
+}
+.axis-table th {
+  background: var(--color-bg-subtle);
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-text-muted);
+  font-weight: 700;
+}
+.axis-table td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border-light);
+  font-size: var(--text-sm);
+  color: var(--color-text-body);
+  vertical-align: top;
+}
+.axis-table tr:hover td { background: var(--color-bg-subtle); }
+
+/* Tag badges for examples */
+.cs-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.cs-tag--type { background: rgba(0,168,252,0.15); color: var(--natca-sky); border: 1px solid rgba(0,168,252,0.3); }
+.cs-tag--lifecycle { background: rgba(255,255,255,0.08); color: var(--color-text-body); border: 1px solid var(--color-border); }
+
+/* Example cards */
+.example-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-5);
+  margin-top: var(--space-6);
+}
+.example-card {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.example-card__header {
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg-elevated);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-text-muted);
+}
+.example-card__body {
+  padding: var(--space-4);
+}
+.example-card__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-2);
+}
+.example-card__desc {
+  color: var(--color-text-body);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  margin: 0 0 var(--space-3);
+}
+.example-card__tags {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+.example-card__meta {
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--color-border-light);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  display: flex;
+  gap: var(--space-4);
+}
+
+/* Lifecycle flow diagram */
+.lifecycle-flow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-6) 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.lifecycle-node {
+  background: var(--color-bg-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
+  text-align: center;
+  min-width: 140px;
+}
+.lifecycle-node.is-active {
+  border-color: var(--natca-sky);
+  background: rgba(0,168,252,0.08);
+}
+.lifecycle-node__icon {
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-2);
+}
+.lifecycle-node__label {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+.lifecycle-node__desc {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+}
+.lifecycle-arrow {
+  color: var(--color-text-faint);
+  font-size: var(--text-xl);
+  flex-shrink: 0;
+}
+
+/* Bridge diagram */
+.bridge-diagram {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: var(--space-5);
+  align-items: center;
+  margin: var(--space-6) 0;
+}
+.bridge-box {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+.bridge-box h4 {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 800;
+  margin: 0 0 var(--space-2);
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.bridge-box p {
+  font-size: var(--text-sm);
+  color: var(--color-text-body);
+  margin: 0 0 var(--space-2);
+  line-height: 1.5;
+}
+.bridge-box ul {
+  font-size: var(--text-sm);
+  color: var(--color-text-body);
+  padding-left: var(--space-5);
+  margin: 0;
+}
+.bridge-box li { margin-bottom: var(--space-1); }
+.bridge-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--natca-sky);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  text-align: center;
+}
+.bridge-connector .arrow { font-size: var(--text-2xl); }
+
+/* Topic colors */
+.topic-swatch {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border-light);
+}
+.topic-swatch:last-child { border-bottom: none; }
+.topic-swatch__color {
+  width: 32px; height: 32px;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+}
+.topic-swatch__name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  font-size: var(--text-base);
+}
+.topic-swatch__desc {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+.topic-swatch__channel {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--natca-sky);
+  margin-left: auto;
+}
+</style>
+</head>
+<body>
+
+<!-- Control bar (matches ui-shell Design Standards bar) -->
+<div class="cs-control-bar">
+  <div class="cs-logo">
+    <img src="natca-logo.png" alt="NATCA">
+    <span class="cs-logo-text">Content Standards</span>
+    <span class="cs-logo-sub">Hub Updates System</span>
+  </div>
+  <a href="index.html" class="cs-nav-btn">Mockup Index</a>
+  <div class="cs-sep"></div>
+  <a href="hub-updates-feed.html" class="cs-nav-btn">Stories Feed</a>
+  <a href="hub-updates-story.html" class="cs-nav-btn">Story View</a>
+  <a href="hub-updates-admin.html" class="cs-nav-btn">Author Dashboard</a>
+  <div class="cs-sep"></div>
+  <span class="cs-nav-btn active" style="cursor:default;">Content Standards</span>
+</div>
+
+<div class="cs-page">
+
+  <!-- HERO -->
+  <div class="cs-hero">
+    <h1>Content <span>Standards</span></h1>
+    <p>How Hub organizes, classifies, and connects content across platforms. Every piece of NATCA communication — from a breaking legislative alert to a reference SOP — follows this taxonomy so members can find it now and 2 years from now.</p>
+  </div>
+
+  <!-- ============================================================
+       SECTION 1: The Three Axes
+       ============================================================ -->
+  <div class="cs-section">
+    <div class="cs-section-title">The Three Axes</div>
+    <p class="cs-section-desc">Every Hub story is classified on three independent axes. These are not interchangeable — each answers a different question. Authors set all three when publishing; the system uses them for display, filtering, Discord routing, and email delivery.</p>
+
+    <table class="axis-table">
+      <thead>
+        <tr>
+          <th style="width:20%;">Axis</th>
+          <th style="width:30%;">Question it answers</th>
+          <th style="width:25%;">Values</th>
+          <th style="width:25%;">Where it's used</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong style="color:var(--color-text-primary);">Content Type</strong></td>
+          <td>What <em>kind</em> of thing is this?</td>
+          <td>Document, Coverage, Action Needed, Advisory, Announcement, Event</td>
+          <td>Discord tags, Hub card styling, feed filters</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--color-text-primary);">Topic</strong></td>
+          <td>What <em>area</em> does this belong to?</td>
+          <td>Pay, Benefits, Working Conditions, Legislative, Safety</td>
+          <td>Discord channel routing, Hub topic filter chips, email subscription lists</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--color-text-primary);">Lifecycle</strong></td>
+          <td>Where is this in its <em>life</em>?</td>
+          <td>Developing, Active, Action Needed, Resolved, Reference</td>
+          <td>Discord tags, Hub status badges, auto-archive rules</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============================================================
+       SECTION 2: Content Types
+       ============================================================ -->
+  <div class="cs-section">
+    <div class="cs-section-title">Content Types</div>
+    <p class="cs-section-desc">Axis 1 — what kind of thing is this? The content type determines how the story is displayed in Hub and how it's tagged in Discord. Each story gets exactly one content type.</p>
+
+    <table class="axis-table">
+      <thead><tr><th>Type</th><th>When to use</th><th>Example</th><th>Hub display</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="cs-tag cs-tag--type">📋 Document</span></td>
+          <td>SOPs, MOUs, contract interpretations, official policy</td>
+          <td>Long-Term Hold SOP, Slate Book Article 35 MOU</td>
+          <td>Document card with "Related Documents" linking to DMS</td>
+        </tr>
+        <tr>
+          <td><span class="cs-tag cs-tag--type">📰 Coverage</span></td>
+          <td>Rolling, multi-update stories — the liveblog</td>
+          <td>FAA Reauthorization, Controller Staffing Crisis</td>
+          <td>Story with update timeline, "Developing" indicator</td>
+        </tr>
+        <tr>
+          <td><span class="cs-tag cs-tag--type">⚡ Action Needed</span></td>
+          <td>Members must do something by a date</td>
+          <td>NIW registration deadline, vote on tentative agreement</td>
+          <td>Action card with deadline countdown, CTA button</td>
+        </tr>
+        <tr>
+          <td><span class="cs-tag cs-tag--type">ℹ️ Advisory</span></td>
+          <td>Awareness — no action required, not rolling</td>
+          <td>ASRS procedure changes, new ERAM version deploying</td>
+          <td>Info card, neutral styling</td>
+        </tr>
+        <tr>
+          <td><span class="cs-tag cs-tag--type">📢 Announcement</span></td>
+          <td>One-time communication, no expected follow-up</td>
+          <td>Locality pay tables released, election results</td>
+          <td>Simple card, no update timeline</td>
+        </tr>
+        <tr>
+          <td><span class="cs-tag cs-tag--type">📅 Event</span></td>
+          <td>Has start/end dates</td>
+          <td>CFS Conference, NATCA in Washington, regional training</td>
+          <td>Event card with date range, registration link</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-family:var(--font-display); color:var(--color-text-primary); margin: var(--space-6) 0 var(--space-3);">Example cards by content type</h3>
+    <div class="example-grid">
+      <div class="example-card">
+        <div class="example-card__header">📋 Document</div>
+        <div class="example-card__body" style="border-left: 4px solid var(--topic-bargaining);">
+          <div class="example-card__tags">
+            <span class="cs-tag cs-tag--type">📋 Document</span>
+            <span class="cs-tag cs-tag--lifecycle">📌 Reference</span>
+          </div>
+          <h3 class="example-card__title" style="margin-top: var(--space-2);">Long-Term Hold (LTH) SOP</h3>
+          <p class="example-card__desc">Updated NCEPT placement procedures. Off-the-boards reduced from 12 to 6 months. New LTH categories in SWB.</p>
+          <div style="background:var(--color-bg-elevated); border-radius:var(--radius-sm); padding:var(--space-2) var(--space-3); font-size:var(--text-xs); color:var(--color-text-muted); display:flex; gap:var(--space-3);">
+            <span>📎 LTH SOP (PDF) — DMS</span>
+            <span>📎 CRWG Recommendations — DMS</span>
+          </div>
+        </div>
+        <div class="example-card__meta">
+          <span>Working Conditions</span>
+          <span>NCEPT / Employee Movement</span>
+          <span>Apr 15, 2026</span>
+        </div>
+      </div>
+
+      <div class="example-card">
+        <div class="example-card__header">📰 Coverage</div>
+        <div class="example-card__body" style="border-left: 4px solid var(--topic-national);">
+          <div class="example-card__tags">
+            <span class="cs-tag cs-tag--type">📰 Coverage</span>
+            <span class="cs-tag cs-tag--lifecycle">🔄 Developing</span>
+          </div>
+          <h3 class="example-card__title" style="margin-top: var(--space-2);">FAA Shutdown 2026 — Rolling Coverage</h3>
+          <p class="example-card__desc">Congress negotiating FY2026 CR. NATCA coordinating contingency ops. 12 updates from 4 contributors.</p>
+        </div>
+        <div class="example-card__meta">
+          <span>Pay</span>
+          <span>12 updates · 7m ago</span>
+          <span>Started Apr 8</span>
+        </div>
+      </div>
+
+      <div class="example-card">
+        <div class="example-card__header">⚡ Action Needed</div>
+        <div class="example-card__body" style="border-left: 4px solid var(--natca-red);">
+          <div class="example-card__tags">
+            <span class="cs-tag cs-tag--type">⚡ Action Needed</span>
+            <span class="cs-tag cs-tag--lifecycle">⚡ Action Needed</span>
+          </div>
+          <h3 class="example-card__title" style="margin-top: var(--space-2);">NIW 2026 — Register by April 25</h3>
+          <p class="example-card__desc">Registration closes in 9 days. Contact your RVP office for scholarship information.</p>
+          <div style="margin-top:var(--space-2);"><a class="mock-btn mock-btn--primary" href="#" style="font-size:var(--text-xs);">Register Now →</a></div>
+        </div>
+        <div class="example-card__meta">
+          <span>Legislative</span>
+          <span>Deadline: Apr 25</span>
+        </div>
+      </div>
+
+      <div class="example-card">
+        <div class="example-card__header">ℹ️ Advisory</div>
+        <div class="example-card__body" style="border-left: 4px solid var(--topic-safety);">
+          <div class="example-card__tags">
+            <span class="cs-tag cs-tag--type">ℹ️ Advisory</span>
+            <span class="cs-tag cs-tag--lifecycle">🔄 Developing</span>
+          </div>
+          <h3 class="example-card__title" style="margin-top: var(--space-2);">ASRS Reporting — May 2026 Changes</h3>
+          <p class="example-card__desc">Electronic-only filing, 14-day window, new severity classification. Phased rollout starting May 1.</p>
+        </div>
+        <div class="example-card__meta">
+          <span>Safety</span>
+          <span>3 updates</span>
+          <span>Effective May 1</span>
+        </div>
+      </div>
+
+      <div class="example-card">
+        <div class="example-card__header">📢 Announcement</div>
+        <div class="example-card__body" style="border-left: 4px solid var(--topic-benefits);">
+          <div class="example-card__tags">
+            <span class="cs-tag cs-tag--type">📢 Announcement</span>
+            <span class="cs-tag cs-tag--lifecycle">✅ Resolved</span>
+          </div>
+          <h3 class="example-card__title" style="margin-top: var(--space-2);">FY2026 Locality Pay Tables Released</h3>
+          <p class="example-card__desc">All facilities: minimum 2.3% adjustment. Highest: SFO at 4.1%. Effective PP01 2026.</p>
+        </div>
+        <div class="example-card__meta">
+          <span>Pay</span>
+          <span>Published Mar 28</span>
+        </div>
+      </div>
+
+      <div class="example-card">
+        <div class="example-card__header">📅 Event</div>
+        <div class="example-card__body" style="border-left: 4px solid var(--topic-events);">
+          <div class="example-card__tags">
+            <span class="cs-tag cs-tag--type">📅 Event</span>
+            <span class="cs-tag cs-tag--lifecycle">🟢 Active</span>
+          </div>
+          <h3 class="example-card__title" style="margin-top: var(--space-2);">2026 Communicating For Safety Conference</h3>
+          <p class="example-card__desc">Las Vegas, August 18-20. Early-bird pricing through May 31. Scholarships available.</p>
+        </div>
+        <div class="example-card__meta">
+          <span>Safety / Training</span>
+          <span>Aug 18-20, 2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SECTION 3: Topics
+       ============================================================ -->
+  <div class="cs-section">
+    <div class="cs-section-title">Topics</div>
+    <p class="cs-section-desc">Axis 2 — what area does this belong to? Topics map 1:1 to Discord forum channels and email subscription lists. Each story belongs to exactly one topic. New topics can be added without code changes.</p>
+
+    <div style="background:var(--color-bg-surface); border:1px solid var(--color-border); border-radius:var(--radius-lg); overflow:hidden;">
+      <div class="topic-swatch">
+        <div class="topic-swatch__color" style="background: var(--topic-national);"></div>
+        <div>
+          <div class="topic-swatch__name">Pay</div>
+          <div class="topic-swatch__desc">Pay raises, locality pay, compensation, premium pay, overtime</div>
+        </div>
+        <div class="topic-swatch__channel">#pay</div>
+      </div>
+      <div class="topic-swatch">
+        <div class="topic-swatch__color" style="background: var(--topic-benefits);"></div>
+        <div>
+          <div class="topic-swatch__name">Benefits</div>
+          <div class="topic-swatch__desc">Health insurance, retirement, TSP, mental health, member services</div>
+        </div>
+        <div class="topic-swatch__channel">#benefits</div>
+      </div>
+      <div class="topic-swatch">
+        <div class="topic-swatch__color" style="background: var(--topic-bargaining);"></div>
+        <div>
+          <div class="topic-swatch__name">Working Conditions</div>
+          <div class="topic-swatch__desc">Staffing, NCEPT, equipment, facilities, scheduling, ABACUS</div>
+        </div>
+        <div class="topic-swatch__channel">#working-conditions</div>
+      </div>
+      <div class="topic-swatch">
+        <div class="topic-swatch__color" style="background: var(--topic-legislative);"></div>
+        <div>
+          <div class="topic-swatch__name">Legislative</div>
+          <div class="topic-swatch__desc">Bills, FAA reauthorization, political action, Hill visits, NATCA PAC</div>
+        </div>
+        <div class="topic-swatch__channel">#legislative</div>
+      </div>
+      <div class="topic-swatch">
+        <div class="topic-swatch__color" style="background: var(--topic-safety);"></div>
+        <div>
+          <div class="topic-swatch__name">Safety</div>
+          <div class="topic-swatch__desc">Bulletins, ASRS, incident reporting, runway incursions, professional standards</div>
+        </div>
+        <div class="topic-swatch__channel">#safety</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SECTION 4: Lifecycle
+       ============================================================ -->
+  <div class="cs-section">
+    <div class="cs-section-title">Lifecycle</div>
+    <p class="cs-section-desc">Axis 3 — where is this in its life? Not all content goes through every stage. An SOP goes straight to Reference. A shutdown story goes Developing → Resolved. The lifecycle determines the Hub status badge and Discord tag.</p>
+
+    <div class="lifecycle-flow">
+      <div class="lifecycle-node">
+        <div class="lifecycle-node__icon">🔄</div>
+        <div class="lifecycle-node__label">Developing</div>
+        <div class="lifecycle-node__desc">Situation active, updates expected</div>
+      </div>
+      <div class="lifecycle-arrow">→</div>
+      <div class="lifecycle-node is-active">
+        <div class="lifecycle-node__icon">🟢</div>
+        <div class="lifecycle-node__label">Active</div>
+        <div class="lifecycle-node__desc">Current, members should know</div>
+      </div>
+      <div class="lifecycle-arrow">→</div>
+      <div class="lifecycle-node">
+        <div class="lifecycle-node__icon">✅</div>
+        <div class="lifecycle-node__label">Resolved</div>
+        <div class="lifecycle-node__desc">Done, outcome known</div>
+      </div>
+    </div>
+    <div class="lifecycle-flow" style="padding-top: 0;">
+      <div class="lifecycle-node" style="border-color: var(--natca-red);">
+        <div class="lifecycle-node__icon">⚡</div>
+        <div class="lifecycle-node__label">Action Needed</div>
+        <div class="lifecycle-node__desc">Has a deadline</div>
+      </div>
+      <div style="width: var(--space-8);"></div>
+      <div class="lifecycle-node" style="border-color: var(--natca-sky);">
+        <div class="lifecycle-node__icon">📌</div>
+        <div class="lifecycle-node__label">Reference</div>
+        <div class="lifecycle-node__desc">Evergreen — consult as needed</div>
+      </div>
+    </div>
+    <p class="cs-section-desc" style="margin-top: var(--space-4);">
+      <strong style="color:var(--color-text-primary);">Key distinction:</strong> Reference ≠ Resolved. An MOU is Reference from the moment it's signed — it was never Developing. A shutdown story goes Developing → Resolved, and its associated SOPs remain Reference. These are different paths.
+    </p>
+
+    <h3 style="font-family:var(--font-display); color:var(--color-text-primary); margin: var(--space-6) 0 var(--space-3);">Typical lifecycle by content type</h3>
+    <table class="axis-table">
+      <thead><tr><th>Content Type</th><th>Typical Path</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="cs-tag cs-tag--type">📋 Document</span></td>
+          <td>→ <span class="cs-tag cs-tag--lifecycle">📌 Reference</span> (immediate)</td>
+          <td>LTH SOP, Slate Book MOU</td>
+        </tr>
+        <tr>
+          <td><span class="cs-tag cs-tag--type">📰 Coverage</span></td>
+          <td><span class="cs-tag cs-tag--lifecycle">🔄 Developing</span> → <span class="cs-tag cs-tag--lifecycle">✅ Resolved</span></td>
+          <td>Government shutdown, FAA reauthorization</td>
+        </tr>
+        <tr>
+          <td><span class="cs-tag cs-tag--type">⚡ Action Needed</span></td>
+          <td><span class="cs-tag cs-tag--lifecycle">⚡ Action Needed</span> → <span class="cs-tag cs-tag--lifecycle">✅ Resolved</span></td>
+          <td>NIW registration, TA vote</td>
+        </tr>
+        <tr>
+          <td><span class="cs-tag cs-tag--type">ℹ️ Advisory</span></td>
+          <td><span class="cs-tag cs-tag--lifecycle">🟢 Active</span> → <span class="cs-tag cs-tag--lifecycle">📌 Reference</span></td>
+          <td>ASRS changes, ERAM deployment</td>
+        </tr>
+        <tr>
+          <td><span class="cs-tag cs-tag--type">📢 Announcement</span></td>
+          <td>→ <span class="cs-tag cs-tag--lifecycle">✅ Resolved</span> (immediate)</td>
+          <td>Locality pay tables, election results</td>
+        </tr>
+        <tr>
+          <td><span class="cs-tag cs-tag--type">📅 Event</span></td>
+          <td><span class="cs-tag cs-tag--lifecycle">🟢 Active</span> → <span class="cs-tag cs-tag--lifecycle">✅ Resolved</span> (after event)</td>
+          <td>CFS Conference, NIW fly-in</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============================================================
+       SECTION 5: The Bridge — Hub ↔ DMS
+       ============================================================ -->
+  <div class="cs-section">
+    <div class="cs-section-title">The Bridge: Hub ↔ DMS</div>
+    <p class="cs-section-desc">Hub <strong>explains and discusses</strong>. DMS <strong>stores and governs</strong>. They link to each other — neither contains the other. Every path leads to both the context (Hub story) and the artifact (DMS document).</p>
+
+    <div class="bridge-diagram">
+      <div class="bridge-box">
+        <h4>📰 Hub Story</h4>
+        <p>The communication and context layer:</p>
+        <ul>
+          <li>What changed and why it matters</li>
+          <li>Timeline of updates</li>
+          <li>Member discussion</li>
+          <li>Distribution (Discord, email)</li>
+        </ul>
+      </div>
+      <div class="bridge-connector">
+        <div class="arrow">←→</div>
+        <div>Related<br>Documents</div>
+        <div style="font-size:var(--text-xs); color:var(--color-text-muted); font-weight:400;">bidirectional link<br>by document ID</div>
+      </div>
+      <div class="bridge-box">
+        <h4>📎 DMS Document</h4>
+        <p>The canonical artifact:</p>
+        <ul>
+          <li>The actual SOP, MOU, or policy PDF</li>
+          <li>Versioned, has owner + review date</li>
+          <li>Citeable in grievances</li>
+          <li>Searchable in DMS</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--font-display); color:var(--color-text-primary); margin: var(--space-6) 0 var(--space-3);">Finding things 18 months later</h3>
+    <table class="axis-table">
+      <thead><tr><th>Search path</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Search DMS for "long-term hold SOP"</td>
+          <td>→ Finds the PDF directly. "Related Stories" links to the Hub story.</td>
+        </tr>
+        <tr>
+          <td>Search Hub for "long-term hold"</td>
+          <td>→ Finds the story. "Related Documents" links to the DMS PDF.</td>
+        </tr>
+        <tr>
+          <td>Browse Hub → Working Conditions → filter by <span class="cs-tag cs-tag--type">📋 Document</span></td>
+          <td>→ Shows all documents in that topic. Click through to the story + PDF.</td>
+        </tr>
+        <tr>
+          <td>Search Discord #working-conditions</td>
+          <td>→ Finds the forum post. Buttons link to Hub story and DMS.</td>
+        </tr>
+        <tr>
+          <td>AI search: "what's the rule about LTH at level 12 facilities?"</td>
+          <td>→ Surfaces both the Hub story and the DMS document via pgvector.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============================================================
+       SECTION 6: Cross-Platform Flow
+       ============================================================ -->
+  <div class="cs-section">
+    <div class="cs-section-title">Cross-Platform Flow</div>
+    <p class="cs-section-desc">Hub is the canonical source. Discord and email are distribution channels. DMS is the document archive. Here's how they connect.</p>
+
+    <table class="axis-table">
+      <thead><tr><th>Platform</th><th>Role</th><th>What lives here</th><th>Links to</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong style="color:var(--color-text-primary);">Hub</strong></td>
+          <td>Canonical source</td>
+          <td>Stories + updates, Tiptap-authored, permanent URL</td>
+          <td>DMS (related docs), Discord (forum post), Email (campaign)</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--color-text-primary);">Discord</strong></td>
+          <td>Discussion + notification</td>
+          <td>Forum posts (by topic), announcement feed, member threads</td>
+          <td>Hub (via buttons on every post)</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--color-text-primary);">DMS</strong></td>
+          <td>Document archive</td>
+          <td>Official PDFs — SOPs, MOUs, contract interpretations</td>
+          <td>Hub (related stories, computed)</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--color-text-primary);">Email</strong></td>
+          <td>Push delivery</td>
+          <td>Campaigns per topic subscription, digests, alerts</td>
+          <td>Hub (every email links to the Hub story)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Footer -->
+  <div style="padding: var(--space-8) 0 var(--space-12); text-align: center;">
+    <p class="muted small">Content Standards · MyNATCA Hub Updates System · Phase 0 Mockup</p>
+    <p class="muted small">See <code style="color:var(--natca-sky);">docs/architecture/decisions/001-updates-system.md</code> for the full ADR.</p>
+  </div>
+
+</div>
+
+</body>
+</html>
