@@ -4,7 +4,10 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-chart-line" class="me-2" />
+            <VIcon
+              icon="mdi-chart-line"
+              class="me-2"
+            />
             Member Analytics
           </VCardTitle>
           <VCardText>
@@ -18,54 +21,110 @@
             <div v-else>
               <!-- Summary Cards -->
               <VRow class="mb-6">
-                <VCol cols="12" sm="6" md="3">
-                  <VCard color="primary" variant="flat">
+                <VCol
+                  cols="12"
+                  sm="6"
+                  md="3"
+                >
+                  <VCard
+                    color="primary"
+                    variant="flat"
+                  >
                     <VCardText class="text-white">
                       <div class="d-flex justify-space-between align-center">
                         <div>
-                          <h2 class="text-h4 font-weight-bold">{{ mockStats.totalMembers }}</h2>
-                          <p class="text-subtitle-1">Total Members</p>
+                          <h2 class="text-h4 font-weight-bold">
+                            {{ mockStats.totalMembers }}
+                          </h2>
+                          <p class="text-subtitle-1">
+                            Total Members
+                          </p>
                         </div>
-                        <VIcon icon="mdi-account-group" size="48" />
+                        <VIcon
+                          icon="mdi-account-group"
+                          size="48"
+                        />
                       </div>
                     </VCardText>
                   </VCard>
                 </VCol>
-                <VCol cols="12" sm="6" md="3">
-                  <VCard color="success" variant="flat">
+                <VCol
+                  cols="12"
+                  sm="6"
+                  md="3"
+                >
+                  <VCard
+                    color="success"
+                    variant="flat"
+                  >
                     <VCardText class="text-white">
                       <div class="d-flex justify-space-between align-center">
                         <div>
-                          <h2 class="text-h4 font-weight-bold">{{ mockStats.activeFacilities }}</h2>
-                          <p class="text-subtitle-1">Active Facilities</p>
+                          <h2 class="text-h4 font-weight-bold">
+                            {{ mockStats.activeFacilities }}
+                          </h2>
+                          <p class="text-subtitle-1">
+                            Active Facilities
+                          </p>
                         </div>
-                        <VIcon icon="mdi-office-building" size="48" />
+                        <VIcon
+                          icon="mdi-office-building"
+                          size="48"
+                        />
                       </div>
                     </VCardText>
                   </VCard>
                 </VCol>
-                <VCol cols="12" sm="6" md="3">
-                  <VCard color="info" variant="flat">
+                <VCol
+                  cols="12"
+                  sm="6"
+                  md="3"
+                >
+                  <VCard
+                    color="info"
+                    variant="flat"
+                  >
                     <VCardText class="text-white">
                       <div class="d-flex justify-space-between align-center">
                         <div>
-                          <h2 class="text-h4 font-weight-bold">{{ mockStats.regionsCount }}</h2>
-                          <p class="text-subtitle-1">Regions</p>
+                          <h2 class="text-h4 font-weight-bold">
+                            {{ mockStats.regionsCount }}
+                          </h2>
+                          <p class="text-subtitle-1">
+                            Regions
+                          </p>
                         </div>
-                        <VIcon icon="mdi-map" size="48" />
+                        <VIcon
+                          icon="mdi-map"
+                          size="48"
+                        />
                       </div>
                     </VCardText>
                   </VCard>
                 </VCol>
-                <VCol cols="12" sm="6" md="3">
-                  <VCard color="warning" variant="flat">
+                <VCol
+                  cols="12"
+                  sm="6"
+                  md="3"
+                >
+                  <VCard
+                    color="warning"
+                    variant="flat"
+                  >
                     <VCardText class="text-white">
                       <div class="d-flex justify-space-between align-center">
                         <div>
-                          <h2 class="text-h4 font-weight-bold">{{ mockStats.activePositions }}</h2>
-                          <p class="text-subtitle-1">Active Positions</p>
+                          <h2 class="text-h4 font-weight-bold">
+                            {{ mockStats.activePositions }}
+                          </h2>
+                          <p class="text-subtitle-1">
+                            Active Positions
+                          </p>
                         </div>
-                        <VIcon icon="mdi-briefcase" size="48" />
+                        <VIcon
+                          icon="mdi-briefcase"
+                          size="48"
+                        />
                       </div>
                     </VCardText>
                   </VCard>
@@ -74,7 +133,10 @@
 
               <!-- Charts -->
               <VRow>
-                <VCol cols="12" md="6">
+                <VCol
+                  cols="12"
+                  md="6"
+                >
                   <VCard>
                     <VCardTitle>Members by Region</VCardTitle>
                     <VCardText>
@@ -87,7 +149,10 @@
                     </VCardText>
                   </VCard>
                 </VCol>
-                <VCol cols="12" md="6">
+                <VCol
+                  cols="12"
+                  md="6"
+                >
                   <VCard>
                     <VCardTitle>Membership Growth</VCardTitle>
                     <VCardText>

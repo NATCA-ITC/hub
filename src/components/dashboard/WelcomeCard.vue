@@ -1,37 +1,91 @@
 <template>
   <div class="welcome-card">
-    <div v-if="isLoading" class="welcome-card__loading">
-      <VProgressCircular indeterminate size="32" color="primary" />
+    <div
+      v-if="isLoading"
+      class="welcome-card__loading"
+    >
+      <VProgressCircular
+        indeterminate
+        size="32"
+        color="primary"
+      />
     </div>
-    <div v-else-if="isAuthenticated" class="welcome-card__content">
+    <div
+      v-else-if="isAuthenticated"
+      class="welcome-card__content"
+    >
       <div class="welcome-card__greeting">
-        <h2 class="welcome-card__name">{{ greeting }}, {{ firstName }}</h2>
-        <p class="welcome-card__subtitle">{{ memberStore.facilityName || 'NATCA Member' }}</p>
+        <h2 class="welcome-card__name">
+          {{ greeting }}, {{ firstName }}
+        </h2>
+        <p class="welcome-card__subtitle">
+          {{ memberStore.facilityName || 'NATCA Member' }}
+        </p>
       </div>
       <div class="welcome-card__meta">
-        <div v-if="memberNumber" class="welcome-card__badge">
-          <VIcon icon="mdi-card-account-details" size="14" />
+        <div
+          v-if="memberNumber"
+          class="welcome-card__badge"
+        >
+          <VIcon
+            icon="mdi-card-account-details"
+            size="14"
+          />
           <span>#{{ memberNumber }}</span>
         </div>
-        <div v-if="memberStore.memberTypeName" class="welcome-card__badge">
-          <VIcon icon="mdi-shield-check" size="14" />
+        <div
+          v-if="memberStore.memberTypeName"
+          class="welcome-card__badge"
+        >
+          <VIcon
+            icon="mdi-shield-check"
+            size="14"
+          />
           <span>{{ memberStore.memberTypeName }}</span>
         </div>
-        <div v-if="memberStore.regionCode" class="welcome-card__badge">
-          <VIcon icon="mdi-map-marker" size="14" />
+        <div
+          v-if="memberStore.regionCode"
+          class="welcome-card__badge"
+        >
+          <VIcon
+            icon="mdi-map-marker"
+            size="14"
+          />
           <span>{{ memberStore.regionCode }}</span>
         </div>
-        <div v-if="memberStore.facilityCode" class="welcome-card__badge">
-          <VIcon icon="mdi-map-marker-outline" size="14" />
+        <div
+          v-if="memberStore.facilityCode"
+          class="welcome-card__badge"
+        >
+          <VIcon
+            icon="mdi-map-marker-outline"
+            size="14"
+          />
           <span>{{ memberStore.facilityCode }}</span>
         </div>
       </div>
     </div>
-    <div v-else class="welcome-card__unauthenticated">
-      <h2 class="welcome-card__name">Welcome to Hub</h2>
-      <p class="welcome-card__subtitle">Sign in to access your dashboard</p>
-      <VBtn color="primary" size="small" class="mt-3" @click="login()">
-        <VIcon icon="mdi-login" size="16" start />
+    <div
+      v-else
+      class="welcome-card__unauthenticated"
+    >
+      <h2 class="welcome-card__name">
+        Welcome to Hub
+      </h2>
+      <p class="welcome-card__subtitle">
+        Sign in to access your dashboard
+      </p>
+      <VBtn
+        color="primary"
+        size="small"
+        class="mt-3"
+        @click="login()"
+      >
+        <VIcon
+          icon="mdi-login"
+          size="16"
+          start
+        />
         Sign In
       </VBtn>
     </div>

@@ -1,6 +1,6 @@
 import { ref, inject } from 'vue'
 import type { SupabaseClient } from '@supabase/supabase-js'
-import type { Member, MemberWithDetails, Position, Facility, Region, MemberType } from '@/plugins/supabase'
+import type { Member, MemberWithDetails, Position, Facility, Region } from '@/plugins/supabase'
 import { MemberService } from '@/services/memberService'
 
 export function useSupabase() {
@@ -71,7 +71,7 @@ export function useSupabase() {
       const { data, error: supabaseError } = await supabase
         .from('facilities')
         .select('*')
-        .order('facility_name')
+        .order('name')
 
       if (supabaseError) {
         error.value = supabaseError.message
@@ -95,7 +95,7 @@ export function useSupabase() {
       const { data, error: supabaseError } = await supabase
         .from('facilities')
         .select('*')
-        .eq('facility_code', facilityCode)
+        .eq('code', facilityCode)
         .single()
 
       if (supabaseError) {

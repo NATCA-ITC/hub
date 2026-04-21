@@ -342,7 +342,6 @@ import { UnwrapRef } from 'vue'
 declare module 'vue' {
   interface GlobalComponents {}
   interface ComponentCustomProperties {
-    readonly $api: UnwrapRef<typeof import('./src/utils/api')['$api']>
     readonly COOKIE_MAX_AGE_1_YEAR: UnwrapRef<typeof import('./src/utils/constants')['COOKIE_MAX_AGE_1_YEAR']>
     readonly DatabaseExplorer: UnwrapRef<typeof import('./src/utils/exploreDatabase')['DatabaseExplorer']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
@@ -469,7 +468,6 @@ declare module 'vue' {
     readonly useAbs: UnwrapRef<typeof import('@vueuse/math')['useAbs']>
     readonly useActiveElement: UnwrapRef<typeof import('@vueuse/core')['useActiveElement']>
     readonly useAnimate: UnwrapRef<typeof import('@vueuse/core')['useAnimate']>
-    readonly useApi: UnwrapRef<typeof import('./src/composables/useApi')['useApi']>
     readonly useArrayDifference: UnwrapRef<typeof import('@vueuse/core')['useArrayDifference']>
     readonly useArrayEvery: UnwrapRef<typeof import('@vueuse/core')['useArrayEvery']>
     readonly useArrayFilter: UnwrapRef<typeof import('@vueuse/core')['useArrayFilter']>
@@ -560,7 +558,6 @@ declare module 'vue' {
     readonly useMemory: UnwrapRef<typeof import('@vueuse/core')['useMemory']>
     readonly useMin: UnwrapRef<typeof import('@vueuse/math')['useMin']>
     readonly useMockAuth: UnwrapRef<typeof import('./src/composables/useMockAuth')['useMockAuth']>
-    readonly useMockSupabase: UnwrapRef<typeof import('./src/composables/useMockSupabase')['useMockSupabase']>
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
     readonly useMounted: UnwrapRef<typeof import('@vueuse/core')['useMounted']>
     readonly useMouse: UnwrapRef<typeof import('@vueuse/core')['useMouse']>

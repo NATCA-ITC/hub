@@ -124,7 +124,7 @@ export const useMemberStore = defineStore('member', () => {
 
   const refreshMemberData = () => {
     if (currentMember.value?.membernumber) {
-      return fetchMemberData(currentMember.value.membernumber, true)
+      return fetchMemberData(currentMember.value.membernumber, undefined, true)
     }
   }
 

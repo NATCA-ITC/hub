@@ -1,7 +1,13 @@
 <template>
-  <div v-if="isAuthenticated" class="ds-card">
+  <div
+    v-if="isAuthenticated"
+    class="ds-card"
+  >
     <div class="ds-card__header">
-      <VIcon icon="mdi-account" size="18" />
+      <VIcon
+        icon="mdi-account"
+        size="18"
+      />
       <span>Profile</span>
     </div>
     <div class="ds-card__body">
@@ -15,27 +21,70 @@
 
       <div class="profile-field">
         <span class="profile-field__label">Email</span>
-        <div v-if="memberStore.mynatcaLoading" class="profile-field__value">Loading...</div>
-        <div v-else-if="memberStore.allEmails?.length > 0" class="profile-field__list">
-          <div v-for="email in memberStore.allEmails" :key="email.id" class="profile-field__list-item">
+        <div
+          v-if="memberStore.mynatcaLoading"
+          class="profile-field__value"
+        >
+          Loading...
+        </div>
+        <div
+          v-else-if="memberStore.allEmails?.length > 0"
+          class="profile-field__list"
+        >
+          <div
+            v-for="email in memberStore.allEmails"
+            :key="email.id"
+            class="profile-field__list-item"
+          >
             <span>{{ email.email }}</span>
-            <VIcon v-if="email.isprimary" icon="mdi-star" color="amber" size="12" />
+            <VIcon
+              v-if="email.isprimary"
+              icon="mdi-star"
+              color="amber"
+              size="12"
+            />
           </div>
         </div>
-        <span v-else class="profile-field__value">{{ user?.email || 'N/A' }}</span>
+        <span
+          v-else
+          class="profile-field__value"
+        >{{ user?.email || 'N/A' }}</span>
       </div>
 
       <div class="profile-field">
         <span class="profile-field__label">Phone</span>
-        <div v-if="memberStore.mynatcaLoading" class="profile-field__value">Loading...</div>
-        <div v-else-if="memberStore.allPhones?.length > 0" class="profile-field__list">
-          <div v-for="phone in memberStore.allPhones" :key="phone.id" class="profile-field__list-item">
-            <VIcon :icon="getPhoneIcon(phone.phonetype)" size="12" />
+        <div
+          v-if="memberStore.mynatcaLoading"
+          class="profile-field__value"
+        >
+          Loading...
+        </div>
+        <div
+          v-else-if="memberStore.allPhones?.length > 0"
+          class="profile-field__list"
+        >
+          <div
+            v-for="phone in memberStore.allPhones"
+            :key="phone.id"
+            class="profile-field__list-item"
+          >
+            <VIcon
+              :icon="getPhoneIcon(phone.phonetype)"
+              size="12"
+            />
             <span>{{ phone.number }}</span>
-            <VIcon v-if="phone.isprimary" icon="mdi-star" color="amber" size="12" />
+            <VIcon
+              v-if="phone.isprimary"
+              icon="mdi-star"
+              color="amber"
+              size="12"
+            />
           </div>
         </div>
-        <span v-else class="profile-field__value">N/A</span>
+        <span
+          v-else
+          class="profile-field__value"
+        >N/A</span>
       </div>
     </div>
   </div>

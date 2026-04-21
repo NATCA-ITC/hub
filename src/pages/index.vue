@@ -1,31 +1,53 @@
 <template>
   <div class="dashboard">
     <!-- Loading State -->
-    <div v-if="isLoading" class="dashboard__loading">
-      <VProgressCircular indeterminate color="primary" size="48" />
+    <div
+      v-if="isLoading"
+      class="dashboard__loading"
+    >
+      <VProgressCircular
+        indeterminate
+        color="primary"
+        size="48"
+      />
     </div>
 
     <!-- Landing Page for non-authenticated users -->
-    <div v-else-if="!isAuthenticated" class="dashboard__landing">
+    <div
+      v-else-if="!isAuthenticated"
+      class="dashboard__landing"
+    >
       <div class="landing-card">
         <VImg
           src="/src/assets/images/natca/myNATCA-dark-logo.png"
           max-width="160"
           class="mx-auto mb-6"
         />
-        <h1 class="landing-card__title">MyNATCA Hub</h1>
+        <h1 class="landing-card__title">
+          MyNATCA Hub
+        </h1>
         <p class="landing-card__subtitle">
           Your central dashboard for member services and resources
         </p>
-        <VBtn color="primary" size="large" @click="login()">
-          <VIcon icon="mdi-login" start />
+        <VBtn
+          color="primary"
+          size="large"
+          @click="login()"
+        >
+          <VIcon
+            icon="mdi-login"
+            start
+          />
           Sign In
         </VBtn>
       </div>
     </div>
 
     <!-- Dashboard for authenticated users -->
-    <div v-else class="dashboard__grid">
+    <div
+      v-else
+      class="dashboard__grid"
+    >
       <!-- Welcome banner spans full width -->
       <div class="dashboard__welcome">
         <WelcomeCard />
@@ -45,23 +67,42 @@
     </div>
 
     <!-- Member Update Details Modal -->
-    <VDialog v-model="updateDetailsDialog" max-width="560">
-      <div v-if="selectedUpdate" class="update-dialog">
+    <VDialog
+      v-model="updateDetailsDialog"
+      max-width="560"
+    >
+      <div
+        v-if="selectedUpdate"
+        class="update-dialog"
+      >
         <div class="update-dialog__header">
           <h3>{{ selectedUpdate.title }}</h3>
-          <button class="update-dialog__close" @click="updateDetailsDialog = false">
-            <VIcon icon="mdi-close" size="18" />
+          <button
+            class="update-dialog__close"
+            @click="updateDetailsDialog = false"
+          >
+            <VIcon
+              icon="mdi-close"
+              size="18"
+            />
           </button>
         </div>
         <div class="update-dialog__body">
           <div class="update-dialog__meta">
-            <span class="update-dialog__category" :data-category="selectedUpdate.category.toLowerCase()">
+            <span
+              class="update-dialog__category"
+              :data-category="selectedUpdate.category.toLowerCase()"
+            >
               {{ selectedUpdate.category }}
             </span>
             <span class="update-dialog__date">{{ formatUpdateDate(selectedUpdate.date) }}</span>
           </div>
-          <p class="update-dialog__summary">{{ selectedUpdate.summary }}</p>
-          <p class="update-dialog__content">{{ selectedUpdate.content }}</p>
+          <p class="update-dialog__summary">
+            {{ selectedUpdate.summary }}
+          </p>
+          <p class="update-dialog__content">
+            {{ selectedUpdate.content }}
+          </p>
         </div>
       </div>
     </VDialog>

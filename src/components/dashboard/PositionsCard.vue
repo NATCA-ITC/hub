@@ -1,13 +1,23 @@
 <template>
-  <div v-if="isAuthenticated" class="ds-card">
+  <div
+    v-if="isAuthenticated"
+    class="ds-card"
+  >
     <div class="ds-card__header">
-      <VIcon icon="mdi-briefcase" size="18" />
+      <VIcon
+        icon="mdi-briefcase"
+        size="18"
+      />
       <span>Positions</span>
     </div>
     <div class="ds-card__body">
       <div v-if="positions.length > 0">
         <div class="positions-chips">
-          <span v-for="position in positions" :key="position" class="position-chip">
+          <span
+            v-for="position in positions"
+            :key="position"
+            class="position-chip"
+          >
             {{ position }}
           </span>
         </div>
@@ -28,7 +38,12 @@
           </div>
         </div>
       </div>
-      <p v-else class="positions-empty">No positions assigned</p>
+      <p
+        v-else
+        class="positions-empty"
+      >
+        No positions assigned
+      </p>
     </div>
   </div>
 </template>

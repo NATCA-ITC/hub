@@ -1,28 +1,53 @@
 <template>
-  <div v-if="isAuthenticated" class="ds-card">
+  <div
+    v-if="isAuthenticated"
+    class="ds-card"
+  >
     <div class="ds-card__header">
-      <VIcon icon="mdi-bell" size="18" />
+      <VIcon
+        icon="mdi-bell"
+        size="18"
+      />
       <span>Updates</span>
-      <span v-if="memberUpdates.length" class="ds-card__count">{{ memberUpdates.length }}</span>
+      <span
+        v-if="memberUpdates.length"
+        class="ds-card__count"
+      >{{ memberUpdates.length }}</span>
     </div>
     <div class="ds-card__body ds-card__body--flush">
-      <div v-if="memberUpdates.length > 0" class="updates-list">
+      <div
+        v-if="memberUpdates.length > 0"
+        class="updates-list"
+      >
         <div
           v-for="update in memberUpdates.slice(0, 5)"
           :key="update.id"
           class="update-item"
           @click="emit('view-update-details', update)"
         >
-          <div class="update-item__dot" :class="`update-item__dot--${update.category.toLowerCase()}`" />
+          <div
+            class="update-item__dot"
+            :class="`update-item__dot--${update.category.toLowerCase()}`"
+          />
           <div class="update-item__content">
             <span class="update-item__title">{{ update.title }}</span>
             <span class="update-item__date">{{ formatUpdateDate(update.date) }}</span>
           </div>
-          <VIcon icon="mdi-chevron-right" size="16" class="update-item__arrow" />
+          <VIcon
+            icon="mdi-chevron-right"
+            size="16"
+            class="update-item__arrow"
+          />
         </div>
       </div>
-      <div v-else class="updates-empty">
-        <VIcon icon="mdi-bell-check" size="32" />
+      <div
+        v-else
+        class="updates-empty"
+      >
+        <VIcon
+          icon="mdi-bell-check"
+          size="32"
+        />
         <p>All caught up</p>
       </div>
     </div>

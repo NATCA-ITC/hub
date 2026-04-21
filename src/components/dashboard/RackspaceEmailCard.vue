@@ -1,7 +1,10 @@
 <template>
   <div class="ds-card">
     <div class="ds-card__header">
-      <VIcon icon="mdi-email" size="18" />
+      <VIcon
+        icon="mdi-email"
+        size="18"
+      />
       <span>NATCA Email</span>
       <VTooltip location="top">
         <template #activator="{ props }">
@@ -18,31 +21,59 @@
 
     <div class="ds-card__body">
       <!-- Loading State -->
-      <div v-if="loading" class="text-center py-4">
-        <VProgressCircular indeterminate color="primary" />
-        <p class="mt-2 text-caption">Loading...</p>
+      <div
+        v-if="loading"
+        class="text-center py-4"
+      >
+        <VProgressCircular
+          indeterminate
+          color="primary"
+        />
+        <p class="mt-2 text-caption">
+          Loading...
+        </p>
       </div>
 
       <!-- Not Authenticated -->
-      <div v-else-if="!isAuthenticated" class="text-medium-emphasis text-center py-4">
+      <div
+        v-else-if="!isAuthenticated"
+        class="text-medium-emphasis text-center py-4"
+      >
         Login to manage your NATCA email
       </div>
 
       <!-- Not Eligible (only show if we have member data and they're not eligible) -->
-      <div v-else-if="memberStore.currentMember && !isEligible" class="text-center py-4">
-        <VIcon icon="mdi-information" size="48" color="info" class="mb-2" />
+      <div
+        v-else-if="memberStore.currentMember && !isEligible"
+        class="text-center py-4"
+      >
+        <VIcon
+          icon="mdi-information"
+          size="48"
+          color="info"
+          class="mb-2"
+        />
         <p class="text-caption text-medium-emphasis">
           @natca.net email accounts are available for Active and Retired NATCA members only.
         </p>
       </div>
 
       <!-- Has Existing Email -->
-      <div v-else-if="existingEmail" class="email-active">
+      <div
+        v-else-if="existingEmail"
+        class="email-active"
+      >
         <!-- Email display -->
         <div class="email-display">
-          <div class="email-display__label">Your Email</div>
+          <div class="email-display__label">
+            Your Email
+          </div>
           <div class="email-display__row">
-            <VIcon icon="mdi-at" size="16" class="email-display__icon" />
+            <VIcon
+              icon="mdi-at"
+              size="16"
+              class="email-display__icon"
+            />
             <span class="email-display__value">{{ existingEmail }}</span>
             <VBtn
               icon="mdi-content-copy"
@@ -55,8 +86,16 @@
         </div>
 
         <!-- New password alert (only after reset/create) -->
-        <VAlert v-if="newPassword" type="warning" density="compact" variant="tonal" class="mt-3">
-          <div class="text-caption mb-1"><strong>New Password — save this, it won't show again</strong></div>
+        <VAlert
+          v-if="newPassword"
+          type="warning"
+          density="compact"
+          variant="tonal"
+          class="mt-3"
+        >
+          <div class="text-caption mb-1">
+            <strong>New Password — save this, it won't show again</strong>
+          </div>
           <div class="d-flex align-center justify-space-between">
             <code class="text-body-2">{{ newPassword }}</code>
             <VBtn
@@ -101,13 +140,23 @@
       </div>
 
       <!-- No Email - Show Options -->
-      <div v-else class="d-flex flex-column ga-3">
-        <VAlert type="info" density="compact" variant="tonal">
+      <div
+        v-else
+        class="d-flex flex-column ga-3"
+      >
+        <VAlert
+          type="info"
+          density="compact"
+          variant="tonal"
+        >
           Create your @natca.net email address
         </VAlert>
 
         <!-- Email Format Options -->
-        <div v-if="availableOptions.length > 0" class="d-flex flex-column ga-2">
+        <div
+          v-if="availableOptions.length > 0"
+          class="d-flex flex-column ga-2"
+        >
           <span class="text-caption text-medium-emphasis">Select your email format:</span>
           <div
             v-for="option in availableOptions"
@@ -121,7 +170,10 @@
               :disabled="!option.available"
               @click="selectEmailOption(option.email)"
             >
-              <div class="d-flex align-center justify-space-between" style="width: 100%">
+              <div
+                class="d-flex align-center justify-space-between"
+                style="width: 100%"
+              >
                 <span style="text-transform: none;">{{ option.email }}</span>
                 <VIcon
                   v-if="option.available"
@@ -141,9 +193,18 @@
         </div>
 
         <!-- Loading Options -->
-        <div v-else-if="checkingAvailability" class="text-center py-2">
-          <VProgressCircular indeterminate color="primary" size="32" />
-          <p class="mt-2 text-caption">Checking availability...</p>
+        <div
+          v-else-if="checkingAvailability"
+          class="text-center py-2"
+        >
+          <VProgressCircular
+            indeterminate
+            color="primary"
+            size="32"
+          />
+          <p class="mt-2 text-caption">
+            Checking availability...
+          </p>
         </div>
 
         <!-- Check Availability Button -->
@@ -152,15 +213,23 @@
           color="primary"
           variant="tonal"
           block
-          @click="checkEmailAvailability"
           :loading="checkingAvailability"
+          @click="checkEmailAvailability"
         >
-          <VIcon icon="mdi-email-check" class="me-2" />
+          <VIcon
+            icon="mdi-email-check"
+            class="me-2"
+          />
           Check Availability
         </VBtn>
 
         <!-- Show password if just created -->
-        <VAlert v-if="newPassword" type="warning" density="compact" variant="tonal">
+        <VAlert
+          v-if="newPassword"
+          type="warning"
+          density="compact"
+          variant="tonal"
+        >
           <div class="d-flex flex-column">
             <span class="text-caption mb-1"><strong>Your Password (save this!):</strong></span>
             <div class="d-flex align-center justify-space-between">
@@ -180,23 +249,41 @@
       </div>
 
       <!-- Error Alert -->
-      <VAlert v-if="error" type="error" density="compact" variant="tonal" class="mt-3" closable @click:close="error = null">
+      <VAlert
+        v-if="error"
+        type="error"
+        density="compact"
+        variant="tonal"
+        class="mt-3"
+        closable
+        @click:close="error = null"
+      >
         {{ error }}
       </VAlert>
     </div>
 
     <!-- Create Email Confirmation Dialog -->
-    <VDialog v-model="showCreateConfirmation" max-width="500">
+    <VDialog
+      v-model="showCreateConfirmation"
+      max-width="500"
+    >
       <VCard>
         <VCardTitle class="d-flex align-center">
-          <VIcon icon="mdi-email-plus" class="me-2" />
+          <VIcon
+            icon="mdi-email-plus"
+            class="me-2"
+          />
           Create NATCA Email?
         </VCardTitle>
         <VCardText>
           <p class="mb-3">
             Are you sure you want to create the email address:
           </p>
-          <VAlert type="info" density="compact" variant="tonal">
+          <VAlert
+            type="info"
+            density="compact"
+            variant="tonal"
+          >
             <strong>{{ selectedEmail }}</strong>
           </VAlert>
           <p class="mt-3 text-caption text-medium-emphasis">
@@ -206,11 +293,13 @@
         </VCardText>
         <VCardActions>
           <VSpacer />
-          <VBtn @click="showCreateConfirmation = false">Cancel</VBtn>
+          <VBtn @click="showCreateConfirmation = false">
+            Cancel
+          </VBtn>
           <VBtn
             color="primary"
-            @click="confirmCreateEmail"
             :loading="creating"
+            @click="confirmCreateEmail"
           >
             Create Email
           </VBtn>
@@ -219,17 +308,27 @@
     </VDialog>
 
     <!-- Reset Password Confirmation Dialog -->
-    <VDialog v-model="showResetConfirmation" max-width="500">
+    <VDialog
+      v-model="showResetConfirmation"
+      max-width="500"
+    >
       <VCard>
         <VCardTitle class="d-flex align-center">
-          <VIcon icon="mdi-lock-reset" class="me-2" />
+          <VIcon
+            icon="mdi-lock-reset"
+            class="me-2"
+          />
           Reset Password?
         </VCardTitle>
         <VCardText>
           <p class="mb-3">
             Are you sure you want to reset the password for:
           </p>
-          <VAlert type="info" density="compact" variant="tonal">
+          <VAlert
+            type="info"
+            density="compact"
+            variant="tonal"
+          >
             <strong>{{ existingEmail }}</strong>
           </VAlert>
           <p class="mt-3 text-caption text-medium-emphasis">
@@ -238,11 +337,13 @@
         </VCardText>
         <VCardActions>
           <VSpacer />
-          <VBtn @click="showResetConfirmation = false">Cancel</VBtn>
+          <VBtn @click="showResetConfirmation = false">
+            Cancel
+          </VBtn>
           <VBtn
             color="warning"
-            @click="confirmResetPassword"
             :loading="resetting"
+            @click="confirmResetPassword"
           >
             Reset Password
           </VBtn>
@@ -251,26 +352,43 @@
     </VDialog>
 
     <!-- Configuration Dialog -->
-    <VDialog v-model="showConfigDialog" max-width="600">
+    <VDialog
+      v-model="showConfigDialog"
+      max-width="600"
+    >
       <VCard>
         <VCardTitle class="d-flex align-center">
-          <VIcon icon="mdi-cog" class="me-2" />
+          <VIcon
+            icon="mdi-cog"
+            class="me-2"
+          />
           Email Configuration
         </VCardTitle>
         <VCardText>
           <div class="d-flex flex-column ga-4">
             <!-- Server Settings -->
             <div>
-              <h3 class="text-h6 mb-3">Server Settings</h3>
+              <h3 class="text-h6 mb-3">
+                Server Settings
+              </h3>
 
               <!-- Inbound IMAP -->
-              <VAlert type="info" density="compact" variant="tonal" class="mb-3">
+              <VAlert
+                type="info"
+                density="compact"
+                variant="tonal"
+                class="mb-3"
+              >
                 <div class="d-flex flex-column">
                   <span class="text-caption text-medium-emphasis mb-1">Inbound (Secure IMAP)</span>
                   <div class="d-flex align-center justify-space-between">
                     <div>
-                      <div class="text-body-2 font-weight-medium">secure.emailsrvr.com</div>
-                      <div class="text-caption">Port 993</div>
+                      <div class="text-body-2 font-weight-medium">
+                        secure.emailsrvr.com
+                      </div>
+                      <div class="text-caption">
+                        Port 993
+                      </div>
                     </div>
                     <VBtn
                       icon="mdi-content-copy"
@@ -283,13 +401,21 @@
               </VAlert>
 
               <!-- Outbound SMTP -->
-              <VAlert type="info" density="compact" variant="tonal">
+              <VAlert
+                type="info"
+                density="compact"
+                variant="tonal"
+              >
                 <div class="d-flex flex-column">
                   <span class="text-caption text-medium-emphasis mb-1">Outbound (Secure SMTP)</span>
                   <div class="d-flex align-center justify-space-between">
                     <div>
-                      <div class="text-body-2 font-weight-medium">secure.emailsrvr.com</div>
-                      <div class="text-caption">Ports 465 or 587</div>
+                      <div class="text-body-2 font-weight-medium">
+                        secure.emailsrvr.com
+                      </div>
+                      <div class="text-caption">
+                        Ports 465 or 587
+                      </div>
                     </div>
                     <VBtn
                       icon="mdi-content-copy"
@@ -304,7 +430,9 @@
 
             <!-- Help Links -->
             <div>
-              <h3 class="text-h6 mb-3">Resources</h3>
+              <h3 class="text-h6 mb-3">
+                Resources
+              </h3>
 
               <VBtn
                 color="primary"
@@ -314,9 +442,16 @@
                 target="_blank"
                 class="mb-2"
               >
-                <VIcon icon="mdi-book-open-variant" class="me-2" />
+                <VIcon
+                  icon="mdi-book-open-variant"
+                  class="me-2"
+                />
                 Configuration Guide
-                <VIcon icon="mdi-open-in-new" class="ms-2" size="16" />
+                <VIcon
+                  icon="mdi-open-in-new"
+                  class="ms-2"
+                  size="16"
+                />
               </VBtn>
 
               <VBtn
@@ -326,16 +461,25 @@
                 href="https://status.emailsrvr.com/"
                 target="_blank"
               >
-                <VIcon icon="mdi-information" class="me-2" />
+                <VIcon
+                  icon="mdi-information"
+                  class="me-2"
+                />
                 Service Status
-                <VIcon icon="mdi-open-in-new" class="ms-2" size="16" />
+                <VIcon
+                  icon="mdi-open-in-new"
+                  class="ms-2"
+                  size="16"
+                />
               </VBtn>
             </div>
           </div>
         </VCardText>
         <VCardActions>
           <VSpacer />
-          <VBtn @click="showConfigDialog = false">Close</VBtn>
+          <VBtn @click="showConfigDialog = false">
+            Close
+          </VBtn>
         </VCardActions>
       </VCard>
     </VDialog>
@@ -455,8 +599,8 @@ const confirmCreateEmail = async () => {
     showCreateConfirmation.value = false
 
     // Refresh member data to update email list
-    if (memberNumber.value && memberStore.currentMember?.natcaId) {
-      await memberStore.fetchMemberData(memberNumber.value, memberStore.currentMember.natcaId)
+    if (memberNumber.value && memberStore.currentMember?.natca_id) {
+      await memberStore.fetchMemberData(memberNumber.value, memberStore.currentMember.natca_id)
     }
   } catch (err: any) {
     error.value = err.message || 'Failed to create email account'

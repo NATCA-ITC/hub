@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useHead } from '@vueuse/head'
+import { useHead } from '@unhead/vue'
 import { useAuth0 } from '@/composables/useAuth0'
 
 definePage({
@@ -86,14 +86,19 @@ onMounted(() => {
       </div>
 
       <!-- Loading State -->
-      <div v-if="isLoading" class="text-center pa-8">
+      <div
+        v-if="isLoading"
+        class="text-center pa-8"
+      >
         <VProgressCircular
           indeterminate
           color="primary"
           size="48"
           class="mb-4"
         />
-        <p class="text-body-2">Initializing authentication...</p>
+        <p class="text-body-2">
+          Initializing authentication...
+        </p>
       </div>
 
       <!-- Error State -->
@@ -105,44 +110,97 @@ onMounted(() => {
       />
 
       <!-- Login Content -->
-      <div v-if="!isLoading && !isAuthenticated" class="text-center">
+      <div
+        v-if="!isLoading && !isAuthenticated"
+        class="text-center"
+      >
         <!-- Benefits Section -->
         <div class="mb-6">
-          <h3 class="text-h6 mb-4">Access Your Member Dashboard</h3>
+          <h3 class="text-h6 mb-4">
+            Access Your Member Dashboard
+          </h3>
           <VRow class="mb-4">
-            <VCol cols="12" sm="6">
+            <VCol
+              cols="12"
+              sm="6"
+            >
               <div class="d-flex align-center pa-3">
-                <VIcon icon="mdi-bell" color="primary" size="24" class="me-3" />
+                <VIcon
+                  icon="mdi-bell"
+                  color="primary"
+                  size="24"
+                  class="me-3"
+                />
                 <div class="text-start">
-                  <p class="text-subtitle-2 mb-0">Member Updates</p>
-                  <p class="text-caption text-medium-emphasis">Stay informed with latest news</p>
+                  <p class="text-subtitle-2 mb-0">
+                    Member Updates
+                  </p>
+                  <p class="text-caption text-medium-emphasis">
+                    Stay informed with latest news
+                  </p>
                 </div>
               </div>
             </VCol>
-            <VCol cols="12" sm="6">
+            <VCol
+              cols="12"
+              sm="6"
+            >
               <div class="d-flex align-center pa-3">
-                <VIcon icon="mdi-email" color="success" size="24" class="me-3" />
+                <VIcon
+                  icon="mdi-email"
+                  color="success"
+                  size="24"
+                  class="me-3"
+                />
                 <div class="text-start">
-                  <p class="text-subtitle-2 mb-0">Email Services</p>
-                  <p class="text-caption text-medium-emphasis">Manage your NATCA email</p>
+                  <p class="text-subtitle-2 mb-0">
+                    Email Services
+                  </p>
+                  <p class="text-caption text-medium-emphasis">
+                    Manage your NATCA email
+                  </p>
                 </div>
               </div>
             </VCol>
-            <VCol cols="12" sm="6">
+            <VCol
+              cols="12"
+              sm="6"
+            >
               <div class="d-flex align-center pa-3">
-                <VIcon icon="mdi-robot" color="info" size="24" class="me-3" />
+                <VIcon
+                  icon="mdi-robot"
+                  color="info"
+                  size="24"
+                  class="me-3"
+                />
                 <div class="text-start">
-                  <p class="text-subtitle-2 mb-0">AI Assistant</p>
-                  <p class="text-caption text-medium-emphasis">Get instant help and answers</p>
+                  <p class="text-subtitle-2 mb-0">
+                    AI Assistant
+                  </p>
+                  <p class="text-caption text-medium-emphasis">
+                    Get instant help and answers
+                  </p>
                 </div>
               </div>
             </VCol>
-            <VCol cols="12" sm="6">
+            <VCol
+              cols="12"
+              sm="6"
+            >
               <div class="d-flex align-center pa-3">
-                <VIcon icon="mdi-chart-line" color="warning" size="24" class="me-3" />
+                <VIcon
+                  icon="mdi-chart-line"
+                  color="warning"
+                  size="24"
+                  class="me-3"
+                />
                 <div class="text-start">
-                  <p class="text-subtitle-2 mb-0">Analytics & Reports</p>
-                  <p class="text-caption text-medium-emphasis">Member statistics and data</p>
+                  <p class="text-subtitle-2 mb-0">
+                    Analytics & Reports
+                  </p>
+                  <p class="text-caption text-medium-emphasis">
+                    Member statistics and data
+                  </p>
                 </div>
               </div>
             </VCol>
@@ -155,10 +213,13 @@ onMounted(() => {
           size="large"
           variant="flat"
           block
-          @click="handleLogin"
           :loading="isLoading"
+          @click="handleLogin"
         >
-          <VIcon icon="mdi-login" start />
+          <VIcon
+            icon="mdi-login"
+            start
+          />
           Sign In with MyNATCA Account
         </VBtn>
 
@@ -172,9 +233,19 @@ onMounted(() => {
       </div>
 
       <!-- Already Authenticated -->
-      <div v-if="!isLoading && isAuthenticated" class="text-center">
-        <VIcon icon="mdi-check-circle" color="success" size="64" class="mb-4" />
-        <h3 class="text-h6 mb-2">Welcome back, {{ user?.name }}!</h3>
+      <div
+        v-if="!isLoading && isAuthenticated"
+        class="text-center"
+      >
+        <VIcon
+          icon="mdi-check-circle"
+          color="success"
+          size="64"
+          class="mb-4"
+        />
+        <h3 class="text-h6 mb-2">
+          Welcome back, {{ user?.name }}!
+        </h3>
         <p class="text-body-2 text-medium-emphasis mb-4">
           You're already signed in. Redirecting to your dashboard...
         </p>
