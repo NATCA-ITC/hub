@@ -1,4 +1,4 @@
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, URL } from 'node:url'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -14,7 +14,6 @@ import vuetify from 'vite-plugin-vuetify'
 export default defineConfig({
   server: {
     port: 1302,
-    host: true,
     proxy: {
       '/api': {
         target: 'http://localhost:1300',
@@ -44,8 +43,11 @@ export default defineConfig({
     vueJsx(),
 
     vuetify({
+      autoImport: true,
       styles: {
-        configFile: 'src/assets/styles/variables/_vuetify.scss',
+        configFile: fileURLToPath(
+          import.meta.resolve('@natca-itc/ui-shell/scss/settings.scss'),
+        ),
       },
     }),
 

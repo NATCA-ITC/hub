@@ -1,0 +1,11 @@
+-- Hub seed config
+-- Infrastructure data that Hub needs to function: enums, lookup tables, default settings.
+-- Hub is a frontend app — no proxy routes needed (calls Platform APIs directly).
+--
+-- When the Updates system migrations land, add:
+--   - content_types enum values
+--   - topic lookup rows
+--   - area lookup rows
+--   - default lifecycle states
+
+-- (no config data yet — will be populated when updates system schema is created)

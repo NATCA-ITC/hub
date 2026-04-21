@@ -192,3 +192,5 @@ TEMP/
 .claude/commands/sync-to-notion.md
 .claude/commands/validate-setup.md
 .claude/rules/shared
+supabase/seed/local/
+.claude/commands/refresh-standards.md
