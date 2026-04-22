@@ -54,6 +54,32 @@ export const movementSidebar: NatcaNavSection[] = [
   },
 ]
 
+// NCEPT-specific sidebar with section anchors for in-page navigation
+export const nceptSidebar: NatcaNavSection[] = [
+  {
+    title: 'Employee Movement',
+    items: [
+      { id: 'mov-overview', label: 'Overview', icon: 'mdi-swap-horizontal-bold', to: '/employee-movement' },
+      { id: 'mov-ncept', label: 'NCEPT', icon: 'mdi-chart-timeline-variant', to: '/employee-movement/ncept' },
+      { id: 'mov-hardship', label: 'Hardship', icon: 'mdi-heart-pulse', to: '/employee-movement/hardship' },
+      { id: 'mov-ssr', label: 'SSR', icon: 'mdi-clipboard-text-search', to: '/employee-movement/ssr' },
+      { id: 'mov-nest', label: 'NEST', icon: 'mdi-swap-horizontal', to: '/employee-movement/nest' },
+    ],
+  },
+  {
+    title: 'On This Page',
+    items: [
+      { id: 'ncept-snapshot', label: 'Staffing Snapshot', icon: 'mdi-counter', to: '/employee-movement/ncept#staffing-snapshot' },
+      { id: 'ncept-overview', label: 'Staffing Overview', icon: 'mdi-chart-timeline-variant', to: '/employee-movement/ncept#staffing-overview' },
+      { id: 'ncept-facility', label: 'Facility Data', icon: 'mdi-office-building', to: '/employee-movement/ncept#facility-data' },
+      { id: 'ncept-lists', label: 'Placement Lists', icon: 'mdi-format-list-numbered', to: '/employee-movement/ncept#placement-lists' },
+      { id: 'ncept-charts', label: 'Charts & Trends', icon: 'mdi-chart-line', to: '/employee-movement/ncept#charts' },
+      { id: 'ncept-err', label: 'ERR Process', icon: 'mdi-file-document-check', to: '/employee-movement/ncept#err-process' },
+      { id: 'ncept-resources', label: 'Resources', icon: 'mdi-file-document-multiple', to: '/employee-movement/ncept#resources' },
+    ],
+  },
+]
+
 export const safetySidebar: NatcaNavSection[] = [
   {
     title: 'Safety & Technology',
