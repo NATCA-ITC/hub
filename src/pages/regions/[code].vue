@@ -11,6 +11,18 @@
       </template>
     </NatcaPageHeader>
 
+    <!-- Facility Quick Nav -->
+    <VAutocomplete
+      v-model="selectedFacility"
+      :items="facilityOptions"
+      label="Navigate to a facility dashboard..."
+      prepend-inner-icon="mdi-magnify"
+      style="max-width: 500px;"
+      hide-details
+      clearable
+      @update:model-value="navigateToFacility"
+    />
+
     <template v-if="region">
       <!-- Regional Leadership -->
       <NatcaCard title="Regional Leadership">
@@ -61,12 +73,45 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, computed, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { NatcaPageHeader, NatcaCard, NatcaEmptyState } from '@natca-itc/ui-shell'
+import { MemberService } from '@/services/memberService'
+import type { Facility } from '@/plugins/supabase'
 
 const route = useRoute()
+const router = useRouter()
 const code = computed(() => (route.params.code as string)?.toUpperCase())
+
+const facilities = ref<Facility[]>([])
+const selectedFacility = ref<string | null>(null)
+
+// Filter facilities to this region once we have data
+const facilityOptions = computed(() =>
+  facilities.value
+    .filter(f => {
+      // TODO: filter by region_id once we map region codes to IDs
+      return true
+    })
+    .map(f => ({
+      title: `${f.code} — ${f.name}`,
+      value: f.code,
+    })),
+)
+
+function navigateToFacility(code: string | null) {
+  if (code) {
+    router.push(`/facilities/${code.toLowerCase()}`)
+  }
+}
+
+onMounted(async () => {
+  try {
+    facilities.value = await MemberService.getAllFacilities()
+  } catch {
+    // Will load when Supabase is connected
+  }
+})
 
 const regions: Record<string, { code: string; name: string; description: string }> = {
   'NAL': { code: 'NAL', name: 'Alaska', description: 'Covering all ATC facilities in the state of Alaska.' },

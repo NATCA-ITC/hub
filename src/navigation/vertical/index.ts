@@ -107,6 +107,18 @@ export const resourcesSidebar: NatcaNavSection[] = [
   },
 ]
 
+export const facilityDashboardSidebar: NatcaNavSection[] = [
+  {
+    title: 'Facility Dashboard',
+    items: [
+      { id: 'fac-info', label: 'Information', icon: 'mdi-office-building', to: '#info' },
+      { id: 'fac-reps', label: 'Representatives', icon: 'mdi-account-tie', to: '#representatives' },
+      { id: 'fac-ncept', label: 'NCEPT Staffing', icon: 'mdi-chart-timeline-variant', to: '#ncept' },
+      { id: 'fac-files', label: 'Documents', icon: 'mdi-folder-open', to: '#files' },
+    ],
+  },
+]
+
 export const adminSidebar: NatcaNavSection[] = [
   {
     title: 'Admin Tools',

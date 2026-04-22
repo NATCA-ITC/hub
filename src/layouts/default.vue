@@ -13,6 +13,7 @@ import {
   legislativeSidebar,
   safetySidebar,
   resourcesSidebar,
+  facilityDashboardSidebar,
   adminSidebar,
 } from '@/navigation/vertical'
 
@@ -26,16 +27,19 @@ const sidebarSections = computed(() => {
   const path = route.path
 
   if (path.startsWith('/events')) return eventsSidebar
-  if (path === '/employee-movement/ncept') return nceptSidebar
+  if (path === '/employee-movement/ncept' || path.startsWith('/employee-movement/ncept#')) return nceptSidebar
   if (path.startsWith('/employee-movement')) return movementSidebar
   if (path.startsWith('/legislative')) return legislativeSidebar
   if (path.startsWith('/safety')) return safetySidebar
   if (path.startsWith('/resources')) return resourcesSidebar
 
+  // Facility dashboard — /facilities/:code
+  if (/^\/facilities\/[^/]+/.test(path)) return facilityDashboardSidebar
+
   // Admin-level pages show admin sidebar
   if (
     path.startsWith('/profile')
-    || path.startsWith('/facilities')
+    || path === '/facilities'
     || path.startsWith('/db-explorer')
     || path.startsWith('/infrastructure')
     || path.startsWith('/analytics')
