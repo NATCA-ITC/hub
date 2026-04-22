@@ -2,7 +2,7 @@ import { ref, computed, onMounted } from 'vue'
 
 // Platform OAuth 2.0 configuration
 const PLATFORM_CONFIG = {
-  baseUrl: import.meta.env.DEV ? '' : (import.meta.env.VITE_PLATFORM_API_URL || ''),
+  baseUrl: '',  // Always same-origin — Vite proxy (dev) or Hub backend (prod) forwards to Platform
   loginUrl: '/api/auth/login',
   logoutUrl: '/api/auth/logout',
   sessionUrl: '/api/auth/session'

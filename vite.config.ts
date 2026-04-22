@@ -16,7 +16,7 @@ export default defineConfig({
     port: 1302,
     proxy: {
       '/api': {
-        target: 'http://localhost:1300',
+        target: 'http://localhost:1301',
         changeOrigin: true,
         secure: false,
         cookieDomainRewrite: 'localhost',
