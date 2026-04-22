@@ -10,6 +10,17 @@ COPY package.json package-lock.json ./
 RUN npm ci --legacy-peer-deps
 
 COPY . .
+
+# Vite env vars — baked into the frontend at build time
+ARG VITE_SUPABASE_URL
+ARG VITE_SUPABASE_ANON_KEY
+ARG VITE_SUPABASE_SERVICE_ROLE_KEY
+ARG VITE_AUTH0_DOMAIN
+ARG VITE_AUTH0_CLIENT_ID
+ARG VITE_AUTH0_AUDIENCE
+ARG VITE_PLATFORM_API_URL
+ARG VITE_APP_TITLE=MyNATCA Hub
+
 RUN npm run build && rm -f .npmrc
 
 FROM node:22-slim
@@ -27,7 +38,7 @@ COPY --from=build /app/dist ./dist
 COPY server ./server
 
 ENV NODE_ENV=production
-ENV PORT=1301
-EXPOSE 1301
+ENV PORT=80
+EXPOSE 80
 
 CMD ["node", "server/index.js"]
