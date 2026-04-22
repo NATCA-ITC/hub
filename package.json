@@ -20,8 +20,8 @@
     "apexcharts": "3.54.1",
     "axios": "^1.15.2",
     "pinia": "3.0.2",
-    "vue": "3.5.14",
-    "vue-router": "4.5.1",
+    "vue": "^3.5.33",
+    "vue-router": "^5.0.6",
     "vue3-apexcharts": "1.8.0",
     "vuetify": "3.8.5",
     "webfontloader": "1.6.28"
