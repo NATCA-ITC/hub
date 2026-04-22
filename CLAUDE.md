@@ -1,9 +1,11 @@
 # MyNATCA Hub — CLAUDE.md
-_Last updated: 2026-04-09_
+_Last updated: 2026-04-22_
 
 ## WHY — Project Purpose
 
-MyNATCA Hub is the admin dashboard for NATCA's MyNATCA platform. It provides ITC staff and authorized members with tools for member management, facility data exploration, infrastructure monitoring (Rackspace email), and database visibility. Hub is the operational control plane — where internal tooling lives.
+MyNATCA Hub is the member portal for NATCA, replacing the authenticated members section of natca.org. It provides members with access to updates, staffing data (NCEPT), events, legislative info, safety programs, committee/region pages, training, and document resources. Hub also serves as the admin control plane for ITC staff (member management, infrastructure monitoring, database tools).
+
+Hub is actively migrating content from the WordPress-based natca.org members home. See `docs/page-inventory.md` for the full migration tracker.
 
 ## WHAT — Stack & Structure
 
@@ -216,11 +218,23 @@ After writing, run `/sync-to-notion` and add returned URL to `Notion Page:` fiel
 - Merging PRs with lint/typecheck/test failures
 - Writing ADRs or changing architecture docs without syncing to Notion
 
+## Page Inventory — Migration Tracker
+Hub is replacing the members section of natca.org. `docs/page-inventory.md` tracks every WordPress page and its Hub migration status.
+
+**When building or modifying Hub pages, update the inventory:**
+- New page created → set status to **Stub** or **Done**
+- Page gets real content → update status to **Done**
+- Page deferred → mark **Deferred** with reason
+- DMS embed added → update from **DMS** to **Done**
+
+The inventory is the source of truth for migration progress. Keep it current.
+
 ## Done Checklist
 - Lint, typecheck, and build pass
 - Spec updated if behavior changed
 - ADR written if architectural decision made
 - Notion synced if ADR or architecture changed
 - agent_docs updated if system structure changed
+- **Page inventory updated if a page was added, modified, or migrated**
 - Linear issue updated with completion comment and correct status
 - PR opened via `/open-pr`, Linear issue linked, docs listed
