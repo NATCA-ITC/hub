@@ -38,7 +38,7 @@
       </VCol>
       <VCol cols="12" sm="6" md="3">
         <router-link to="/employee-movement/nest" class="text-decoration-none">
-          <NatcaHeaderCard icon="mdi-swap-horizontal" title="NEST" subtitle="NEST">
+          <NatcaHeaderCard icon="mdi-swap-horizontal" title="NEST" subtitle="National Employee Services Team">
             <p class="text-body-2">
               NEST program information, eligibility, and resources for members.
             </p>
