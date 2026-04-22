@@ -141,6 +141,8 @@ const navigateToApp = (app: NatcaApp) => {
     @search="handleSearch"
     @app-select="navigateToApp"
   >
-    <RouterView />
+    <div class="pa-6">
+      <RouterView />
+    </div>
   </NatcaShell>
 </template>

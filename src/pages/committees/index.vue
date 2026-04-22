@@ -16,9 +16,11 @@
 
     <VRow>
       <VCol v-for="committee in filteredCommittees" :key="committee.slug" cols="12" sm="6" md="4">
-        <NatcaCard :title="committee.name" :subtitle="committee.abbr">
-          <p class="text-body-2 text-medium-emphasis">{{ committee.description }}</p>
-        </NatcaCard>
+        <router-link :to="`/committees/${committee.slug}`" class="text-decoration-none">
+          <NatcaCard :title="committee.name" :subtitle="committee.abbr">
+            <p class="text-body-2 text-medium-emphasis">{{ committee.description }}</p>
+          </NatcaCard>
+        </router-link>
       </VCol>
     </VRow>
   </div>

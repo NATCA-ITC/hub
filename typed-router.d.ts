@@ -22,6 +22,7 @@ declare module 'vue-router/auto-routes' {
     '$error': RouteRecordInfo<'$error', '/:error(.*)', { error: ParamValue<true> }, { error: ParamValue<false> }>,
     'analytics': RouteRecordInfo<'analytics', '/analytics', Record<never, never>, Record<never, never>>,
     'committees': RouteRecordInfo<'committees', '/committees', Record<never, never>, Record<never, never>>,
+    'committees-slug': RouteRecordInfo<'committees-slug', '/committees/:slug', { slug: ParamValue<true> }, { slug: ParamValue<false> }>,
     'db-explorer': RouteRecordInfo<'db-explorer', '/db-explorer', Record<never, never>, Record<never, never>>,
     'events': RouteRecordInfo<'events', '/events', Record<never, never>, Record<never, never>>,
     'events-atx': RouteRecordInfo<'events-atx', '/events/atx', Record<never, never>, Record<never, never>>,
