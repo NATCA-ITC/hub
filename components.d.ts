@@ -7,6 +7,8 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    DocumentLink: typeof import('./src/components/DocumentLink.vue')['default']
+    DocumentViewer: typeof import('./src/components/DocumentViewer.vue')['default']
     MemberUpdatesCard: typeof import('./src/components/dashboard/MemberUpdatesCard.vue')['default']
     PositionsCard: typeof import('./src/components/dashboard/PositionsCard.vue')['default']
     ProfileCard: typeof import('./src/components/dashboard/ProfileCard.vue')['default']
