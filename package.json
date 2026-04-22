@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
-    "@natca-itc/ui-shell": "file:../natca-ui-shell",
+    "@natca-itc/ui-shell": "0.4.0-beta.2",
     "@supabase/supabase-js": "^2.51.0",
     "@unhead/vue": "^3.0.4",
     "@vueuse/core": "10.11.1",

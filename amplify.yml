@@ -3,6 +3,8 @@ frontend:
   phases:
     preBuild:
       commands:
+        - echo "@natca-itc:registry=https://npm.pkg.github.com" > .npmrc
+        - echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" >> .npmrc
         - npm ci --legacy-peer-deps
     build:
       commands:
