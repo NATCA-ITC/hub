@@ -49,59 +49,17 @@
       </NatcaCard>
     </div>
 
-    <!-- Thresholds -->
-    <div id="thresholds">
-      <NatcaCard title="Current Thresholds">
-        <NatcaStatGrid :cols="3">
-          <NatcaStatCard label="Releasing Threshold" value="≥ 81%" change="Current CPC to Target" change-color="info" />
-          <NatcaStatCard label="12-Month ETT" value="≥ 85%" change="Expected To Target" change-color="info" />
-          <NatcaStatCard label="En Route Gaining" value="TBD" change="Set per panel via PPT" />
-        </NatcaStatGrid>
-        <p class="text-body-2 mt-4 text-medium-emphasis">
-          Thresholds are reviewed and may be adjusted at each NCEPT panel based on national staffing
-          conditions. The releasing threshold was updated in January 2026 following CRWG updates.
-        </p>
-      </NatcaCard>
-    </div>
-
-    <!-- Documents -->
-    <div id="documents">
-      <NatcaCard title="Documents & Resources">
-        <div class="d-flex flex-column ga-3">
-          <DocumentLink
-            title="NCEPT Standard Operating Procedures"
-            subtitle="Includes staffing standard methodology and review process"
-            url="https://www.natca.org/wp-content/uploads/2020/06/2019-NCEPT-SOP-May-2019.pdf"
-            @view="openViewer"
-          />
-        </div>
-        <NatcaAnnotation type="tip" class="mt-4">
-          <strong>Facility-level data:</strong> Per-facility staffing metrics (CPC target, on-board,
-          training pipeline) are available in the monthly PPT and ETT reports on the
-          <router-link to="/employee-movement/ncept#charts">NCEPT page</router-link>.
-        </NatcaAnnotation>
-      </NatcaCard>
-    </div>
-
-    <DocumentViewer v-model="viewerOpen" :title="viewerTitle" :url="viewerUrl" />
+    <!-- Cross-reference -->
+    <NatcaAnnotation type="tip">
+      <strong>Facility-level data:</strong> Per-facility staffing metrics (CPC target, on-board,
+      training pipeline) and current thresholds are available on the
+      <router-link to="/employee-movement/ncept">NCEPT page</router-link>.
+    </NatcaAnnotation>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { NatcaPageHeader, NatcaCard, NatcaAnnotation, NatcaStatGrid, NatcaStatCard } from '@natca-itc/ui-shell'
-import DocumentLink from '@/components/DocumentLink.vue'
-import DocumentViewer from '@/components/DocumentViewer.vue'
-
-const viewerOpen = ref(false)
-const viewerTitle = ref('')
-const viewerUrl = ref('')
-
-function openViewer(url: string) {
-  viewerUrl.value = url
-  viewerTitle.value = decodeURIComponent(url.split('/').pop()?.replace(/\.[^.]+$/, '').replace(/-/g, ' ') ?? 'Document')
-  viewerOpen.value = true
-}
+import { NatcaPageHeader, NatcaCard, NatcaAnnotation } from '@natca-itc/ui-shell'
 
 const metrics = [
   { name: 'CPC Target', description: 'Number of certified controllers the facility needs', usage: 'Releasing/gaining determination' },
