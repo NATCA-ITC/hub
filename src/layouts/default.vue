@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, watch, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { NatcaShell } from '@natca-itc/ui-shell'
 import type { NatcaBreadcrumb, NatcaApp, NatcaUser } from '@natca-itc/ui-shell'
@@ -114,6 +114,21 @@ const handleProfileAction = (action: string) => {
       break
   }
 }
+
+// Scroll to hash anchors within the shell content container
+// Vue Router's scrollBehavior targets the window, but our scroll container
+// is .natca-shell-content (overflow: auto). Watch for hash changes and
+// scroll the correct element.
+watch(() => route.hash, async (hash) => {
+  if (!hash) return
+  await nextTick()
+  const el = document.querySelector(hash)
+  const container = document.querySelector('.natca-shell-content')
+  if (el && container) {
+    const top = el.getBoundingClientRect().top - container.getBoundingClientRect().top + container.scrollTop
+    container.scrollTo({ top, behavior: 'smooth' })
+  }
+}, { immediate: true })
 
 const handleSearch = (query: string) => {
   console.log('Search:', query)
