@@ -44,6 +44,7 @@ declare module 'vue-router/auto-routes' {
     'login': RouteRecordInfo<'login', '/login', Record<never, never>, Record<never, never>>,
     'profile': RouteRecordInfo<'profile', '/profile', Record<never, never>, Record<never, never>>,
     'regions': RouteRecordInfo<'regions', '/regions', Record<never, never>, Record<never, never>>,
+    'regions-code': RouteRecordInfo<'regions-code', '/regions/:code', { code: ParamValue<true> }, { code: ParamValue<false> }>,
     'resources': RouteRecordInfo<'resources', '/resources', Record<never, never>, Record<never, never>>,
     'resources-constitution': RouteRecordInfo<'resources-constitution', '/resources/constitution', Record<never, never>, Record<never, never>>,
     'resources-contracts': RouteRecordInfo<'resources-contracts', '/resources/contracts', Record<never, never>, Record<never, never>>,
@@ -54,5 +55,6 @@ declare module 'vue-router/auto-routes' {
     'safety-articles': RouteRecordInfo<'safety-articles', '/safety/articles', Record<never, never>, Record<never, never>>,
     'safety-programs': RouteRecordInfo<'safety-programs', '/safety/programs', Record<never, never>, Record<never, never>>,
     'safety-training': RouteRecordInfo<'safety-training', '/safety/training', Record<never, never>, Record<never, never>>,
+    'training': RouteRecordInfo<'training', '/training', Record<never, never>, Record<never, never>>,
   }
 }

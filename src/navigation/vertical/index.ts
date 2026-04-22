@@ -9,6 +9,7 @@ export const hubTabs: NatcaTab[] = [
   { id: 'safety', label: 'Safety', icon: 'mdi-shield-check', to: '/safety' },
   { id: 'committees', label: 'Committees', icon: 'mdi-account-group', to: '/committees' },
   { id: 'regions', label: 'Regions', icon: 'mdi-map-marker-radius', to: '/regions' },
+  { id: 'training', label: 'Training', icon: 'mdi-school', to: '/training' },
   { id: 'resources', label: 'Resources', icon: 'mdi-file-document-multiple', to: '/resources' },
 ]
 

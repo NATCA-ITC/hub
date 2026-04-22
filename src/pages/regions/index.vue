@@ -7,9 +7,11 @@
 
     <VRow>
       <VCol v-for="region in regions" :key="region.code" cols="12" sm="6" md="4">
-        <NatcaHeaderCard :icon="'mdi-map-marker'" :title="region.name" :subtitle="region.code">
-          <p class="text-body-2 text-medium-emphasis">{{ region.description }}</p>
-        </NatcaHeaderCard>
+        <router-link :to="`/regions/${region.code.toLowerCase()}`" class="text-decoration-none">
+          <NatcaHeaderCard :icon="'mdi-map-marker'" :title="region.name" :subtitle="region.code">
+            <p class="text-body-2 text-medium-emphasis">{{ region.description }}</p>
+          </NatcaHeaderCard>
+        </router-link>
       </VCol>
     </VRow>
   </div>
