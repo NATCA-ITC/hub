@@ -4,7 +4,7 @@ import type { NatcaTab, NatcaNavSection } from '@natca-itc/ui-shell'
 export const hubTabs: NatcaTab[] = [
   { id: 'dashboard', label: 'Dashboard', icon: 'mdi-view-dashboard', to: '/' },
   { id: 'events', label: 'Events', icon: 'mdi-calendar-star', to: '/events' },
-  { id: 'ncept', label: 'NCEPT', icon: 'mdi-chart-timeline-variant', to: '/ncept' },
+  { id: 'movement', label: 'Movement', icon: 'mdi-swap-horizontal-bold', to: '/employee-movement' },
   { id: 'legislative', label: 'Legislative', icon: 'mdi-bank', to: '/legislative' },
   { id: 'safety', label: 'Safety', icon: 'mdi-shield-check', to: '/safety' },
   { id: 'committees', label: 'Committees', icon: 'mdi-account-group', to: '/committees' },
@@ -37,6 +37,19 @@ export const legislativeSidebar: NatcaNavSection[] = [
       { id: 'leg-house', label: 'House Counts', icon: 'mdi-account-multiple', to: '/legislative/house' },
       { id: 'leg-senate', label: 'Senate Counts', icon: 'mdi-account-multiple-check', to: '/legislative/senate' },
       { id: 'leg-resources', label: 'Resources', icon: 'mdi-book-open-variant', to: '/legislative/resources' },
+    ],
+  },
+]
+
+export const movementSidebar: NatcaNavSection[] = [
+  {
+    title: 'Employee Movement',
+    items: [
+      { id: 'mov-overview', label: 'Overview', icon: 'mdi-swap-horizontal-bold', to: '/employee-movement' },
+      { id: 'mov-ncept', label: 'NCEPT', icon: 'mdi-chart-timeline-variant', to: '/employee-movement/ncept' },
+      { id: 'mov-hardship', label: 'Hardship', icon: 'mdi-heart-pulse', to: '/employee-movement/hardship' },
+      { id: 'mov-ssr', label: 'SSR', icon: 'mdi-clipboard-text-search', to: '/employee-movement/ssr' },
+      { id: 'mov-nest', label: 'NEST', icon: 'mdi-swap-horizontal', to: '/employee-movement/nest' },
     ],
   },
 ]

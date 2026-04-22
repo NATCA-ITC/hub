@@ -8,6 +8,7 @@ import { useMemberStore } from '@/stores/memberStore'
 import {
   hubTabs,
   eventsSidebar,
+  movementSidebar,
   legislativeSidebar,
   safetySidebar,
   resourcesSidebar,
@@ -24,6 +25,7 @@ const sidebarSections = computed(() => {
   const path = route.path
 
   if (path.startsWith('/events')) return eventsSidebar
+  if (path.startsWith('/employee-movement')) return movementSidebar
   if (path.startsWith('/legislative')) return legislativeSidebar
   if (path.startsWith('/safety')) return safetySidebar
   if (path.startsWith('/resources')) return resourcesSidebar

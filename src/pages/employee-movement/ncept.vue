@@ -19,6 +19,14 @@
         description="Staffing metrics, placement lists, and facility-level CPC data will be available here once the Platform API is connected."
       />
     </NatcaCard>
+
+    <NatcaCard title="Priority & Selection Lists">
+      <NatcaEmptyState
+        icon="mdi-format-list-numbered"
+        title="Lists coming soon"
+        description="Current and historical NCEPT priority and selection lists. Reference documents will be embedded from DMS."
+      />
+    </NatcaCard>
   </div>
 </template>
 
