@@ -2,7 +2,7 @@ import { ref, computed, onMounted } from 'vue'
 
 // Platform OAuth 2.0 configuration
 const PLATFORM_CONFIG = {
-  baseUrl: import.meta.env.DEV ? '' : 'https://my.natca.org',
+  baseUrl: import.meta.env.DEV ? '' : (import.meta.env.VITE_PLATFORM_API_URL || ''),
   loginUrl: '/api/auth/login',
   logoutUrl: '/api/auth/logout',
   sessionUrl: '/api/auth/session'
