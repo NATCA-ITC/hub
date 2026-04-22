@@ -1,0 +1,9 @@
+node_modules
+dist
+.git
+TEMP
+*.md
+!README.md
+.claude
+.env
+.env.*
