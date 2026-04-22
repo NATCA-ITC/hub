@@ -4,7 +4,10 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-account" class="me-2" />
+            <VIcon
+              icon="mdi-account"
+              class="me-2"
+            />
             Member Profile
           </VCardTitle>
           <VCardText>
@@ -15,15 +18,26 @@
             >
               Please log in to view your profile.
             </VAlert>
-            <div v-else-if="loading || mynatcaLoading" class="text-center">
-              <VProgressCircular indeterminate color="primary" />
-              <p class="mt-2">Loading your profile...</p>
+            <div
+              v-else-if="loading || mynatcaLoading"
+              class="text-center"
+            >
+              <VProgressCircular
+                indeterminate
+                color="primary"
+              />
+              <p class="mt-2">
+                Loading your profile...
+              </p>
             </div>
             <div v-else>
               <VRow>
                 <!-- Basic Information -->
-                <VCol cols="12" md="6">
-                  <VCard variant="outlined" class="mb-4">
+                <VCol
+                  cols="12"
+                  md="6"
+                >
+                  <VCard class="mb-4">
                     <VCardTitle>Basic Information</VCardTitle>
                     <VCardText>
                       <VRow>
@@ -32,7 +46,6 @@
                             :model-value="fullName"
                             label="Full Name"
                             readonly
-                            variant="outlined"
                           />
                         </VCol>
                         <VCol cols="6">
@@ -40,7 +53,6 @@
                             :model-value="memberNumber"
                             label="Member Number"
                             readonly
-                            variant="outlined"
                           />
                         </VCol>
                         <VCol cols="6">
@@ -48,7 +60,6 @@
                             :model-value="username"
                             label="Username"
                             readonly
-                            variant="outlined"
                           />
                         </VCol>
                       </VRow>
@@ -57,8 +68,11 @@
                 </VCol>
 
                 <!-- Facility Information -->
-                <VCol cols="12" md="6">
-                  <VCard variant="outlined" class="mb-4">
+                <VCol
+                  cols="12"
+                  md="6"
+                >
+                  <VCard class="mb-4">
                     <VCardTitle>Facility Information</VCardTitle>
                     <VCardText>
                       <VRow>
@@ -67,7 +81,6 @@
                             :model-value="facilityName"
                             label="Primary Facility"
                             readonly
-                            variant="outlined"
                           />
                         </VCol>
                         <VCol cols="6">
@@ -75,7 +88,6 @@
                             :model-value="facilityCode"
                             label="Facility Code"
                             readonly
-                            variant="outlined"
                           />
                         </VCol>
                         <VCol cols="6">
@@ -83,7 +95,6 @@
                             :model-value="regionName"
                             label="Region"
                             readonly
-                            variant="outlined"
                           />
                         </VCol>
                       </VRow>
@@ -95,21 +106,35 @@
               <!-- Contact Information from MyNATCA API -->
               <VRow v-if="mynatcaProfile">
                 <!-- Email Addresses -->
-                <VCol cols="12" md="6">
-                  <VCard variant="outlined" class="mb-4">
+                <VCol
+                  cols="12"
+                  md="6"
+                >
+                  <VCard class="mb-4">
                     <VCardTitle class="d-flex align-center">
-                      <VIcon icon="mdi-email" class="me-2" />
+                      <VIcon
+                        icon="mdi-email"
+                        class="me-2"
+                      />
                       Email Addresses
                     </VCardTitle>
                     <VCardText>
-                      <div v-for="email in allEmails" :key="email.id" class="d-flex align-center py-1">
+                      <div
+                        v-for="email in allEmails"
+                        :key="email.id"
+                        class="d-flex align-center py-1"
+                      >
                         <VIcon
                           :icon="email.isprimary ? 'mdi-star' : 'mdi-star-outline'"
                           :color="email.isprimary ? 'amber' : 'grey'"
                           size="small"
                           class="me-2"
                         />
-                        <VIcon icon="mdi-email" size="small" class="me-2 text-primary" />
+                        <VIcon
+                          icon="mdi-email"
+                          size="small"
+                          class="me-2 text-primary"
+                        />
                         <span class="text-body-2">{{ email.email }}</span>
                       </div>
                     </VCardText>
@@ -117,14 +142,24 @@
                 </VCol>
 
                 <!-- Phone Numbers -->
-                <VCol cols="12" md="6">
-                  <VCard variant="outlined" class="mb-4">
+                <VCol
+                  cols="12"
+                  md="6"
+                >
+                  <VCard class="mb-4">
                     <VCardTitle class="d-flex align-center">
-                      <VIcon icon="mdi-phone" class="me-2" />
+                      <VIcon
+                        icon="mdi-phone"
+                        class="me-2"
+                      />
                       Phone Numbers
                     </VCardTitle>
                     <VCardText>
-                      <div v-for="phone in allPhones" :key="phone.id" class="d-flex align-center py-1">
+                      <div
+                        v-for="phone in allPhones"
+                        :key="phone.id"
+                        class="d-flex align-center py-1"
+                      >
                         <VIcon
                           :icon="phone.isprimary ? 'mdi-star' : 'mdi-star-outline'"
                           :color="phone.isprimary ? 'amber' : 'grey'"
@@ -153,16 +188,19 @@
               <!-- Actions -->
               <VRow>
                 <VCol cols="12">
-                  <VCard variant="outlined">
+                  <VCard>
                     <VCardTitle>Profile Actions</VCardTitle>
                     <VCardText>
                       <div class="d-flex gap-3">
                         <VBtn
                           color="primary"
-                          @click="refreshData"
                           :loading="loading || mynatcaLoading"
+                          @click="refreshData"
                         >
-                          <VIcon icon="mdi-refresh" class="me-2" />
+                          <VIcon
+                            icon="mdi-refresh"
+                            class="me-2"
+                          />
                           Refresh Data
                         </VBtn>
                         <VBtn
@@ -170,7 +208,10 @@
                           variant="outlined"
                           @click="logout"
                         >
-                          <VIcon icon="mdi-logout" class="me-2" />
+                          <VIcon
+                            icon="mdi-logout"
+                            class="me-2"
+                          />
                           Logout
                         </VBtn>
                       </div>
@@ -230,27 +271,27 @@ const getPhoneIcon = (phoneType: string) => {
 
 // Refresh all member data
 const refreshData = async () => {
-  if (memberNumber && currentMember?.natcaId) {
+  if (memberNumber && currentMember?.natca_id) {
     await Promise.all([
-      fetchMemberData(memberNumber, currentMember.natcaId, true),
-      fetchMyNATCAProfile(currentMember.natcaId, true)
+      fetchMemberData(memberNumber, currentMember.natca_id, true),
+      fetchMyNATCAProfile(currentMember.natca_id, true)
     ])
   }
 }
 
 onMounted(async () => {
-  if (isAuthenticated && memberNumber && currentMember?.natcaId) {
+  if (isAuthenticated && memberNumber && currentMember?.natca_id) {
     // Load MyNATCA profile if we don't have it yet
     if (!mynatcaProfile) {
-      await fetchMyNATCAProfile(currentMember.natcaId)
+      await fetchMyNATCAProfile(currentMember.natca_id)
     }
   }
 })
 
 // Watch for authentication changes
 watch(isAuthenticated, (authenticated) => {
-  if (authenticated && memberNumber && currentMember?.natcaId) {
-    fetchMyNATCAProfile(currentMember.natcaId)
+  if (authenticated && memberNumber && currentMember?.natca_id) {
+    fetchMyNATCAProfile(currentMember.natca_id)
   }
 })
 </script>

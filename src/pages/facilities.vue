@@ -5,16 +5,22 @@
         <VCard>
           <VCardTitle class="d-flex align-center justify-space-between">
             <div class="d-flex align-center">
-              <VIcon icon="mdi-office-building" class="me-2" />
+              <VIcon
+                icon="mdi-office-building"
+                class="me-2"
+              />
               Facilities Management
             </div>
             <VBtn
               color="primary"
               variant="outlined"
-              @click="refreshFacilities"
               :loading="loading"
+              @click="refreshFacilities"
             >
-              <VIcon icon="mdi-refresh" class="me-2" />
+              <VIcon
+                icon="mdi-refresh"
+                class="me-2"
+              />
               Refresh
             </VBtn>
           </VCardTitle>
@@ -29,30 +35,36 @@
             <div v-else>
               <!-- Search and Filters -->
               <VRow class="mb-4">
-                <VCol cols="12" md="4">
+                <VCol
+                  cols="12"
+                  md="4"
+                >
                   <VTextField
                     v-model="searchQuery"
                     label="Search facilities..."
                     prepend-inner-icon="mdi-magnify"
-                    variant="outlined"
                     clearable
                   />
                 </VCol>
-                <VCol cols="12" md="4">
+                <VCol
+                  cols="12"
+                  md="4"
+                >
                   <VSelect
                     v-model="selectedRegion"
                     :items="regionOptions"
                     label="Filter by Region"
-                    variant="outlined"
                     clearable
                   />
                 </VCol>
-                <VCol cols="12" md="4">
+                <VCol
+                  cols="12"
+                  md="4"
+                >
                   <VSelect
                     v-model="selectedType"
                     :items="facilityTypeOptions"
                     label="Filter by Type"
-                    variant="outlined"
                     clearable
                   />
                 </VCol>
@@ -63,9 +75,12 @@
                 :headers="facilityHeaders"
                 :items="filteredFacilities"
                 :loading="loading"
-                item-key="facility_code"
+                item-key="code"
                 :search="searchQuery"
               >
+                <template #item.region_id="{ item }">
+                  {{ getRegionName(item.region_id) }}
+                </template>
                 <template #item.status="{ item }">
                   <VChip
                     :color="getStatusColor(item.status)"
@@ -102,18 +117,19 @@
     >
       <VCard v-if="selectedFacility">
         <VCardTitle>
-          {{ selectedFacility.facility_name }}
-          ({{ selectedFacility.facility_code }})
+          {{ selectedFacility.name }}
+          ({{ selectedFacility.code }})
         </VCardTitle>
         <VCardText>
           <VRow>
             <VCol cols="6">
-              <p><strong>Code:</strong> {{ selectedFacility.facility_code }}</p>
-              <p><strong>Region:</strong> {{ selectedFacility.region_code }}</p>
+              <p><strong>Code:</strong> {{ selectedFacility.code }}</p>
+              <p><strong>Region:</strong> {{ getRegionName(selectedFacility.region_id) }}</p>
               <p><strong>Type:</strong> {{ selectedFacility.facility_type }}</p>
             </VCol>
             <VCol cols="6">
-              <p><strong>Status:</strong>
+              <p>
+                <strong>Status:</strong>
                 <VChip
                   :color="getStatusColor(selectedFacility.status)"
                   size="small"
@@ -126,11 +142,15 @@
 
           <!-- Mock additional facility information -->
           <VDivider class="my-4" />
-          <h4 class="mb-2">Contact Information</h4>
+          <h4 class="mb-2">
+            Contact Information
+          </h4>
           <p><strong>Phone:</strong> (555) 123-4567</p>
-          <p><strong>Address:</strong> 123 Aviation Way, {{ selectedFacility.facility_name }}</p>
+          <p><strong>Address:</strong> 123 Aviation Way, {{ selectedFacility.name }}</p>
 
-          <h4 class="mt-4 mb-2">Operating Hours</h4>
+          <h4 class="mt-4 mb-2">
+            Operating Hours
+          </h4>
           <p><strong>24/7 Operations:</strong> Yes</p>
           <p><strong>Administrative Hours:</strong> Monday-Friday 8:00 AM - 5:00 PM</p>
         </VCardText>
@@ -143,7 +163,9 @@
           >
             View Infrastructure
           </VBtn>
-          <VBtn @click="detailsDialog = false">Close</VBtn>
+          <VBtn @click="detailsDialog = false">
+            Close
+          </VBtn>
         </VCardActions>
       </VCard>
     </VDialog>
@@ -160,28 +182,31 @@ import type { Facility } from '@/plugins/supabase'
 
 const router = useRouter()
 const { isAuthenticated } = useAuth0()
-const { getFacilities } = useSupabase()
+const { getFacilities, getRegions } = useSupabase()
 
 const loading = ref(false)
 const facilities = ref<Facility[]>([])
+const regionMap = ref<Record<number, string>>({})
 const searchQuery = ref('')
-const selectedRegion = ref<string | null>(null)
+const selectedRegion = ref<number | null>(null)
 const selectedType = ref<string | null>(null)
 const detailsDialog = ref(false)
 const selectedFacility = ref<Facility | null>(null)
 
 const facilityHeaders = [
-  { title: 'Code', key: 'facility_code' },
-  { title: 'Name', key: 'facility_name' },
-  { title: 'Region', key: 'region_code' },
+  { title: 'Code', key: 'code' },
+  { title: 'Name', key: 'name' },
+  { title: 'Region', key: 'region_id' },
   { title: 'Type', key: 'facility_type' },
   { title: 'Status', key: 'status' },
   { title: 'Actions', key: 'actions', sortable: false },
 ]
 
+const getRegionName = (regionId: number) => regionMap.value[regionId] || `Region ${regionId}`
+
 const regionOptions = computed(() => {
-  const regions = [...new Set(facilities.value.map(f => f.region_code))]
-  return regions.map(region => ({ title: region, value: region }))
+  const regionIds = [...new Set(facilities.value.map(f => f.region_id))]
+  return regionIds.map(id => ({ title: getRegionName(id), value: id }))
 })
 
 const facilityTypeOptions = computed(() => {
@@ -193,7 +218,7 @@ const filteredFacilities = computed(() => {
   let filtered = facilities.value
 
   if (selectedRegion.value) {
-    filtered = filtered.filter(f => f.region_code === selectedRegion.value)
+    filtered = filtered.filter(f => f.region_id === selectedRegion.value)
   }
 
   if (selectedType.value) {
@@ -206,8 +231,9 @@ const filteredFacilities = computed(() => {
 const loadFacilities = async () => {
   loading.value = true
   try {
-    const data = await getFacilities()
+    const [data, regions] = await Promise.all([getFacilities(), getRegions()])
     facilities.value = data
+    regionMap.value = Object.fromEntries(regions.map(r => [r.id, r.name]))
   } catch (error) {
     console.error('Error loading facilities:', error)
   } finally {
@@ -240,7 +266,7 @@ const viewFacilityDetails = (facility: Facility) => {
 const viewInfrastructure = (facility: Facility) => {
   router.push({
     name: 'infrastructure',
-    query: { facility: facility.facility_code }
+    query: { facility: facility.code }
   })
 }
 

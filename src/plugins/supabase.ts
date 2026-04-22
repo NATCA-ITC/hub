@@ -8,6 +8,8 @@ export interface Member {
   facility_id: string
   region_id: string
   membertypeid: number // 6 = Current Member
+  status?: string
+  natca_id?: number
   email?: string
   discord_id?: string
   auth0_user_id?: string

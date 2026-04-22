@@ -5,16 +5,22 @@
         <VCard>
           <VCardTitle class="d-flex align-center justify-space-between">
             <div class="d-flex align-center">
-              <VIcon icon="mdi-server" class="me-2" />
+              <VIcon
+                icon="mdi-server"
+                class="me-2"
+              />
               Infrastructure Monitoring
             </div>
             <VBtn
               color="primary"
               variant="outlined"
-              @click="refreshData"
               :loading="loading"
+              @click="refreshData"
             >
-              <VIcon icon="mdi-refresh" class="me-2" />
+              <VIcon
+                icon="mdi-refresh"
+                class="me-2"
+              />
               Refresh
             </VBtn>
           </VCardTitle>
@@ -28,7 +34,10 @@
             </VAlert>
             <div v-else>
               <VRow>
-                <VCol cols="12" md="4">
+                <VCol
+                  cols="12"
+                  md="4"
+                >
                   <VSelect
                     v-model="selectedFacility"
                     :items="facilityOptions"
@@ -38,11 +47,14 @@
                 </VCol>
               </VRow>
 
-              <div v-if="facilityInfrastructure" class="mt-4">
+              <div
+                v-if="facilityInfrastructure"
+                class="mt-4"
+              >
                 <!-- Health Status Overview -->
                 <VRow class="mb-4">
                   <VCol cols="12">
-                    <VCard variant="outlined">
+                    <VCard>
                       <VCardTitle>Health Status</VCardTitle>
                       <VCardText>
                         <VChip
@@ -64,7 +76,10 @@
                   <VCol cols="12">
                     <VCard>
                       <VCardTitle>
-                        <VIcon icon="mdi-server" class="me-2" />
+                        <VIcon
+                          icon="mdi-server"
+                          class="me-2"
+                        />
                         Servers ({{ facilityInfrastructure.servers.length }})
                       </VCardTitle>
                       <VCardText>
@@ -98,7 +113,10 @@
                   <VCol cols="12">
                     <VCard>
                       <VCardTitle>
-                        <VIcon icon="mdi-scale-balance" class="me-2" />
+                        <VIcon
+                          icon="mdi-scale-balance"
+                          class="me-2"
+                        />
                         Load Balancers ({{ facilityInfrastructure.loadBalancers.length }})
                       </VCardTitle>
                       <VCardText>
@@ -119,7 +137,10 @@
                             {{ formatDate(item.created.time) }}
                           </template>
                           <template #item.virtualIps="{ item }">
-                            <div v-for="vip in item.virtualIps" :key="vip.id">
+                            <div
+                              v-for="vip in item.virtualIps"
+                              :key="vip.id"
+                            >
                               {{ vip.address }} ({{ vip.type }})
                             </div>
                           </template>
@@ -130,13 +151,25 @@
                 </VRow>
               </div>
 
-              <VAlert v-else-if="!loading" type="info" class="mt-4">
+              <VAlert
+                v-else-if="!loading"
+                type="info"
+                class="mt-4"
+              >
                 Select a facility to view infrastructure information.
               </VAlert>
 
-              <div v-if="loading" class="text-center mt-4">
-                <VProgressCircular indeterminate color="primary" />
-                <p class="mt-2">Loading infrastructure data...</p>
+              <div
+                v-if="loading"
+                class="text-center mt-4"
+              >
+                <VProgressCircular
+                  indeterminate
+                  color="primary"
+                />
+                <p class="mt-2">
+                  Loading infrastructure data...
+                </p>
               </div>
             </div>
           </VCardText>

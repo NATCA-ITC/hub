@@ -8,17 +8,17 @@
     "build": "vite build",
     "preview": "vite preview --port 1302",
     "typecheck": "vue-tsc --noEmit",
-    "lint": "eslint . --fix --ext .ts,.js,.vue"
+    "lint": "eslint . --fix"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
     "@natca-itc/ui-shell": "file:../natca-ui-shell",
     "@supabase/supabase-js": "^2.51.0",
+    "@unhead/vue": "^3.0.4",
     "@vueuse/core": "10.11.1",
-    "@vueuse/head": "^2.0.0",
     "@vueuse/math": "10.11.1",
     "apexcharts": "3.54.1",
-    "axios": "^1.12.2",
+    "axios": "^1.15.2",
     "pinia": "3.0.2",
     "vue": "3.5.14",
     "vue-router": "4.5.1",
@@ -27,19 +27,24 @@
     "webfontloader": "1.6.28"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/node": "22.15.21",
     "@types/webfontloader": "1.6.38",
     "@vitejs/plugin-vue": "5.2.4",
     "@vitejs/plugin-vue-jsx": "4.2.0",
-    "sass": "1.76.0",
+    "eslint": "^10.2.1",
+    "eslint-plugin-vue": "^10.8.0",
+    "sass": "^1.99.0",
     "typescript": "5.8.3",
+    "typescript-eslint": "^8.59.0",
     "unplugin-auto-import": "0.18.6",
     "unplugin-vue-components": "0.27.5",
     "unplugin-vue-router": "0.8.8",
-    "vite": "6.3.5",
+    "vite": "^8.0.9",
     "vite-plugin-vue-devtools": "7.3.7",
     "vite-plugin-vue-meta-layouts": "0.5.1",
     "vite-plugin-vuetify": "2.0.3",
+    "vue-eslint-parser": "^10.4.0",
     "vue-tsc": "2.2.10"
   }
 }

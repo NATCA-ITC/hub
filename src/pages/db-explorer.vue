@@ -2,23 +2,34 @@
   <div class="pa-4">
     <VCard>
       <VCardTitle>
-        <VIcon icon="mdi-database" class="me-2" />
+        <VIcon
+          icon="mdi-database"
+          class="me-2"
+        />
         Database Structure Explorer
       </VCardTitle>
       <VCardText>
         <VBtn
           color="primary"
-          @click="exploreDatabase"
           :loading="loading"
           class="mb-4"
+          @click="exploreDatabase"
         >
-          <VIcon icon="mdi-refresh" class="me-2" />
+          <VIcon
+            icon="mdi-refresh"
+            class="me-2"
+          />
           Explore Database Structure
         </VBtn>
 
         <!-- Tables List -->
-        <div v-if="exploration.tables.length > 0" class="mb-6">
-          <h3 class="text-h6 mb-2">Available Tables ({{ exploration.tables.length }})</h3>
+        <div
+          v-if="exploration.tables.length > 0"
+          class="mb-6"
+        >
+          <h3 class="text-h6 mb-2">
+            Available Tables ({{ exploration.tables.length }})
+          </h3>
           <VChip
             v-for="table in exploration.tables"
             :key="table"
@@ -31,7 +42,9 @@
 
         <!-- Key Tables Details -->
         <div v-if="Object.keys(exploration.tableDetails).length > 0">
-          <h3 class="text-h6 mb-4">Key Tables Structure</h3>
+          <h3 class="text-h6 mb-4">
+            Key Tables Structure
+          </h3>
 
           <VExpansionPanels class="mb-4">
             <VExpansionPanel
@@ -41,7 +54,9 @@
             >
               <VExpansionPanelText>
                 <!-- Table Structure -->
-                <h4 class="text-subtitle-1 mb-2">Columns</h4>
+                <h4 class="text-subtitle-1 mb-2">
+                  Columns
+                </h4>
                 <VTable>
                   <thead>
                     <tr>
@@ -51,7 +66,10 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="column in columns" :key="column.column_name">
+                    <tr
+                      v-for="column in columns"
+                      :key="column.column_name"
+                    >
                       <td><code>{{ column.column_name }}</code></td>
                       <td>{{ column.data_type }}</td>
                       <td>{{ column.is_nullable }}</td>
@@ -60,11 +78,16 @@
                 </VTable>
 
                 <!-- Sample Data -->
-                <h4 class="text-subtitle-1 mt-4 mb-2">Sample Data</h4>
+                <h4 class="text-subtitle-1 mt-4 mb-2">
+                  Sample Data
+                </h4>
                 <div v-if="exploration.sampleData[tableName]?.length > 0">
                   <pre class="text-caption">{{ JSON.stringify(exploration.sampleData[tableName], null, 2) }}</pre>
                 </div>
-                <div v-else class="text-caption text-medium-emphasis">
+                <div
+                  v-else
+                  class="text-caption text-medium-emphasis"
+                >
                   No sample data available
                 </div>
               </VExpansionPanelText>
@@ -73,8 +96,13 @@
         </div>
 
         <!-- Member Details Test -->
-        <div v-if="memberSample.length > 0" class="mt-6">
-          <h3 class="text-h6 mb-2">Sample Member Data with Details</h3>
+        <div
+          v-if="memberSample.length > 0"
+          class="mt-6"
+        >
+          <h3 class="text-h6 mb-2">
+            Sample Member Data with Details
+          </h3>
           <VTable>
             <thead>
               <tr>
@@ -86,7 +114,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="member in memberSample" :key="member.member_number">
+              <tr
+                v-for="member in memberSample"
+                :key="member.member_number"
+              >
                 <td>{{ member.member_number }}</td>
                 <td>{{ member.first_name }} {{ member.last_name }}</td>
                 <td>{{ member.member_type_id }}</td>
