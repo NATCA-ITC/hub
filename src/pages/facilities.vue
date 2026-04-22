@@ -43,7 +43,6 @@
                     v-model="searchQuery"
                     label="Search facilities..."
                     prepend-inner-icon="mdi-magnify"
-                    variant="outlined"
                     clearable
                   />
                 </VCol>
@@ -55,7 +54,6 @@
                     v-model="selectedRegion"
                     :items="regionOptions"
                     label="Filter by Region"
-                    variant="outlined"
                     clearable
                   />
                 </VCol>
@@ -67,7 +65,6 @@
                     v-model="selectedType"
                     :items="facilityTypeOptions"
                     label="Filter by Type"
-                    variant="outlined"
                     clearable
                   />
                 </VCol>

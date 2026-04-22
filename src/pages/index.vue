@@ -188,11 +188,11 @@ const formatUpdateDate = (date: Date) => {
   font-size: 1.75rem;
   font-weight: 700;
   margin: 0 0 var(--space-2, 8px);
-  color: white;
+  color: rgb(var(--v-theme-on-surface));
 }
 
 .landing-card__subtitle {
-  color: rgba(255,255,255,0.6);
+  color: rgb(var(--v-theme-on-surface), 0.6);
   margin: 0 0 var(--space-6, 24px);
   font-size: 0.9375rem;
 }
@@ -244,20 +244,20 @@ const formatUpdateDate = (date: Date) => {
   font-size: 1.125rem;
   font-weight: 600;
   margin: 0;
-  color: white;
+  color: rgb(var(--v-theme-on-surface));
 }
 
 .update-dialog__close {
   background: transparent;
   border: none;
-  color: rgba(255,255,255,0.5);
+  color: rgb(var(--v-theme-on-surface), 0.5);
   cursor: pointer;
   padding: 4px;
   border-radius: 4px;
 }
 
 .update-dialog__close:hover {
-  color: white;
+  color: rgb(var(--v-theme-on-surface));
   background: rgba(255,255,255,0.08);
 }
 
@@ -307,7 +307,7 @@ const formatUpdateDate = (date: Date) => {
 
 .update-dialog__content {
   font-size: 0.875rem;
-  color: rgba(255,255,255,0.6);
+  color: rgb(var(--v-theme-on-surface), 0.6);
   margin: 0;
   line-height: 1.5;
 }

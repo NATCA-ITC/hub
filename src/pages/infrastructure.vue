@@ -54,7 +54,7 @@
                 <!-- Health Status Overview -->
                 <VRow class="mb-4">
                   <VCol cols="12">
-                    <VCard variant="outlined">
+                    <VCard>
                       <VCardTitle>Health Status</VCardTitle>
                       <VCardText>
                         <VChip

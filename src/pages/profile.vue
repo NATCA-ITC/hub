@@ -37,10 +37,7 @@
                   cols="12"
                   md="6"
                 >
-                  <VCard
-                    variant="outlined"
-                    class="mb-4"
-                  >
+                  <VCard class="mb-4">
                     <VCardTitle>Basic Information</VCardTitle>
                     <VCardText>
                       <VRow>
@@ -49,7 +46,6 @@
                             :model-value="fullName"
                             label="Full Name"
                             readonly
-                            variant="outlined"
                           />
                         </VCol>
                         <VCol cols="6">
@@ -57,7 +53,6 @@
                             :model-value="memberNumber"
                             label="Member Number"
                             readonly
-                            variant="outlined"
                           />
                         </VCol>
                         <VCol cols="6">
@@ -65,7 +60,6 @@
                             :model-value="username"
                             label="Username"
                             readonly
-                            variant="outlined"
                           />
                         </VCol>
                       </VRow>
@@ -78,10 +72,7 @@
                   cols="12"
                   md="6"
                 >
-                  <VCard
-                    variant="outlined"
-                    class="mb-4"
-                  >
+                  <VCard class="mb-4">
                     <VCardTitle>Facility Information</VCardTitle>
                     <VCardText>
                       <VRow>
@@ -90,7 +81,6 @@
                             :model-value="facilityName"
                             label="Primary Facility"
                             readonly
-                            variant="outlined"
                           />
                         </VCol>
                         <VCol cols="6">
@@ -98,7 +88,6 @@
                             :model-value="facilityCode"
                             label="Facility Code"
                             readonly
-                            variant="outlined"
                           />
                         </VCol>
                         <VCol cols="6">
@@ -106,7 +95,6 @@
                             :model-value="regionName"
                             label="Region"
                             readonly
-                            variant="outlined"
                           />
                         </VCol>
                       </VRow>
@@ -122,10 +110,7 @@
                   cols="12"
                   md="6"
                 >
-                  <VCard
-                    variant="outlined"
-                    class="mb-4"
-                  >
+                  <VCard class="mb-4">
                     <VCardTitle class="d-flex align-center">
                       <VIcon
                         icon="mdi-email"
@@ -161,10 +146,7 @@
                   cols="12"
                   md="6"
                 >
-                  <VCard
-                    variant="outlined"
-                    class="mb-4"
-                  >
+                  <VCard class="mb-4">
                     <VCardTitle class="d-flex align-center">
                       <VIcon
                         icon="mdi-phone"
@@ -206,7 +188,7 @@
               <!-- Actions -->
               <VRow>
                 <VCol cols="12">
-                  <VCard variant="outlined">
+                  <VCard>
                     <VCardTitle>Profile Actions</VCardTitle>
                     <VCardText>
                       <div class="d-flex gap-3">
