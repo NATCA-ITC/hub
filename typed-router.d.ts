@@ -35,6 +35,7 @@ declare module 'vue-router/auto-routes' {
     'events-convention': RouteRecordInfo<'events-convention', '/events/convention', Record<never, never>, Record<never, never>>,
     'events-niw': RouteRecordInfo<'events-niw', '/events/niw', Record<never, never>, Record<never, never>>,
     'facilities': RouteRecordInfo<'facilities', '/facilities', Record<never, never>, Record<never, never>>,
+    'facilities-code': RouteRecordInfo<'facilities-code', '/facilities/:code', { code: ParamValue<true> }, { code: ParamValue<false> }>,
     'infrastructure': RouteRecordInfo<'infrastructure', '/infrastructure', Record<never, never>, Record<never, never>>,
     'legislative': RouteRecordInfo<'legislative', '/legislative', Record<never, never>, Record<never, never>>,
     'legislative-house': RouteRecordInfo<'legislative-house', '/legislative/house', Record<never, never>, Record<never, never>>,
