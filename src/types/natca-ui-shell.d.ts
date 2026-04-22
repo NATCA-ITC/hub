@@ -15,6 +15,19 @@ declare module '@natca-itc/ui-shell' {
   export const NatcaShell: Component
   export const NatcaThemeToggle: Component
 
+  // Page-level components
+  export const NatcaPageHeader: Component
+  export const NatcaHeaderCard: Component
+  export const NatcaCard: Component
+  export const NatcaStatGrid: Component
+  export const NatcaStatCard: Component
+  export const NatcaEmptyState: Component
+  export const NatcaAlert: Component
+  export const NatcaButton: Component
+  export const NatcaPillNav: Component
+  export const NatcaDialog: Component
+  export const NatcaAnnotation: Component
+
   // Types
   export interface NatcaTab {
     id?: string
