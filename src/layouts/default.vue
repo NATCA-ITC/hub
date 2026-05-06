@@ -7,6 +7,7 @@ import { useAuth0 } from '@/composables/useAuth0'
 import { useMemberStore } from '@/stores/memberStore'
 import {
   hubTabs,
+  topicsSidebar,
   eventsSidebar,
   movementSidebar,
   nceptSidebar,
@@ -26,6 +27,7 @@ const memberStore = useMemberStore()
 const sidebarSections = computed(() => {
   const path = route.path
 
+  if (path.startsWith('/topics')) return topicsSidebar
   if (path.startsWith('/events')) return eventsSidebar
   if (path === '/employee-movement/ncept' || path.startsWith('/employee-movement/ncept#')) return nceptSidebar
   if (path.startsWith('/employee-movement')) return movementSidebar

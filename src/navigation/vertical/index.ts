@@ -3,6 +3,7 @@ import type { NatcaTab, NatcaNavSection } from '@natca-itc/ui-shell'
 // Hub tab navigation — top-level member portal sections
 export const hubTabs: NatcaTab[] = [
   { id: 'dashboard', label: 'Dashboard', icon: 'mdi-view-dashboard', to: '/' },
+  { id: 'topics', label: 'Topics', icon: 'mdi-forum', to: '/topics' },
   { id: 'events', label: 'Events', icon: 'mdi-calendar-star', to: '/events' },
   { id: 'movement', label: 'Movement', icon: 'mdi-swap-horizontal-bold', to: '/employee-movement' },
   { id: 'legislative', label: 'Legislative', icon: 'mdi-bank', to: '/legislative' },
@@ -15,6 +16,48 @@ export const hubTabs: NatcaTab[] = [
 
 // Sidebar sections — contextual sub-navigation per active tab
 // The shell uses longest-prefix matching for active state detection
+
+export const topicsSidebar: NatcaNavSection[] = [
+  {
+    title: 'Topics',
+    items: [
+      { id: 'topics-all', label: 'All Topics', icon: 'mdi-forum', to: '/topics' },
+    ],
+  },
+  {
+    title: 'Councils',
+    items: [
+      { id: 'topic-training-education', label: 'Training & Education', icon: 'mdi-school-outline', to: '/topics/training-education' },
+      { id: 'topic-employee-wellness', label: 'Employee Wellness', icon: 'mdi-heart-pulse', to: '/topics/employee-wellness' },
+      { id: 'topic-representation-advocacy', label: 'Representation & Advocacy', icon: 'mdi-account-tie-voice', to: '/topics/representation-advocacy' },
+      { id: 'topic-collaboration-professionalism', label: 'Collaboration & Professionalism', icon: 'mdi-handshake-outline', to: '/topics/collaboration-professionalism' },
+      { id: 'topic-safety-technology', label: 'Safety & Technology', icon: 'mdi-shield-star-outline', to: '/topics/safety-technology' },
+      { id: 'topic-employee-movement', label: 'Employee Movement', icon: 'mdi-swap-horizontal-bold', to: '/topics/employee-movement' },
+      { id: 'topic-facility-issues', label: 'Facility Issues', icon: 'mdi-office-building-cog', to: '/topics/facility-issues' },
+      { id: 'topic-metrics', label: 'Metrics', icon: 'mdi-chart-box', to: '/topics/metrics' },
+      { id: 'topic-membership-services', label: 'Membership Services', icon: 'mdi-card-account-details', to: '/topics/membership-services' },
+    ],
+  },
+  {
+    title: 'Standing Committees',
+    items: [
+      { id: 'topic-finance', label: 'Finance', icon: 'mdi-cash', to: '/topics/finance' },
+      { id: 'topic-organizing', label: 'Organizing', icon: 'mdi-account-multiple-plus', to: '/topics/organizing' },
+      { id: 'topic-legislative-committee', label: 'Legislative (Standing)', icon: 'mdi-bank-outline', to: '/topics/legislative-committee' },
+      { id: 'topic-safety-committee', label: 'Safety (Standing)', icon: 'mdi-shield-outline', to: '/topics/safety-committee' },
+      { id: 'topic-constitution', label: 'Constitution', icon: 'mdi-gavel', to: '/topics/constitution' },
+    ],
+  },
+  {
+    title: 'Cross-Cutting',
+    items: [
+      { id: 'topic-national', label: 'National', icon: 'mdi-flag-variant', to: '/topics/national' },
+      { id: 'topic-legislative', label: 'Legislative', icon: 'mdi-bank', to: '/topics/legislative' },
+      { id: 'topic-events', label: 'Events', icon: 'mdi-calendar-star', to: '/topics/events' },
+      { id: 'topic-labor-relations', label: 'Labor Relations', icon: 'mdi-scale-balance', to: '/topics/labor-relations' },
+    ],
+  },
+]
 
 export const eventsSidebar: NatcaNavSection[] = [
   {
