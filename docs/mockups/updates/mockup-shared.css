@@ -150,6 +150,18 @@ body {
   width: 8px; height: 8px; border-radius: 50%;
   background: var(--topic-color, var(--color-text-muted));
 }
+/* Inline color dot for sidebar nav lists — small circle, gap to label,
+   no filled rectangle. Used in admin + feed sidebars where the label
+   should read as plain text with a subtle topic-color cue. */
+.topic-dot {
+  display: inline-block;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--topic-color, var(--color-text-muted));
+  margin-right: var(--space-2);
+  vertical-align: middle;
+  flex-shrink: 0;
+}
 .topic-chip.is-active {
   background: var(--topic-color, var(--natca-red));
   color: white;
