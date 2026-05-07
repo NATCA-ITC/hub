@@ -648,13 +648,39 @@
         <div class="field">
           <label>Topic</label>
           <select>
-            <option>🇺🇸 National</option>
-            <option>⚖️ Legislative</option>
-            <option>🛡️ Safety</option>
-            <option>🤝 Labor Relations</option>
-            <option>🎓 Training</option>
-            <option>🎁 Benefits</option>
-            <option>📅 Events</option>
+            <optgroup label="Councils">
+              <option>🎓 Training &amp; Education</option>
+              <option>❤️ Employee Wellness</option>
+              <option>🗣️ Representation &amp; Advocacy</option>
+              <option>🤝 Collaboration &amp; Professionalism</option>
+              <option>🛡️ Safety &amp; Technology</option>
+              <option>🔄 Employee Movement</option>
+              <option>🏢 Facility Issues</option>
+              <option>📊 Metrics</option>
+              <option>👥 Membership Services</option>
+            </optgroup>
+            <optgroup label="Standing Committees">
+              <option>💰 Finance</option>
+              <option>📣 Organizing</option>
+              <option>🛡️ Safety (Standing Committee)</option>
+              <option>📜 Constitution</option>
+            </optgroup>
+            <optgroup label="Cross-Cutting">
+              <option>🏛️ Legislative</option>
+              <option>📅 Events</option>
+              <option selected>⚖️ Labor Relations</option>
+            </optgroup>
+          </select>
+          <p class="small muted" style="margin-top: var(--space-2);">Topics map 1:1 to a Discord forum channel under the <code>TOPICS</code> category.</p>
+        </div>
+
+        <div class="field">
+          <label>Area (optional)</label>
+          <select>
+            <option>— None —</option>
+            <option>Contract Enforcement</option>
+            <option>Grievances</option>
+            <option>MOU / MOA</option>
           </select>
         </div>
 
@@ -687,8 +713,8 @@
           <strong>Where this will post:</strong>
           <div class="fanout__item"><span>Hub Feed</span><span class="on">✓ Auto</span></div>
           <div class="fanout__item"><span>Hub Dashboard (urgent pin)</span><span class="on">✓ Auto</span></div>
-          <div class="fanout__item"><span>Discord #national-announcements</span><span class="on">✓ Auto</span></div>
-          <div class="fanout__item"><span>Discord @National role</span><span class="on">✓ Mention</span></div>
+          <div class="fanout__item"><span>Discord <code>#labor-relations</code> forum</span><span class="on">✓ Auto</span></div>
+          <div class="fanout__item"><span>Discord <code>#announcements</code> (urgent crosspost)</span><span class="on">✓ Auto</span></div>
           <div class="fanout__item"><span>Constant Contact draft</span><span class="pending">⏳ Deferred</span></div>
         </div>
 

@@ -187,7 +187,7 @@
       <span class="c-sep">/</span>
       <span class="c-current">Email Subscriptions</span>
     </div>
-    <div class="c-breadcrumb-right">7 topics available</div>
+    <div class="c-breadcrumb-right">16 topics available</div>
   </div>
   <div class="c-body"><div class="c-content">
 
@@ -206,84 +206,183 @@
 
     <div class="explainer-card">
       <h3>ℹ️ How this works</h3>
-      <p>These toggles control <strong>email delivery</strong> only — what NATCA sends to your inbox. You can always browse every update in the <a href="hub-updates-feed.html" style="color: var(--natca-sky);">Updates feed</a> regardless of your subscriptions. Your dashboard card filters are managed separately.</p>
+      <p>These toggles control <strong>email delivery</strong> only — what NATCA sends to your inbox. You can always browse every update in the <a href="hub-updates-feed.html" style="color: var(--natca-sky);">Updates feed</a> regardless of your subscriptions. Your dashboard card filters are managed separately. Topics are grouped by NATCA's organizational structure: 9 Councils, 4 Standing Committees, 3 Cross-Cutting topics.</p>
     </div>
 
-    <!-- National -->
-    <div class="topic-row topic-national">
-      <div class="topic-row__dot">🇺🇸</div>
+    <!-- =================================================================
+         CROSS-CUTTING — listed first because they're the highest-volume
+         and the ones most members default-subscribe to.
+         ================================================================= -->
+    <h2 style="font-family: var(--font-display); color: var(--color-text-primary); margin: var(--space-6) 0 var(--space-3); font-size: var(--text-xl);">Cross-Cutting</h2>
+
+    <div class="topic-row topic-legislative">
+      <div class="topic-row__dot">🏛️</div>
       <div class="topic-row__info">
-        <h3>National Updates <span class="topic-row__default-badge">Default</span></h3>
-        <p>News from NATCA leadership, presidential letters, nationwide announcements. The core membership communication channel.</p>
-        <small>~2–4 emails per month · Sent to: jason.doss@natca.net</small>
+        <h3>Legislative <span class="topic-row__default-badge">Default</span></h3>
+        <p>Bills, calls to action, NATCA PAC, NIW, and standing-committee legislative work.</p>
+        <small>~4–8 emails per month · Sent to: jason.doss@natca.net</small>
       </div>
       <label class="toggle"><input type="checkbox" checked><span class="toggle__track"></span></label>
     </div>
 
-    <!-- Legislative -->
-    <div class="topic-row topic-legislative">
+    <div class="topic-row topic-events">
+      <div class="topic-row__dot">📅</div>
+      <div class="topic-row__info">
+        <h3>Events <span class="topic-row__default-badge">Default</span></h3>
+        <p>Convention, CFS, NIW, ATX, regional gatherings.</p>
+        <small>~2–4 emails per month</small>
+      </div>
+      <label class="toggle"><input type="checkbox" checked><span class="toggle__track"></span></label>
+    </div>
+
+    <div class="topic-row topic-labor-relations">
       <div class="topic-row__dot">⚖️</div>
       <div class="topic-row__info">
-        <h3>Legislative &amp; Political Action</h3>
-        <p>Bill updates, advocacy alerts, Hill activity, and opportunities to contact your representatives.</p>
-        <small>~4–8 emails per month</small>
+        <h3>Labor Relations <span class="topic-row__default-badge">Default</span></h3>
+        <p>Contract enforcement, grievances, MOUs, and FAA labor-relations posture.</p>
+        <small>~2–5 emails per month</small>
       </div>
       <label class="toggle"><input type="checkbox" checked><span class="toggle__track"></span></label>
     </div>
 
-    <!-- Safety -->
-    <div class="topic-row topic-safety">
-      <div class="topic-row__dot">🛡️</div>
+    <!-- =================================================================
+         COUNCILS
+         ================================================================= -->
+    <h2 style="font-family: var(--font-display); color: var(--color-text-primary); margin: var(--space-8) 0 var(--space-3); font-size: var(--text-xl);">Councils</h2>
+
+    <div class="topic-row topic-training-education">
+      <div class="topic-row__dot">🎓</div>
       <div class="topic-row__info">
-        <h3>Safety Bulletins <span class="topic-row__default-badge">Default</span></h3>
-        <p>Safety alerts, ASRS guidance changes, incident lessons learned, and professional safety resources.</p>
+        <h3>Training &amp; Education</h3>
+        <p>NTC, Reloaded, leadership development, and rep-training programs.</p>
+        <small>~2–4 emails per month</small>
+      </div>
+      <label class="toggle"><input type="checkbox"><span class="toggle__track"></span></label>
+    </div>
+
+    <div class="topic-row topic-employee-wellness">
+      <div class="topic-row__dot">❤️</div>
+      <div class="topic-row__info">
+        <h3>Employee Wellness</h3>
+        <p>CISM, EAP, DAC, Childcare, Benefits, Union Synergy. Member health, mental wellness, family support.</p>
         <small>~1–3 emails per month</small>
       </div>
       <label class="toggle"><input type="checkbox" checked><span class="toggle__track"></span></label>
     </div>
 
-    <!-- Labor Relations -->
-    <div class="topic-row topic-bargaining">
+    <div class="topic-row topic-representation-advocacy">
+      <div class="topic-row__dot">🗣️</div>
+      <div class="topic-row__info">
+        <h3>Representation &amp; Advocacy</h3>
+        <p>GRT, Core 30, FacRep groups (Center, TRACON, Level 4-9, FCT), Onboarding, NEC/ESC.</p>
+        <small>~2–3 emails per month</small>
+      </div>
+      <label class="toggle"><input type="checkbox"><span class="toggle__track"></span></label>
+    </div>
+
+    <div class="topic-row topic-collaboration-professionalism">
       <div class="topic-row__dot">🤝</div>
       <div class="topic-row__info">
-        <h3>Contract &amp; Labor Relations <span class="topic-row__default-badge">Default</span></h3>
-        <p>Slate Book updates, MOU announcements, grievance trends, and bargaining unit news.</p>
-        <small>~2–5 emails per month</small>
-      </div>
-      <label class="toggle"><input type="checkbox"><span class="toggle__track"></span></label>
-    </div>
-
-    <!-- Training -->
-    <div class="topic-row topic-training">
-      <div class="topic-row__dot">🎓</div>
-      <div class="topic-row__info">
-        <h3>Training &amp; Professional Development</h3>
-        <p>Training class schedules, CFS conference registration, OJTI programs, and professional development opportunities.</p>
-        <small>~3–6 emails per month</small>
-      </div>
-      <label class="toggle"><input type="checkbox"><span class="toggle__track"></span></label>
-    </div>
-
-    <!-- Benefits -->
-    <div class="topic-row topic-benefits">
-      <div class="topic-row__dot">🎁</div>
-      <div class="topic-row__info">
-        <h3>Benefits &amp; Member Services</h3>
-        <p>Insurance updates, member discounts, financial planning resources, and benefit enrollment windows.</p>
+        <h3>Collaboration &amp; Professionalism</h3>
+        <p>COG, Collaboration Facilitators, Right From the Start, Professional Standards.</p>
         <small>~1–2 emails per month</small>
       </div>
       <label class="toggle"><input type="checkbox"><span class="toggle__track"></span></label>
     </div>
 
-    <!-- Events -->
-    <div class="topic-row topic-events">
-      <div class="topic-row__dot">📅</div>
+    <div class="topic-row topic-safety-technology">
+      <div class="topic-row__dot">🛡️</div>
       <div class="topic-row__info">
-        <h3>Events &amp; Conferences</h3>
-        <p>NIW, CFS, regional meetings, facility events, and social gatherings.</p>
+        <h3>Safety &amp; Technology <span class="topic-row__default-badge">Default</span></h3>
+        <p>NSTLC, NSC, NAPC, ASI, Security Breach. Safety bulletins and airspace procedures.</p>
+        <small>~1–3 emails per month</small>
+      </div>
+      <label class="toggle"><input type="checkbox" checked><span class="toggle__track"></span></label>
+    </div>
+
+    <div class="topic-row topic-employee-movement">
+      <div class="topic-row__dot">🔄</div>
+      <div class="topic-row__info">
+        <h3>Employee Movement</h3>
+        <p>NCEPT, NEST, Hardships, Academy Oversight, Reasonable Accommodations, Deviations.</p>
         <small>~2–4 emails per month</small>
       </div>
       <label class="toggle"><input type="checkbox" checked><span class="toggle__track"></span></label>
+    </div>
+
+    <div class="topic-row topic-facility-issues">
+      <div class="topic-row__dot">🏢</div>
+      <div class="topic-row__info">
+        <h3>Facility Issues</h3>
+        <p>OSHA, OWCP, Article 804/76 facility-level CBA work.</p>
+        <small>~1–2 emails per month</small>
+      </div>
+      <label class="toggle"><input type="checkbox"><span class="toggle__track"></span></label>
+    </div>
+
+    <div class="topic-row topic-metrics">
+      <div class="topic-row__dot">📊</div>
+      <div class="topic-row__info">
+        <h3>Metrics</h3>
+        <p>ABACUS, NVT, operational metrics and validation.</p>
+        <small>~1 email per month</small>
+      </div>
+      <label class="toggle"><input type="checkbox"><span class="toggle__track"></span></label>
+    </div>
+
+    <div class="topic-row topic-membership-services">
+      <div class="topic-row__dot">👥</div>
+      <div class="topic-row__info">
+        <h3>Membership Services</h3>
+        <p>Veterans, Pay Review Team, Comms, ITC, DRC, RNAV, Seniority, Historical.</p>
+        <small>~2–4 emails per month</small>
+      </div>
+      <label class="toggle"><input type="checkbox"><span class="toggle__track"></span></label>
+    </div>
+
+    <!-- =================================================================
+         STANDING COMMITTEES
+         ================================================================= -->
+    <h2 style="font-family: var(--font-display); color: var(--color-text-primary); margin: var(--space-8) 0 var(--space-3); font-size: var(--text-xl);">Standing Committees</h2>
+
+    <div class="topic-row topic-finance">
+      <div class="topic-row__dot">💰</div>
+      <div class="topic-row__info">
+        <h3>Finance</h3>
+        <p>NATCA financial operations, budget, and audit.</p>
+        <small>~1 email per month</small>
+      </div>
+      <label class="toggle"><input type="checkbox"><span class="toggle__track"></span></label>
+    </div>
+
+    <div class="topic-row topic-organizing">
+      <div class="topic-row__dot">📣</div>
+      <div class="topic-row__info">
+        <h3>Organizing</h3>
+        <p>New bargaining units and organizing support.</p>
+        <small>Occasional</small>
+      </div>
+      <label class="toggle"><input type="checkbox"><span class="toggle__track"></span></label>
+    </div>
+
+    <div class="topic-row topic-safety-committee">
+      <div class="topic-row__dot">🛡️</div>
+      <div class="topic-row__info">
+        <h3>Safety (Standing Committee)</h3>
+        <p>Overall safety policy and FAA collaboration. (Distinct from the Safety &amp; Technology Council above.)</p>
+        <small>~1–2 emails per month</small>
+      </div>
+      <label class="toggle"><input type="checkbox"><span class="toggle__track"></span></label>
+    </div>
+
+    <div class="topic-row topic-constitution">
+      <div class="topic-row__dot">📜</div>
+      <div class="topic-row__info">
+        <h3>Constitution</h3>
+        <p>Interpretation and amendments to the NATCA constitution.</p>
+        <small>Occasional</small>
+      </div>
+      <label class="toggle"><input type="checkbox"><span class="toggle__track"></span></label>
     </div>
 
     <!-- Digest frequency -->

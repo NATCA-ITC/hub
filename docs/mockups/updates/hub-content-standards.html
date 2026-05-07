@@ -408,14 +408,14 @@ body {
           <td><strong style="color:var(--color-text-primary);">Topic</strong></td>
           <td>What <em>domain</em> does this belong to?</td>
           <td>Author picks</td>
-          <td>Pay, Benefits, Working Conditions, Legislative, Safety, Union</td>
-          <td>Discord channel routing, Hub topic filter, email lists</td>
+          <td>16 topics in 3 groups — Councils (9), Standing Committees (4), Cross-Cutting (3). See list below.</td>
+          <td>Discord forum routing under <code>TOPICS</code>, Hub topic filter, email lists</td>
         </tr>
         <tr>
           <td><strong style="color:var(--color-text-primary);">Area</strong></td>
           <td>What <em>specific subject</em> within the topic?</td>
-          <td>Author picks (from topic-filtered list)</td>
-          <td>Predefined per topic (e.g., NCEPT, FEHB, ASRS — see below)</td>
+          <td>Author picks (optional — only if the topic defines areas)</td>
+          <td>Per-topic, optional. Some topics list areas (e.g., Employee Movement → NCEPT / NEST / Hardships); many don't and just use the topic alone.</td>
           <td>Hub sub-filter within a topic, Discord embed chip, search facet</td>
         </tr>
         <tr>
@@ -430,7 +430,7 @@ body {
 
     <div style="background: rgba(0,168,252,0.08); border: 1px solid rgba(0,168,252,0.25); border-left: 4px solid var(--natca-sky); border-radius: var(--radius-md); padding: var(--space-4) var(--space-5); margin-top: var(--space-4);">
       <p style="margin:0; font-size: var(--text-sm); color: var(--color-text-body); line-height: 1.6;">
-        <strong style="color: var(--natca-sky);">Author picks 3 things, system handles 1.</strong> Content Type + Topic + Area = author decisions. Lifecycle = derived from content type + author actions (resolve, archive). This keeps the authoring experience to three dropdowns — and the Area dropdown filters based on the Topic selection.
+        <strong style="color: var(--natca-sky);">Author picks 2–3 things, system handles 1.</strong> Content Type + Topic = required. Area = optional, only when the topic defines a sub-list. Lifecycle = derived from content type + author actions (resolve, archive). With 16 topics, the Area axis is now per-topic-as-needed instead of a uniform requirement.
       </p>
     </div>
   </div>
@@ -482,7 +482,7 @@ body {
     <div class="example-grid">
       <div class="example-card">
         <div class="example-card__header">📋 Document</div>
-        <div class="example-card__body" style="border-left: 4px solid var(--topic-bargaining);">
+        <div class="example-card__body" style="border-left: 4px solid var(--topic-employee-movement);">
           <div class="example-card__tags">
             <span class="cs-tag cs-tag--type">📋 Document</span>
             <span class="cs-tag cs-tag--lifecycle">📌 Reference</span>
@@ -495,15 +495,15 @@ body {
           </div>
         </div>
         <div class="example-card__meta">
-          <span>Working Conditions</span>
-          <span>NCEPT / Employee Movement</span>
+          <span>Employee Movement</span>
+          <span>NCEPT</span>
           <span>Apr 15, 2026</span>
         </div>
       </div>
 
       <div class="example-card">
         <div class="example-card__header">📰 Update (rolling)</div>
-        <div class="example-card__body" style="border-left: 4px solid var(--topic-national);">
+        <div class="example-card__body" style="border-left: 4px solid var(--topic-labor-relations);">
           <div class="example-card__tags">
             <span class="cs-tag cs-tag--type">📰 Update</span>
             <span class="cs-tag cs-tag--lifecycle">🔄 Developing</span>
@@ -512,7 +512,7 @@ body {
           <p class="example-card__desc">Congress negotiating FY2026 CR. NATCA coordinating contingency ops. 12 updates from 4 contributors.</p>
         </div>
         <div class="example-card__meta">
-          <span>Pay</span>
+          <span>Labor Relations</span>
           <span>12 updates · 7m ago</span>
           <span>Started Apr 8</span>
         </div>
@@ -520,7 +520,7 @@ body {
 
       <div class="example-card">
         <div class="example-card__header">⚡ Action Needed</div>
-        <div class="example-card__body" style="border-left: 4px solid var(--natca-red);">
+        <div class="example-card__body" style="border-left: 4px solid var(--topic-legislative);">
           <div class="example-card__tags">
             <span class="cs-tag cs-tag--type">📅 Event</span>
             <span class="cs-tag cs-tag--lifecycle">⚡ Action Needed</span>
@@ -537,16 +537,16 @@ body {
 
       <div class="example-card">
         <div class="example-card__header">📰 Update (one-time)</div>
-        <div class="example-card__body" style="border-left: 4px solid var(--topic-benefits);">
+        <div class="example-card__body" style="border-left: 4px solid var(--topic-employee-wellness);">
           <div class="example-card__tags">
             <span class="cs-tag cs-tag--type">📰 Update</span>
             <span class="cs-tag cs-tag--lifecycle">✅ Resolved</span>
           </div>
-          <h3 class="example-card__title" style="margin-top: var(--space-2);">FY2026 Locality Pay Tables Released</h3>
-          <p class="example-card__desc">All facilities: minimum 2.3% adjustment. Highest: SFO at 4.1%. Effective PP01 2026.</p>
+          <h3 class="example-card__title" style="margin-top: var(--space-2);">2026 FEHB Open Season — Plan Comparison Posted</h3>
+          <p class="example-card__desc">Benefits committee published the side-by-side comparison for the 2026 plan year. Open Season runs Nov 11 – Dec 9.</p>
         </div>
         <div class="example-card__meta">
-          <span>Pay</span>
+          <span>Employee Wellness</span>
           <span>Published Mar 28</span>
         </div>
       </div>
@@ -562,7 +562,7 @@ body {
           <p class="example-card__desc">Las Vegas, August 18-20. Early-bird pricing through May 31. Scholarships available.</p>
         </div>
         <div class="example-card__meta">
-          <span>Safety / Training</span>
+          <span>Events</span>
           <span>Aug 18-20, 2026</span>
         </div>
       </div>
@@ -570,111 +570,216 @@ body {
   </div>
 
   <!-- ============================================================
-       SECTION 3: Topics
+       SECTION 3: Topics — NEW 16-topic taxonomy (was 6)
        ============================================================ -->
   <div class="cs-section">
     <div class="cs-section-title">Topics</div>
-    <p class="cs-section-desc">Axis 2 — what domain does this belong to? Topics map 1:1 to Discord forum channels and email subscription lists. Each story belongs to exactly one topic. New topics can be added without code changes.</p>
+    <p class="cs-section-desc">Axis 2 — what domain does this belong to? Topics map 1:1 to Discord <strong>forum channels under a single private <code>TOPICS</code> category</strong>, and to email subscription lists. Each story belongs to exactly one topic.</p>
 
+    <div style="background: rgba(0,168,252,0.08); border: 1px solid rgba(0,168,252,0.25); border-left: 4px solid var(--natca-sky); border-radius: var(--radius-md); padding: var(--space-4) var(--space-5); margin-bottom: var(--space-6);">
+      <p style="margin:0; font-size: var(--text-sm); color: var(--color-text-body); line-height: 1.6;">
+        <strong style="color: var(--natca-sky);">Was 6 topics, now 16 — organized by type.</strong> The earlier draft used Pay / Benefits / Working Conditions / Legislative / Safety / Union. After alignment with the council and standing-committee structure, topics now map to NATCA's actual organizational units: 9 Councils, 4 Standing Committees, and 3 Cross-Cutting topics. Source of truth: <code>src/data/topics.ts</code>.
+      </p>
+    </div>
+
+    <h3 style="font-family:var(--font-display); color:var(--color-text-primary); margin: var(--space-6) 0 var(--space-3); font-size: var(--text-lg);">Councils (9)</h3>
     <div style="background:var(--color-bg-surface); border:1px solid var(--color-border); border-radius:var(--radius-lg); overflow:hidden;">
       <div class="topic-swatch">
-        <div class="topic-swatch__color" style="background: var(--topic-national);"></div>
+        <div class="topic-swatch__color" style="background: var(--topic-group-council);"></div>
         <div>
-          <div class="topic-swatch__name">Pay</div>
-          <div class="topic-swatch__desc">Pay raises, locality pay, compensation, premium pay, overtime</div>
+          <div class="topic-swatch__name">Training &amp; Education</div>
+          <div class="topic-swatch__desc">Representative training, leadership development, member education. NTC, Reloaded.</div>
         </div>
-        <div class="topic-swatch__channel">#pay</div>
+        <div class="topic-swatch__channel">#training-education</div>
       </div>
       <div class="topic-swatch">
-        <div class="topic-swatch__color" style="background: var(--topic-benefits);"></div>
+        <div class="topic-swatch__color" style="background: var(--topic-employee-wellness);"></div>
         <div>
-          <div class="topic-swatch__name">Benefits</div>
-          <div class="topic-swatch__desc">Health insurance, retirement, TSP, mental health, member services</div>
+          <div class="topic-swatch__name">Employee Wellness</div>
+          <div class="topic-swatch__desc">CISM, EAP, DAC, Childcare, Union Synergy, Benefits, Human Performance.</div>
         </div>
-        <div class="topic-swatch__channel">#benefits</div>
+        <div class="topic-swatch__channel">#employee-wellness</div>
       </div>
       <div class="topic-swatch">
-        <div class="topic-swatch__color" style="background: var(--topic-bargaining);"></div>
+        <div class="topic-swatch__color" style="background: var(--topic-group-council);"></div>
         <div>
-          <div class="topic-swatch__name">Working Conditions</div>
-          <div class="topic-swatch__desc">Staffing, NCEPT, equipment, facilities, scheduling, ABACUS</div>
+          <div class="topic-swatch__name">Representation &amp; Advocacy</div>
+          <div class="topic-swatch__desc">GRT, Core 30, Center / TRACON / Level 4-9 / FCT FacRep groups, Onboarding, NEC, ESC.</div>
         </div>
-        <div class="topic-swatch__channel">#working-conditions</div>
+        <div class="topic-swatch__channel">#representation-advocacy</div>
       </div>
+      <div class="topic-swatch">
+        <div class="topic-swatch__color" style="background: var(--topic-group-council);"></div>
+        <div>
+          <div class="topic-swatch__name">Collaboration &amp; Professionalism</div>
+          <div class="topic-swatch__desc">COG, Collaboration Facilitators, Right From the Start, Professional Standards.</div>
+        </div>
+        <div class="topic-swatch__channel">#collaboration-professionalism</div>
+      </div>
+      <div class="topic-swatch">
+        <div class="topic-swatch__color" style="background: var(--topic-safety-technology);"></div>
+        <div>
+          <div class="topic-swatch__name">Safety &amp; Technology</div>
+          <div class="topic-swatch__desc">NSTLC, NSC, NAPC, ASI, Security Breach.</div>
+        </div>
+        <div class="topic-swatch__channel">#safety-technology</div>
+      </div>
+      <div class="topic-swatch">
+        <div class="topic-swatch__color" style="background: var(--topic-employee-movement);"></div>
+        <div>
+          <div class="topic-swatch__name">Employee Movement</div>
+          <div class="topic-swatch__desc">NCEPT, NEST, Hardships, Academy Oversight, Reasonable Accommodations, Deviations.</div>
+        </div>
+        <div class="topic-swatch__channel">#employee-movement</div>
+      </div>
+      <div class="topic-swatch">
+        <div class="topic-swatch__color" style="background: var(--topic-group-council);"></div>
+        <div>
+          <div class="topic-swatch__name">Facility Issues</div>
+          <div class="topic-swatch__desc">OSHA, OWCP, Article 804/76 facility-level CBA work.</div>
+        </div>
+        <div class="topic-swatch__channel">#facility-issues</div>
+      </div>
+      <div class="topic-swatch">
+        <div class="topic-swatch__color" style="background: var(--topic-group-council);"></div>
+        <div>
+          <div class="topic-swatch__name">Metrics</div>
+          <div class="topic-swatch__desc">Operational metrics, validation, data-driven oversight. ABACUS, NVT.</div>
+        </div>
+        <div class="topic-swatch__channel">#metrics</div>
+      </div>
+      <div class="topic-swatch">
+        <div class="topic-swatch__color" style="background: var(--topic-group-council);"></div>
+        <div>
+          <div class="topic-swatch__name">Membership Services</div>
+          <div class="topic-swatch__desc">Veterans, Pay Review Team, Comms, ITC, DRC, RNAV, Seniority, Historical.</div>
+        </div>
+        <div class="topic-swatch__channel">#membership-services</div>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--font-display); color:var(--color-text-primary); margin: var(--space-8) 0 var(--space-3); font-size: var(--text-lg);">Standing Committees (4)</h3>
+    <div style="background:var(--color-bg-surface); border:1px solid var(--color-border); border-radius:var(--radius-lg); overflow:hidden;">
+      <div class="topic-swatch">
+        <div class="topic-swatch__color" style="background: var(--topic-group-standing);"></div>
+        <div>
+          <div class="topic-swatch__name">Finance</div>
+          <div class="topic-swatch__desc">NATCA financial operations, budget, audit.</div>
+        </div>
+        <div class="topic-swatch__channel">#finance</div>
+      </div>
+      <div class="topic-swatch">
+        <div class="topic-swatch__color" style="background: var(--topic-group-standing);"></div>
+        <div>
+          <div class="topic-swatch__name">Organizing</div>
+          <div class="topic-swatch__desc">New bargaining units, organizing support.</div>
+        </div>
+        <div class="topic-swatch__channel">#organizing</div>
+      </div>
+      <div class="topic-swatch">
+        <div class="topic-swatch__color" style="background: var(--topic-group-standing);"></div>
+        <div>
+          <div class="topic-swatch__name">Safety (Standing Committee)</div>
+          <div class="topic-swatch__desc">Overall safety policy, FAA collaboration. Distinct from the Safety &amp; Technology Council.</div>
+        </div>
+        <div class="topic-swatch__channel">#safety-committee</div>
+      </div>
+      <div class="topic-swatch">
+        <div class="topic-swatch__color" style="background: var(--topic-group-standing);"></div>
+        <div>
+          <div class="topic-swatch__name">Constitution</div>
+          <div class="topic-swatch__desc">Interpretation and amendments to the NATCA constitution.</div>
+        </div>
+        <div class="topic-swatch__channel">#constitution</div>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--font-display); color:var(--color-text-primary); margin: var(--space-8) 0 var(--space-3); font-size: var(--text-lg);">Cross-Cutting (3)</h3>
+    <div style="background:var(--color-bg-surface); border:1px solid var(--color-border); border-radius:var(--radius-lg); overflow:hidden;">
       <div class="topic-swatch">
         <div class="topic-swatch__color" style="background: var(--topic-legislative);"></div>
         <div>
           <div class="topic-swatch__name">Legislative</div>
-          <div class="topic-swatch__desc">Bills, FAA reauthorization, political action, Hill visits, NATCA PAC</div>
+          <div class="topic-swatch__desc">Bills, calls to action, NATCA PAC, NIW. Nick's standing-committee work folds in here — there is no separate <em>Legislative Committee</em> topic.</div>
         </div>
         <div class="topic-swatch__channel">#legislative</div>
       </div>
       <div class="topic-swatch">
-        <div class="topic-swatch__color" style="background: var(--topic-safety);"></div>
-        <div>
-          <div class="topic-swatch__name">Safety</div>
-          <div class="topic-swatch__desc">Bulletins, ASRS, incident reporting, runway incursions, professional standards</div>
-        </div>
-        <div class="topic-swatch__channel">#safety</div>
-      </div>
-      <div class="topic-swatch">
         <div class="topic-swatch__color" style="background: var(--topic-events);"></div>
         <div>
-          <div class="topic-swatch__name">Union</div>
-          <div class="topic-swatch__desc">CFS, NIW, elections, convention, committees, membership, internal NATCA business</div>
+          <div class="topic-swatch__name">Events</div>
+          <div class="topic-swatch__desc">Convention, CFS, NIW, ATX, regional gatherings.</div>
         </div>
-        <div class="topic-swatch__channel">#union</div>
+        <div class="topic-swatch__channel">#events</div>
       </div>
+      <div class="topic-swatch">
+        <div class="topic-swatch__color" style="background: var(--topic-labor-relations);"></div>
+        <div>
+          <div class="topic-swatch__name">Labor Relations</div>
+          <div class="topic-swatch__desc">Contract enforcement, grievances, MOUs, FAA labor-relations posture.</div>
+        </div>
+        <div class="topic-swatch__channel">#labor-relations</div>
+      </div>
+    </div>
+
+    <div style="background: var(--color-bg-subtle); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-4) var(--space-5); margin-top: var(--space-6);">
+      <p style="margin:0; font-size: var(--text-sm); color: var(--color-text-body); line-height: 1.6;">
+        <strong style="color: var(--color-text-primary);">Discord channel layout.</strong> All 16 topic forums live under a single private <code>TOPICS</code> category — admin-only at launch. The legacy <code>COUNCILS</code> and per-topic <code>ANNOUNCEMENTS</code> categories are gone. <code>#announcements</code> is now top-level (Announcement-type) for org-wide broadcasts; <code>#verify</code> is the only public channel.
+      </p>
     </div>
   </div>
 
   <!-- ============================================================
-       SECTION 4: Areas
+       SECTION 4: Areas — now optional / per-topic-as-needed
        ============================================================ -->
   <div class="cs-section">
     <div class="cs-section-title">Areas</div>
-    <p class="cs-section-desc">Axis 3 — what specific subject within the topic? Each topic has a predefined list of areas. Authors pick from a filtered dropdown after selecting the topic. New areas can be added per topic without code changes.</p>
+    <p class="cs-section-desc">Axis 3 — what specific subject within the topic? With 16 topics already in place, the Area axis is <strong>optional and maintained per topic only as needed</strong>. A topic that maps to many sub-committees may benefit from areas; a topic with focused scope can skip them entirely. Areas, when present, render as filter chips on the Hub topic page and as a metadata chip in the Discord embed.</p>
 
     <div style="background: rgba(0,168,252,0.08); border: 1px solid rgba(0,168,252,0.25); border-left: 4px solid var(--natca-sky); border-radius: var(--radius-md); padding: var(--space-4) var(--space-5); margin-bottom: var(--space-6);">
       <p style="margin:0 0 var(--space-2); font-size: var(--text-sm); color: var(--color-text-body); line-height: 1.6;">
-        <strong style="color: var(--natca-sky);">Why areas aren't Discord tags.</strong> Discord limits channels to 20 tags and posts to 5 tags. We're already using 8 tags per channel (4 content types + 4 lifecycle stages). That leaves 12 slots — enough for most topics, but some topics (like Union with 10+ committees) would exceed the limit. Instead, areas render as <strong>chips in the embed body</strong> on Discord and as <strong>filter chips on the Hub topic page</strong>. No Discord tag limit applies.
+        <strong style="color: var(--natca-sky);">Why areas aren't Discord tags.</strong> Discord limits forum channels to 20 tags and posts to 5 tags. We use 8 tags per forum already (4 content types + 4 lifecycle stages). Instead, areas render as <strong>chips in the embed body</strong> on Discord and as <strong>filter chips on the Hub topic page</strong>. No Discord tag limit applies.
       </p>
     </div>
 
+    <h3 style="font-family:var(--font-display); color:var(--color-text-primary); margin: 0 0 var(--space-3); font-size: var(--text-lg);">Examples of topics that define areas</h3>
     <table class="axis-table">
       <thead>
         <tr>
-          <th style="width: 18%;">Topic</th>
-          <th>Areas (predefined, extensible)</th>
+          <th style="width: 22%;">Topic</th>
+          <th>Areas (per-topic, extensible)</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td><strong style="color: var(--topic-national);">Pay</strong></td>
+          <td><strong style="color: var(--topic-employee-movement);">Employee Movement</strong></td>
           <td>
-            <span class="cs-tag cs-tag--type" style="margin: 2px;">Base Pay / GS Scale</span>
-            <span class="cs-tag cs-tag--type" style="margin: 2px;">Locality Pay</span>
-            <span class="cs-tag cs-tag--type" style="margin: 2px;">Premium Pay</span>
-            <span class="cs-tag cs-tag--type" style="margin: 2px;">Overtime</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">NCEPT</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">NEST</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Hardships</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Academy Oversight</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Reasonable Accommodations</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Deviations</span>
           </td>
         </tr>
         <tr>
-          <td><strong style="color: var(--topic-benefits);">Benefits</strong></td>
+          <td><strong style="color: var(--topic-employee-wellness);">Employee Wellness</strong></td>
           <td>
-            <span class="cs-tag cs-tag--type" style="margin: 2px;">Health / FEHB</span>
-            <span class="cs-tag cs-tag--type" style="margin: 2px;">Retirement / TSP</span>
-            <span class="cs-tag cs-tag--type" style="margin: 2px;">Mental Health / MAP</span>
-            <span class="cs-tag cs-tag--type" style="margin: 2px;">Leave / FMLA</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">CISM</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">EAP</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">DAC</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Childcare</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Benefits</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Union Synergy</span>
           </td>
         </tr>
         <tr>
-          <td><strong style="color: var(--topic-bargaining);">Working Conditions</strong></td>
+          <td><strong style="color: var(--topic-safety-technology);">Safety &amp; Technology</strong></td>
           <td>
-            <span class="cs-tag cs-tag--type" style="margin: 2px;">NCEPT / Employee Movement</span>
-            <span class="cs-tag cs-tag--type" style="margin: 2px;">Equipment / Technology</span>
-            <span class="cs-tag cs-tag--type" style="margin: 2px;">Scheduling</span>
-            <span class="cs-tag cs-tag--type" style="margin: 2px;">Facilities</span>
-            <span class="cs-tag cs-tag--type" style="margin: 2px;">ABACUS</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">NSC</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">NAPC</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">ASI</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Security Breach</span>
           </td>
         </tr>
         <tr>
@@ -682,30 +787,30 @@ body {
           <td>
             <span class="cs-tag cs-tag--type" style="margin: 2px;">FAA Reauthorization</span>
             <span class="cs-tag cs-tag--type" style="margin: 2px;">Appropriations</span>
-            <span class="cs-tag cs-tag--type" style="margin: 2px;">Political Action / PAC</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">NATCA PAC</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">NIW / Hill Visits</span>
           </td>
         </tr>
         <tr>
-          <td><strong style="color: var(--topic-safety);">Safety</strong></td>
+          <td><strong style="color: var(--topic-group-council);">Membership Services</strong></td>
           <td>
-            <span class="cs-tag cs-tag--type" style="margin: 2px;">ASRS / Reporting</span>
-            <span class="cs-tag cs-tag--type" style="margin: 2px;">Runway Safety</span>
-            <span class="cs-tag cs-tag--type" style="margin: 2px;">Professional Standards</span>
-            <span class="cs-tag cs-tag--type" style="margin: 2px;">CISM</span>
-          </td>
-        </tr>
-        <tr>
-          <td><strong style="color: var(--topic-events);">Union</strong></td>
-          <td>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Veterans</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Pay Review</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Comms</span>
             <span class="cs-tag cs-tag--type" style="margin: 2px;">ITC</span>
-            <span class="cs-tag cs-tag--type" style="margin: 2px;">Conferences</span>
-            <span class="cs-tag cs-tag--type" style="margin: 2px;">Political Action</span>
-            <span class="cs-tag cs-tag--type" style="margin: 2px;">Elections</span>
-            <span class="cs-tag cs-tag--type" style="margin: 2px;">CRWG</span>
-            <span class="cs-tag cs-tag--type" style="margin: 2px;">Safety Committee</span>
-            <span class="cs-tag cs-tag--type" style="margin: 2px;">Training Committee</span>
-            <span class="cs-tag cs-tag--type" style="margin: 2px;">Membership</span>
-            <span class="cs-tag cs-tag--type" style="margin: 2px; opacity: 0.5;">+ more committees as needed</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">DRC</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">RNAV</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px;">Seniority</span>
+          </td>
+        </tr>
+        <tr>
+          <td><strong style="color: var(--color-text-primary);">Topics with no defined areas</strong></td>
+          <td>
+            <span class="cs-tag cs-tag--type" style="margin: 2px; opacity: 0.6;">Finance</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px; opacity: 0.6;">Organizing</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px; opacity: 0.6;">Constitution</span>
+            <span class="cs-tag cs-tag--type" style="margin: 2px; opacity: 0.6;">Metrics</span>
+            <span style="font-size: var(--text-xs); color: var(--color-text-muted); margin-left: var(--space-2);">— stories surface at the topic level only</span>
           </td>
         </tr>
       </tbody>
@@ -724,12 +829,12 @@ body {
       <tbody>
         <tr>
           <td><strong style="color:var(--color-text-primary);">Hub — topic page</strong></td>
-          <td>Filter chips below the topic header. Click "NCEPT" to show only NCEPT stories within Working Conditions.</td>
+          <td>Filter chips below the topic header. Click "NCEPT" to show only NCEPT stories within Employee Movement.</td>
           <td>Yes — client-side filter, instant</td>
         </tr>
         <tr>
           <td><strong style="color:var(--color-text-primary);">Hub — story card</strong></td>
-          <td>Small chip next to the topic badge: <span class="topic-badge topic-bargaining" style="font-size:10px;">Working Conditions</span> <span style="background:var(--color-bg-elevated);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:2px 8px;font-size:10px;color:var(--color-text-body);">NCEPT</span></td>
+          <td>Small chip next to the topic badge: <span class="topic-badge topic-employee-movement" style="font-size:10px;">Employee Movement</span> <span style="background:var(--color-bg-elevated);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:2px 8px;font-size:10px;color:var(--color-text-body);">NCEPT</span></td>
           <td>—</td>
         </tr>
         <tr>
@@ -760,52 +865,52 @@ body {
     <div style="background: var(--color-bg-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-5); margin-bottom: var(--space-4);">
       <!-- Simulated topic page header -->
       <div style="display:flex; align-items:center; gap: var(--space-3); margin-bottom: var(--space-4);">
-        <div style="width:8px; height:32px; background:var(--topic-bargaining); border-radius:var(--radius-sm);"></div>
-        <h3 style="font-family:var(--font-display); font-size:var(--text-xl); font-weight:800; color:var(--color-text-primary); margin:0;">Working Conditions</h3>
-        <span style="font-size:var(--text-sm); color:var(--color-text-muted);">24 stories</span>
+        <div style="width:8px; height:32px; background:var(--topic-employee-movement); border-radius:var(--radius-sm);"></div>
+        <h3 style="font-family:var(--font-display); font-size:var(--text-xl); font-weight:800; color:var(--color-text-primary); margin:0;">Employee Movement</h3>
+        <span style="font-size:var(--text-sm); color:var(--color-text-muted);">14 stories</span>
       </div>
 
       <!-- Area filter chips -->
       <div style="display:flex; gap:var(--space-2); flex-wrap:wrap; margin-bottom:var(--space-5); padding-bottom:var(--space-4); border-bottom:1px solid var(--color-border-light);">
         <span style="font-size:var(--text-xs); color:var(--color-text-muted); font-weight:700; text-transform:uppercase; letter-spacing:0.5px; padding:4px 0;">Filter by area:</span>
         <span class="topic-chip is-active" style="font-size:var(--text-xs); padding:3px 10px; cursor:pointer;">All</span>
-        <span class="topic-chip" style="font-size:var(--text-xs); padding:3px 10px; cursor:pointer; background:rgba(13,148,136,0.15); border-color:rgba(13,148,136,0.3); color:#0d9488;">NCEPT</span>
-        <span class="topic-chip" style="font-size:var(--text-xs); padding:3px 10px; cursor:pointer;">Equipment / Technology</span>
-        <span class="topic-chip" style="font-size:var(--text-xs); padding:3px 10px; cursor:pointer;">Scheduling</span>
-        <span class="topic-chip" style="font-size:var(--text-xs); padding:3px 10px; cursor:pointer;">Facilities</span>
-        <span class="topic-chip" style="font-size:var(--text-xs); padding:3px 10px; cursor:pointer;">ABACUS</span>
+        <span class="topic-chip" style="font-size:var(--text-xs); padding:3px 10px; cursor:pointer; background:rgba(14,165,233,0.15); border-color:rgba(14,165,233,0.3); color:#0EA5E9;">NCEPT</span>
+        <span class="topic-chip" style="font-size:var(--text-xs); padding:3px 10px; cursor:pointer;">NEST</span>
+        <span class="topic-chip" style="font-size:var(--text-xs); padding:3px 10px; cursor:pointer;">Hardships</span>
+        <span class="topic-chip" style="font-size:var(--text-xs); padding:3px 10px; cursor:pointer;">Academy Oversight</span>
+        <span class="topic-chip" style="font-size:var(--text-xs); padding:3px 10px; cursor:pointer;">Reasonable Accommodations</span>
       </div>
 
       <!-- Sample story cards with area chips -->
       <div style="display:flex; flex-direction:column; gap:var(--space-3);">
-        <div style="background:var(--color-bg-elevated); border:1px solid var(--color-border); border-radius:var(--radius-md); padding:var(--space-4); border-left:3px solid var(--topic-bargaining);">
+        <div style="background:var(--color-bg-elevated); border:1px solid var(--color-border); border-radius:var(--radius-md); padding:var(--space-4); border-left:3px solid var(--topic-employee-movement);">
           <div style="display:flex; gap:var(--space-2); align-items:center; margin-bottom:var(--space-2); flex-wrap:wrap;">
             <span class="cs-tag cs-tag--type" style="font-size:10px;">📋 Document</span>
             <span class="cs-tag cs-tag--lifecycle" style="font-size:10px;">📌 Reference</span>
-            <span style="background:var(--color-bg-surface);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:2px 8px;font-size:10px;color:var(--color-text-body);font-weight:600;">NCEPT / Employee Movement</span>
+            <span style="background:var(--color-bg-surface);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:2px 8px;font-size:10px;color:var(--color-text-body);font-weight:600;">NCEPT</span>
           </div>
           <div style="font-family:var(--font-display); font-weight:700; color:var(--color-text-primary); margin-bottom:var(--space-1);">Long-Term Hold (LTH) SOP — Updated Procedures</div>
           <div style="font-size:var(--text-sm); color:var(--color-text-body);">Off-the-boards reduced from 12 to 6 months. New LTH categories in SWB.</div>
         </div>
 
-        <div style="background:var(--color-bg-elevated); border:1px solid var(--color-border); border-radius:var(--radius-md); padding:var(--space-4); border-left:3px solid var(--topic-bargaining);">
+        <div style="background:var(--color-bg-elevated); border:1px solid var(--color-border); border-radius:var(--radius-md); padding:var(--space-4); border-left:3px solid var(--topic-employee-movement);">
           <div style="display:flex; gap:var(--space-2); align-items:center; margin-bottom:var(--space-2); flex-wrap:wrap;">
             <span class="cs-tag cs-tag--type" style="font-size:10px;">📰 Update</span>
             <span class="cs-tag cs-tag--lifecycle" style="font-size:10px;">🔄 Developing</span>
-            <span style="background:var(--color-bg-surface);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:2px 8px;font-size:10px;color:var(--color-text-body);font-weight:600;">NCEPT / Employee Movement</span>
+            <span style="background:var(--color-bg-surface);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:2px 8px;font-size:10px;color:var(--color-text-body);font-weight:600;">NCEPT</span>
           </div>
           <div style="font-family:var(--font-display); font-weight:700; color:var(--color-text-primary); margin-bottom:var(--space-1);">Controller Staffing Crisis — 2026 Hiring Pipeline</div>
           <div style="font-size:var(--text-sm); color:var(--color-text-body);">~10,200 CPCs vs ~13,000 target. 1,800 FY2026 hiring goal.</div>
         </div>
 
-        <div style="background:var(--color-bg-elevated); border:1px solid var(--color-border); border-radius:var(--radius-md); padding:var(--space-4); border-left:3px solid var(--topic-bargaining);">
+        <div style="background:var(--color-bg-elevated); border:1px solid var(--color-border); border-radius:var(--radius-md); padding:var(--space-4); border-left:3px solid var(--topic-employee-movement);">
           <div style="display:flex; gap:var(--space-2); align-items:center; margin-bottom:var(--space-2); flex-wrap:wrap;">
             <span class="cs-tag cs-tag--type" style="font-size:10px;">📰 Update</span>
             <span class="cs-tag cs-tag--lifecycle" style="font-size:10px;">🔄 Developing</span>
-            <span style="background:var(--color-bg-surface);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:2px 8px;font-size:10px;color:var(--color-text-body);font-weight:600;">Equipment / Technology</span>
+            <span style="background:var(--color-bg-surface);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:2px 8px;font-size:10px;color:var(--color-text-body);font-weight:600;">Hardships</span>
           </div>
-          <div style="font-family:var(--font-display); font-weight:700; color:var(--color-text-primary); margin-bottom:var(--space-1);">ERAM 3.4 — Nationwide Deployment</div>
-          <div style="font-size:var(--text-sm); color:var(--color-text-body);">15% fewer nuisance alerts, weather overlay improvements. Wave 1 complete.</div>
+          <div style="font-family:var(--font-display); font-weight:700; color:var(--color-text-primary); margin-bottom:var(--space-1);">2026 Hardship Window — Article 51 Submission Update</div>
+          <div style="font-size:var(--text-sm); color:var(--color-text-body);">Window opens May 1. New submission portal in MyNATCA. Q&amp;A session next Thursday.</div>
         </div>
       </div>
     </div>
@@ -814,9 +919,9 @@ body {
 
     <div style="background: #2b2d31; border-radius: var(--radius-md); padding: var(--space-5); max-width: 560px;">
       <div style="display: grid; grid-template-columns: 4px 1fr; border-radius: 4px; overflow: hidden;">
-        <div style="background: var(--topic-bargaining);"></div>
+        <div style="background: var(--topic-employee-movement);"></div>
         <div style="padding: 12px 16px; background: #2b2d31;">
-          <div style="font-size: 13px; color: white; font-weight: 600; margin-bottom: 6px;">NATCA Hub · Working Conditions</div>
+          <div style="font-size: 13px; color: white; font-weight: 600; margin-bottom: 6px;">NATCA Hub · Employee Movement</div>
           <div style="font-size: 16px; color: #00a8fc; font-weight: 700; margin-bottom: 6px;">Long-Term Hold (LTH) SOP — Updated Procedures</div>
           <div style="font-size: 14px; color: #dbdee1; margin-bottom: 10px;">Off-the-boards reduced from 12 to 6 months. New LTH categories in SWB. Reference for current and future FacReps.</div>
           <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
@@ -830,7 +935,7 @@ body {
             </div>
             <div style="flex:1;">
               <div style="font-size: 12px; font-weight: 700; color: white;">Area</div>
-              <div style="font-size: 12px; color: #dbdee1;">NCEPT / Employee Movement</div>
+              <div style="font-size: 12px; color: #dbdee1;">NCEPT</div>
             </div>
           </div>
           <div style="font-size: 11px; color: #949ba4; margin-top: 8px;">MyNATCA Hub · hub.natca.org/updates/lth-sop-2026</div>
@@ -961,12 +1066,12 @@ body {
           <td>→ Finds the story. "Related Documents" links to the DMS PDF.</td>
         </tr>
         <tr>
-          <td>Browse Hub → Working Conditions → filter by <span class="cs-tag cs-tag--type">📋 Document</span></td>
+          <td>Browse Hub → Employee Movement → filter by <span class="cs-tag cs-tag--type">📋 Document</span></td>
           <td>→ Shows all documents in that topic. Click through to the story + PDF.</td>
         </tr>
         <tr>
-          <td>Search Discord #working-conditions</td>
-          <td>→ Finds the forum post. Buttons link to Hub story and DMS.</td>
+          <td>Search Discord <code>#employee-movement</code></td>
+          <td>→ Finds the forum post under <code>TOPICS</code>. Buttons link to Hub story and DMS.</td>
         </tr>
         <tr>
           <td>AI search: "what's the rule about LTH at level 12 facilities?"</td>
@@ -995,7 +1100,7 @@ body {
         <tr>
           <td><strong style="color:var(--color-text-primary);">Discord</strong></td>
           <td>Discussion + notification</td>
-          <td>Forum posts (by topic), announcement feed, member threads</td>
+          <td>Forum channels (one per topic, under <code>TOPICS</code>) for discussion + <code>#announcements</code> at top level for org-wide broadcasts</td>
           <td>Hub (via buttons on every post)</td>
         </tr>
         <tr>

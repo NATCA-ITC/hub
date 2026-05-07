@@ -224,7 +224,7 @@ body {
 </div>
 
 <div class="mockup-note">
-  📢 Announcement channels — one per topic. Stories are embeds (published + editable). Updates live in threads. Cross-server following is native.
+  📢 Single org-wide <code>#announcements</code> channel (top-level Announcement type). Used for the most important / urgent stories — crossposts to all 16 topic forums under <code>TOPICS</code>. Topic-specific discussion lives in those forums (see <a href="discord-forum-channel.html" style="color: white; text-decoration: underline;">Forum mockup</a>).
   &nbsp;·&nbsp; <a href="index.html">← Back to mockup index</a>
 </div>
 
@@ -239,64 +239,56 @@ body {
     <div class="server">+</div>
   </aside>
 
-  <!-- Channel list — announcement channels with megaphone icon -->
+  <!-- Channel list — top-level #announcements + #verify, plus all 16 topic forums under TOPICS -->
   <aside class="channels">
     <div class="channels-header">NATCA National</div>
     <div class="channels-list">
-      <div class="channel-cat">📢 Updates (read-only)</div>
+      <!-- Top-level (no category) -->
       <div class="channel active">
         <svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-        pay-benefits
+        announcements
+        <span class="follow-badge">FOLLOW</span>
       </div>
       <div class="channel">
-        <svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-        legislative
-      </div>
-      <div class="channel">
-        <svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-        safety
-      </div>
-      <div class="channel">
-        <svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-        labor-relations
-      </div>
-      <div class="channel">
-        <svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-        staffing-workforce
-      </div>
-      <div class="channel">
-        <svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-        training
-      </div>
-      <div class="channel">
-        <svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-        events
+        <svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/></svg>
+        verify
       </div>
 
-      <div class="channel-cat">💬 Discussion</div>
-      <div class="channel"><svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/></svg>general</div>
-      <div class="channel"><svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/></svg>off-topic</div>
-
-      <div class="channel-cat">🏢 Facilities</div>
-      <div class="channel"><svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/></svg>zob-cleveland</div>
-      <div class="channel"><svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/></svg>zau-chicago</div>
+      <div class="channel-cat">🔒 TOPICS (private)</div>
+      <!-- Forum channels for all 16 topics -->
+      <div class="channel"><svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>training-education</div>
+      <div class="channel"><svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>employee-wellness</div>
+      <div class="channel"><svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>representation-advocacy</div>
+      <div class="channel"><svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>collaboration-professionalism</div>
+      <div class="channel"><svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>safety-technology</div>
+      <div class="channel"><svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>employee-movement</div>
+      <div class="channel"><svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>facility-issues</div>
+      <div class="channel"><svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>metrics</div>
+      <div class="channel"><svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>membership-services</div>
+      <div class="channel"><svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>finance</div>
+      <div class="channel"><svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>organizing</div>
+      <div class="channel"><svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>safety-committee</div>
+      <div class="channel"><svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>constitution</div>
+      <div class="channel"><svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>legislative</div>
+      <div class="channel"><svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>events</div>
+      <div class="channel"><svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>labor-relations</div>
     </div>
   </aside>
 
-  <!-- Main: #pay-benefits announcement channel -->
+  <!-- Main: top-level #announcements channel (single org-wide broadcast) -->
   <main class="channel-view">
     <header class="channel-header">
       <h1>
         <svg style="width:20px;height:20px;opacity:0.5;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-        pay-benefits
-        <span class="ch-type">Announcement</span>
+        announcements
+        <span class="ch-type">Announcement · top-level</span>
       </h1>
-      <span class="topic">Pay parity, locality pay, compensation, retirement, member benefits · Read-only — discuss in threads</span>
+      <span class="topic">Org-wide broadcasts only — most important / urgent stories. Topic-scoped discussion happens in the topic forums under <code>TOPICS</code>.</span>
     </header>
 
     <div class="messages">
 
-      <!-- Older resolved story -->
+      <!-- Older resolved story (crossposted from #legislative forum) -->
       <div class="message">
         <div class="message-avatar">🤖</div>
         <div class="message-header">
@@ -306,14 +298,14 @@ body {
         </div>
         <div class="message-body">
           <div class="embed">
-            <div class="embed-bar"></div>
+            <div class="embed-bar legislative"></div>
             <div class="embed-content">
               <span class="embed-status embed-status--resolved">✓ Resolved</span>
-              <a class="embed-title" href="#">FY2026 Locality Pay Tables Released</a>
-              <p class="embed-description">The Office of Personnel Management published final FY2026 locality pay tables. All NATCA-represented facilities received at minimum a 2.3% locality adjustment effective PP01 2026.</p>
+              <a class="embed-title" href="#">2026 NIW Registration Closes — Final Numbers</a>
+              <p class="embed-description">Registration for NATCA in Washington 2026 closed at midnight Friday. 1,142 members registered across 87 facilities. Travel coordination details posted in the <code>#legislative</code> forum.</p>
               <div class="embed-footer">
                 <div class="embed-footer-icon">H</div>
-                MyNATCA Hub · 1 update · Resolved Mar 28
+                MyNATCA Hub · Crossposted from <code>#legislative</code> · Resolved Mar 28
               </div>
             </div>
           </div>
@@ -335,7 +327,7 @@ body {
         <div class="message-body">
           <p style="margin: 0 0 4px; color: var(--discord-muted); font-size: 12px;">@here</p>
           <div class="embed">
-            <div class="embed-bar"></div>
+            <div class="embed-bar labor"></div>
             <div class="embed-content">
               <span class="embed-status embed-status--urgent">🚨 Urgent</span>
               <span class="embed-status embed-status--rolling">● Rolling</span>
@@ -343,16 +335,16 @@ body {
                 <div class="embed-author-avatar"></div>
                 Nick Daniels · NATCA President
               </div>
-              <a class="embed-title" href="#">FAA Shutdown 2026 — Pay &amp; Benefits Impact</a>
-              <p class="embed-description">NATCA leadership is coordinating with FAA on pay continuity during the FY2026 CR negotiations. Controllers designated "excepted" must report as scheduled — pay will be retroactive once appropriations are restored. MAP counseling remains fully operational.</p>
+              <a class="embed-title" href="#">FAA Shutdown 2026 — Rolling Coverage</a>
+              <p class="embed-description">NATCA leadership is coordinating with FAA on pay continuity during the FY2026 CR negotiations. Controllers designated "excepted" must report as scheduled — pay will be retroactive once appropriations are restored. MAP counseling remains fully operational. Discussion in the <code>#labor-relations</code> forum.</p>
               <div class="embed-fields">
                 <div>
-                  <div class="embed-field-name">Status</div>
-                  <div class="embed-field-value">● Rolling</div>
+                  <div class="embed-field-name">Topic</div>
+                  <div class="embed-field-value">Labor Relations</div>
                 </div>
                 <div>
                   <div class="embed-field-name">Updates</div>
-                  <div class="embed-field-value">8 so far</div>
+                  <div class="embed-field-value">12 so far</div>
                 </div>
                 <div>
                   <div class="embed-field-name">Latest</div>
@@ -361,28 +353,22 @@ body {
               </div>
               <div class="embed-footer">
                 <div class="embed-footer-icon">H</div>
-                MyNATCA Hub · hub.natca.org/updates/shutdown-pay-benefits · 📖 Read full story →
+                MyNATCA Hub · hub.natca.org/updates/shutdown-2026 · 📖 Read full story →
               </div>
             </div>
           </div>
           <div class="published-badge">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9z"/></svg>
-            Published · Last edited 2:14 PM · Edit synced to 12 following servers
-          </div>
-          <!-- Thread indicator -->
-          <div class="thread-indicator is-open">
-            <svg style="width:16px;height:16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
-            <span class="thread-count">8 messages</span>
-            <span class="thread-last">· Last reply 12 min ago</span>
+            Crossposted from <code>#labor-relations</code> · Last edited 2:14 PM · Synced to 12 following servers
           </div>
         </div>
       </div>
 
       <div class="annotation">
-        👆 This embed is the story OP — bot edits it whenever the summary changes. The "(edited)" badge shows it was refreshed. Edits sync to all 12 following servers automatically. Thread panel is open on the right →
+        👆 This is the org-wide announcement of an urgent story originating in the <code>#labor-relations</code> topic forum. The bot crossposts the embed here so it broadcasts to every following server. Discussion happens in the forum thread, not here — this channel is read-only by design.
       </div>
 
-      <!-- Another story -->
+      <!-- Another story (crossposted from #safety-technology forum) -->
       <div class="message">
         <div class="message-avatar">🤖</div>
         <div class="message-header">
@@ -392,21 +378,16 @@ body {
         </div>
         <div class="message-body">
           <div class="embed">
-            <div class="embed-bar"></div>
+            <div class="embed-bar safety"></div>
             <div class="embed-content">
               <span class="embed-status embed-status--rolling">● Rolling</span>
-              <a class="embed-title" href="#">Pay Parity Act — H.R. 4412 Compensation Provisions</a>
-              <p class="embed-description">The pay parity provisions in H.R. 4412 include controller-specific locality pay adjustments and premium pay recalculation. NATCA's legislative team is tracking floor amendments.</p>
+              <a class="embed-title" href="#">New ASRS Procedures for Runway Incursion Reporting</a>
+              <p class="embed-description">Effective May 1, the Aviation Safety Reporting System will adopt updated guidance for Class A/B/C runway incursions. Discussion in the <code>#safety-technology</code> forum.</p>
               <div class="embed-footer">
                 <div class="embed-footer-icon">H</div>
-                MyNATCA Hub · 5 updates · Rolling
+                MyNATCA Hub · Crossposted from <code>#safety-technology</code> · 3 updates · Rolling
               </div>
             </div>
-          </div>
-          <div class="thread-indicator">
-            <svg style="width:16px;height:16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
-            <span class="thread-count">5 messages</span>
-            <span class="thread-last">· 2d ago</span>
           </div>
           <div class="published-badge">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9z"/></svg>
@@ -418,16 +399,16 @@ body {
     </div>
 
     <div class="input-bar">
-      <div class="input-bar__inner">This is a read-only announcement channel. Discuss updates in their threads.</div>
+      <div class="input-bar__inner">This is a read-only announcement channel. Discussion happens in the originating topic forum.</div>
     </div>
   </main>
 
-  <!-- Thread side panel (open for the Shutdown story) -->
+  <!-- Side panel: peek into the originating forum thread -->
   <aside class="thread-panel">
     <header class="thread-panel-header">
       <div class="thread-panel-title-wrap">
-        <div class="thread-panel-title">FAA Shutdown 2026 — Pay &amp; Benefits Impact</div>
-        <div class="thread-panel-channel">#pay-benefits · 8 messages</div>
+        <div class="thread-panel-title">FAA Shutdown 2026 — Rolling Coverage</div>
+        <div class="thread-panel-channel">Originating forum: <code>#labor-relations</code> · 8 messages</div>
       </div>
       <button class="thread-panel-close">×</button>
     </header>

@@ -284,18 +284,18 @@
       <!-- Active filter chips -->
       <div class="filter-chips-mini">
         <span class="muted small" style="margin-right: var(--space-1);">Showing:</span>
-        <span class="filter-chip-mini topic-national"><span class="dot"></span>National</span>
+        <span class="filter-chip-mini topic-labor-relations"><span class="dot"></span>Labor Relations</span>
         <span class="filter-chip-mini topic-legislative"><span class="dot"></span>Legislative</span>
-        <span class="filter-chip-mini topic-safety"><span class="dot"></span>Safety</span>
-        <span class="filter-chip-mini">+ 2 more</span>
+        <span class="filter-chip-mini topic-safety-technology"><span class="dot"></span>Safety &amp; Tech</span>
+        <span class="filter-chip-mini">+ 3 more</span>
       </div>
 
       <!-- Urgent pinned first -->
-      <div class="updates-feed-item topic-national">
+      <div class="updates-feed-item topic-labor-relations">
         <div class="updates-feed-item__rail"></div>
         <div class="updates-feed-item__content">
           <div class="updates-feed-item__meta">
-            <span class="topic-badge topic-national">National</span>
+            <span class="topic-badge topic-labor-relations">Labor Relations</span>
             <span class="urgent-pill">🚨 Urgent</span>
             <span>2h ago</span>
           </div>
@@ -316,11 +316,11 @@
         </div>
       </div>
 
-      <div class="updates-feed-item topic-safety">
+      <div class="updates-feed-item topic-safety-technology">
         <div class="updates-feed-item__rail"></div>
         <div class="updates-feed-item__content">
           <div class="updates-feed-item__meta">
-            <span class="topic-badge topic-safety">Safety</span>
+            <span class="topic-badge topic-safety-technology">Safety &amp; Technology</span>
             <span>2d ago</span>
           </div>
           <h4 class="updates-feed-item__title"><a href="hub-updates-story.html">New ASRS Procedures for Runway Incursion Reporting</a></h4>
@@ -328,11 +328,23 @@
         </div>
       </div>
 
-      <div class="updates-feed-item topic-national">
+      <div class="updates-feed-item topic-employee-movement">
         <div class="updates-feed-item__rail"></div>
         <div class="updates-feed-item__content">
           <div class="updates-feed-item__meta">
-            <span class="topic-badge topic-national">National</span>
+            <span class="topic-badge topic-employee-movement">Employee Movement</span>
+            <span>4d ago</span>
+          </div>
+          <h4 class="updates-feed-item__title"><a href="hub-updates-story.html">Long-Term Hold (LTH) SOP — Updated Procedures</a></h4>
+          <p class="updates-feed-item__summary">Off-the-boards reduced from 12 to 6 months. New LTH categories in SWB. Reference for current and future FacReps.</p>
+        </div>
+      </div>
+
+      <div class="updates-feed-item topic-membership-services">
+        <div class="updates-feed-item__rail"></div>
+        <div class="updates-feed-item__content">
+          <div class="updates-feed-item__meta">
+            <span class="topic-badge topic-membership-services">Membership Services</span>
             <span>1w ago</span>
           </div>
           <h4 class="updates-feed-item__title"><a href="hub-updates-story.html">President's Monthly Letter — March Roundup</a></h4>
@@ -340,42 +352,40 @@
         </div>
       </div>
 
-      <div class="updates-feed-item topic-legislative">
-        <div class="updates-feed-item__rail"></div>
-        <div class="updates-feed-item__content">
-          <div class="updates-feed-item__meta">
-            <span class="topic-badge topic-legislative">Legislative</span>
-            <span>1w ago</span>
-          </div>
-          <h4 class="updates-feed-item__title"><a href="hub-updates-story.html">Senate Confirms New FAA Deputy Administrator</a></h4>
-          <p class="updates-feed-item__summary">The Senate voted 72–24 to confirm Maria Fernandez as the next FAA Deputy Administrator…</p>
-        </div>
-      </div>
-
       <!-- Settings dialog (shown open for mockup) -->
       <div class="settings-dialog">
         <h4>Customize this card</h4>
-        <p class="small muted" style="margin: 0 0 var(--space-3);">Choose which topics appear in your feed. This is separate from your email subscriptions.</p>
+        <p class="small muted" style="margin: 0 0 var(--space-3);">Choose which topics appear in your feed. This is separate from your email subscriptions. Topics are grouped by NATCA structure (16 total).</p>
+
+        <div class="small muted" style="text-transform:uppercase; letter-spacing:0.6px; font-weight:700; margin-top: var(--space-2);">Cross-Cutting</div>
         <div class="settings-dialog__toggle">
-          <span>🇺🇸 National</span><span class="toggle-sw on"></span>
-        </div>
-        <div class="settings-dialog__toggle">
-          <span>⚖️ Legislative</span><span class="toggle-sw on"></span>
-        </div>
-        <div class="settings-dialog__toggle">
-          <span>🛡️ Safety</span><span class="toggle-sw on"></span>
-        </div>
-        <div class="settings-dialog__toggle">
-          <span>🤝 Labor Relations</span><span class="toggle-sw on"></span>
-        </div>
-        <div class="settings-dialog__toggle">
-          <span>🎓 Training</span><span class="toggle-sw"></span>
-        </div>
-        <div class="settings-dialog__toggle">
-          <span>🎁 Benefits</span><span class="toggle-sw"></span>
+          <span>🏛️ Legislative</span><span class="toggle-sw on"></span>
         </div>
         <div class="settings-dialog__toggle">
           <span>📅 Events</span><span class="toggle-sw on"></span>
+        </div>
+        <div class="settings-dialog__toggle">
+          <span>⚖️ Labor Relations</span><span class="toggle-sw on"></span>
+        </div>
+
+        <div class="small muted" style="text-transform:uppercase; letter-spacing:0.6px; font-weight:700; margin-top: var(--space-3);">Councils (selected)</div>
+        <div class="settings-dialog__toggle">
+          <span>🛡️ Safety &amp; Technology</span><span class="toggle-sw on"></span>
+        </div>
+        <div class="settings-dialog__toggle">
+          <span>🔄 Employee Movement</span><span class="toggle-sw on"></span>
+        </div>
+        <div class="settings-dialog__toggle">
+          <span>❤️ Employee Wellness</span><span class="toggle-sw"></span>
+        </div>
+        <div class="settings-dialog__toggle">
+          <span>🎓 Training &amp; Education</span><span class="toggle-sw"></span>
+        </div>
+        <div class="settings-dialog__toggle">
+          <span>👥 Membership Services</span><span class="toggle-sw on"></span>
+        </div>
+        <div class="settings-dialog__toggle" style="opacity: 0.6;">
+          <span class="small muted">Show all 16 topics…</span>
         </div>
         <div class="settings-dialog__toggle" style="border-top: 1px solid var(--color-border); margin-top: var(--space-3); padding-top: var(--space-3);">
           <span>Always pin urgent posts</span><span class="toggle-sw on"></span>

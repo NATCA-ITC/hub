@@ -328,15 +328,32 @@
         <li><a href="#">Stories I follow <span class="count">7</span></a></li>
       </ul>
 
-      <h3>By Topic</h3>
+      <h3>Topics — Councils</h3>
       <ul>
-        <li><a href="#"><span><span class="topic-badge topic-national">●</span>National</span><span class="count">12</span></a></li>
+        <li><a href="#"><span><span class="topic-badge topic-training-education">●</span>Training &amp; Education</span><span class="count">11</span></a></li>
+        <li><a href="#"><span><span class="topic-badge topic-employee-wellness">●</span>Employee Wellness</span><span class="count">4</span></a></li>
+        <li><a href="#"><span><span class="topic-badge topic-representation-advocacy">●</span>Representation &amp; Advocacy</span><span class="count">2</span></a></li>
+        <li><a href="#"><span><span class="topic-badge topic-collaboration-professionalism">●</span>Collaboration &amp; Pro</span><span class="count">1</span></a></li>
+        <li><a href="#"><span><span class="topic-badge topic-safety-technology">●</span>Safety &amp; Technology</span><span class="count">5</span></a></li>
+        <li><a href="#"><span><span class="topic-badge topic-employee-movement">●</span>Employee Movement</span><span class="count">7</span></a></li>
+        <li><a href="#"><span><span class="topic-badge topic-facility-issues">●</span>Facility Issues</span><span class="count">3</span></a></li>
+        <li><a href="#"><span><span class="topic-badge topic-metrics">●</span>Metrics</span><span class="count">2</span></a></li>
+        <li><a href="#"><span><span class="topic-badge topic-membership-services">●</span>Membership Services</span><span class="count">3</span></a></li>
+      </ul>
+
+      <h3>Topics — Standing Committees</h3>
+      <ul>
+        <li><a href="#"><span><span class="topic-badge topic-finance">●</span>Finance</span><span class="count">2</span></a></li>
+        <li><a href="#"><span><span class="topic-badge topic-organizing">●</span>Organizing</span><span class="count">1</span></a></li>
+        <li><a href="#"><span><span class="topic-badge topic-safety-committee">●</span>Safety (Committee)</span><span class="count">2</span></a></li>
+        <li><a href="#"><span><span class="topic-badge topic-constitution">●</span>Constitution</span><span class="count">0</span></a></li>
+      </ul>
+
+      <h3>Topics — Cross-Cutting</h3>
+      <ul>
         <li><a href="#"><span><span class="topic-badge topic-legislative">●</span>Legislative</span><span class="count">8</span></a></li>
-        <li><a href="#"><span><span class="topic-badge topic-safety">●</span>Safety</span><span class="count">5</span></a></li>
-        <li><a href="#"><span><span class="topic-badge topic-bargaining">●</span>Labor Relations</span><span class="count">3</span></a></li>
-        <li><a href="#"><span><span class="topic-badge topic-training">●</span>Training</span><span class="count">11</span></a></li>
-        <li><a href="#"><span><span class="topic-badge topic-benefits">●</span>Benefits</span><span class="count">4</span></a></li>
         <li><a href="#"><span><span class="topic-badge topic-events">●</span>Events</span><span class="count">9</span></a></li>
+        <li><a href="#"><span><span class="topic-badge topic-labor-relations">●</span>Labor Relations</span><span class="count">3</span></a></li>
       </ul>
     </aside>
 
@@ -349,9 +366,31 @@
           <span class="kbd">⌘K</span>
         </div>
         <select class="admin-filter">
-          <option>All topics</option>
-          <option>National</option>
-          <option>Legislative</option>
+          <optgroup label="All">
+            <option>All topics</option>
+          </optgroup>
+          <optgroup label="Councils">
+            <option>Training &amp; Education</option>
+            <option>Employee Wellness</option>
+            <option>Representation &amp; Advocacy</option>
+            <option>Collaboration &amp; Professionalism</option>
+            <option>Safety &amp; Technology</option>
+            <option>Employee Movement</option>
+            <option>Facility Issues</option>
+            <option>Metrics</option>
+            <option>Membership Services</option>
+          </optgroup>
+          <optgroup label="Standing Committees">
+            <option>Finance</option>
+            <option>Organizing</option>
+            <option>Safety (Standing Committee)</option>
+            <option>Constitution</option>
+          </optgroup>
+          <optgroup label="Cross-Cutting">
+            <option>Legislative</option>
+            <option>Events</option>
+            <option>Labor Relations</option>
+          </optgroup>
         </select>
         <select class="admin-filter">
           <option>Sort: Last updated</option>
@@ -361,7 +400,7 @@
       </div>
 
       <!-- Story rows -->
-      <div class="story-row topic-national">
+      <div class="story-row topic-labor-relations">
         <div class="story-row__rail"></div>
         <div>
           <h3 class="story-row__title">
@@ -370,7 +409,7 @@
             <span class="status-pill status-pill--live">● Live</span>
           </h3>
           <div class="story-row__meta">
-            <span class="topic-badge topic-national">National</span>
+            <span class="topic-badge topic-labor-relations">Labor Relations</span>
             <span>📝 12 updates</span>
             <span>🔄 7 min ago by Marguerite Graf</span>
             <span>📅 Started Apr 8</span>
@@ -398,7 +437,7 @@
         <textarea placeholder="Markdown body — what changed since the last update?"></textarea>
         <div class="quick-form__actions">
           <label style="font-size: var(--text-sm); color: var(--color-text-muted); display: flex; align-items: center; gap: var(--space-2);">
-            <input type="checkbox" checked> Also post to Discord #announcements
+            <input type="checkbox" checked> Also crosspost to Discord <code>#announcements</code>
           </label>
           <div style="flex: 1;"></div>
           <button class="mock-btn">Cancel</button>
@@ -428,7 +467,7 @@
         </div>
       </div>
 
-      <div class="story-row topic-bargaining">
+      <div class="story-row topic-labor-relations">
         <div class="story-row__rail"></div>
         <div>
           <h3 class="story-row__title">
@@ -436,7 +475,7 @@
             <span class="status-pill status-pill--live">● Live</span>
           </h3>
           <div class="story-row__meta">
-            <span class="topic-badge topic-bargaining">Labor Relations</span>
+            <span class="topic-badge topic-labor-relations">Labor Relations</span>
             <span>📝 5 updates</span>
             <span>🔄 1 day ago by Drew MacQueen</span>
             <span>📅 Started Apr 3</span>
@@ -449,7 +488,7 @@
         </div>
       </div>
 
-      <div class="story-row topic-safety">
+      <div class="story-row topic-safety-technology">
         <div class="story-row__rail"></div>
         <div>
           <h3 class="story-row__title">
@@ -457,7 +496,7 @@
             <span class="status-pill status-pill--active">Active</span>
           </h3>
           <div class="story-row__meta">
-            <span class="topic-badge topic-safety">Safety</span>
+            <span class="topic-badge topic-safety-technology">Safety &amp; Technology</span>
             <span>📝 3 updates</span>
             <span>🔄 2 days ago by Steve Hansen</span>
             <span>📅 Started Apr 5</span>
@@ -465,6 +504,27 @@
         </div>
         <div class="story-row__actions">
           <span class="update-count-badge">3</span>
+          <button class="mock-btn mock-btn--primary">+ Post Update</button>
+          <a class="mock-btn" href="#">View</a>
+        </div>
+      </div>
+
+      <div class="story-row topic-employee-movement">
+        <div class="story-row__rail"></div>
+        <div>
+          <h3 class="story-row__title">
+            Long-Term Hold (LTH) SOP — Updated Procedures
+            <span class="status-pill status-pill--active">Active</span>
+          </h3>
+          <div class="story-row__meta">
+            <span class="topic-badge topic-employee-movement">Employee Movement</span>
+            <span>📝 6 updates</span>
+            <span>🔄 4 hours ago by NCEPT Lead</span>
+            <span>📅 Started Apr 1</span>
+          </div>
+        </div>
+        <div class="story-row__actions">
+          <span class="update-count-badge">6</span>
           <button class="mock-btn mock-btn--primary">+ Post Update</button>
           <a class="mock-btn" href="#">View</a>
         </div>
@@ -491,7 +551,7 @@
         </div>
       </div>
 
-      <div class="story-row topic-training">
+      <div class="story-row topic-events">
         <div class="story-row__rail"></div>
         <div>
           <h3 class="story-row__title">
@@ -499,9 +559,9 @@
             <span class="status-pill status-pill--active">Active</span>
           </h3>
           <div class="story-row__meta">
-            <span class="topic-badge topic-training">Training</span>
+            <span class="topic-badge topic-events">Events</span>
             <span>📝 4 updates</span>
-            <span>🔄 5 days ago by Training Dept</span>
+            <span>🔄 5 days ago by CFS Chair</span>
             <span>📅 Started Feb 12</span>
           </div>
         </div>
@@ -512,7 +572,7 @@
         </div>
       </div>
 
-      <div class="story-row topic-national">
+      <div class="story-row topic-membership-services">
         <div class="story-row__rail"></div>
         <div>
           <h3 class="story-row__title">
@@ -520,7 +580,7 @@
             <span class="status-pill status-pill--resolved">Resolved</span>
           </h3>
           <div class="story-row__meta">
-            <span class="topic-badge topic-national">National</span>
+            <span class="topic-badge topic-membership-services">Membership Services</span>
             <span>📝 1 update</span>
             <span>🔄 1 week ago by Nick Daniels</span>
             <span>📅 Posted Apr 1</span>

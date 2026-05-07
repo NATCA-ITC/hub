@@ -209,16 +209,30 @@ a.post-card-link .post-card__read {
     </div>
   </div>
 
-  <!-- Topic filter chips -->
-  <div class="topic-chip-row">
+  <!-- Group filter chips (primary) -->
+  <div class="topic-chip-row" style="border-bottom: none; padding-bottom: var(--space-3); margin-bottom: var(--space-2);">
     <a href="#" class="topic-chip is-active"><span class="dot"></span>All Topics <span class="topic-chip__count">42</span></a>
-    <a href="#" class="topic-chip topic-national"><span class="dot"></span>National <span class="topic-chip__count">8</span></a>
+    <a href="#" class="topic-chip topic-group-council"><span class="dot"></span>Councils <span class="topic-chip__count">23</span></a>
+    <a href="#" class="topic-chip topic-group-standing"><span class="dot"></span>Standing Committees <span class="topic-chip__count">5</span></a>
+    <a href="#" class="topic-chip topic-group-cross"><span class="dot"></span>Cross-Cutting <span class="topic-chip__count">14</span></a>
+  </div>
+
+  <!-- Secondary topic chips (active group reveals these). Showing all 16 here for the mockup. -->
+  <div class="topic-chip-row" style="margin-bottom: var(--space-6);">
+    <a href="#" class="topic-chip topic-employee-movement"><span class="dot"></span>Employee Movement <span class="topic-chip__count">7</span></a>
+    <a href="#" class="topic-chip topic-safety-technology"><span class="dot"></span>Safety &amp; Technology <span class="topic-chip__count">4</span></a>
+    <a href="#" class="topic-chip topic-employee-wellness"><span class="dot"></span>Employee Wellness <span class="topic-chip__count">3</span></a>
+    <a href="#" class="topic-chip topic-training-education"><span class="dot"></span>Training &amp; Education <span class="topic-chip__count">3</span></a>
+    <a href="#" class="topic-chip topic-representation-advocacy"><span class="dot"></span>Representation &amp; Advocacy <span class="topic-chip__count">2</span></a>
+    <a href="#" class="topic-chip topic-membership-services"><span class="dot"></span>Membership Services <span class="topic-chip__count">2</span></a>
+    <a href="#" class="topic-chip topic-facility-issues"><span class="dot"></span>Facility Issues <span class="topic-chip__count">1</span></a>
+    <a href="#" class="topic-chip topic-collaboration-professionalism"><span class="dot"></span>Collaboration &amp; Professionalism <span class="topic-chip__count">1</span></a>
     <a href="#" class="topic-chip topic-legislative"><span class="dot"></span>Legislative <span class="topic-chip__count">6</span></a>
-    <a href="#" class="topic-chip topic-safety"><span class="dot"></span>Safety <span class="topic-chip__count">4</span></a>
-    <a href="#" class="topic-chip topic-bargaining"><span class="dot"></span>Labor Relations <span class="topic-chip__count">3</span></a>
-    <a href="#" class="topic-chip topic-training"><span class="dot"></span>Training <span class="topic-chip__count">9</span></a>
-    <a href="#" class="topic-chip topic-benefits"><span class="dot"></span>Benefits <span class="topic-chip__count">5</span></a>
-    <a href="#" class="topic-chip topic-events"><span class="dot"></span>Events <span class="topic-chip__count">7</span></a>
+    <a href="#" class="topic-chip topic-events"><span class="dot"></span>Events <span class="topic-chip__count">5</span></a>
+    <a href="#" class="topic-chip topic-labor-relations"><span class="dot"></span>Labor Relations <span class="topic-chip__count">3</span></a>
+    <a href="#" class="topic-chip topic-finance"><span class="dot"></span>Finance <span class="topic-chip__count">2</span></a>
+    <a href="#" class="topic-chip topic-safety-committee"><span class="dot"></span>Safety Committee <span class="topic-chip__count">2</span></a>
+    <a href="#" class="topic-chip topic-organizing"><span class="dot"></span>Organizing <span class="topic-chip__count">1</span></a>
   </div>
 
   <div class="feed-layout">
@@ -238,13 +252,13 @@ a.post-card-link .post-card__read {
           </div>
           <h2 class="urgent-banner__title">FAA Shutdown 2026 — Rolling Coverage</h2>
           <p class="urgent-banner__summary">Congress is negotiating the FY2026 continuing resolution. NATCA leadership is coordinating contingency operations. This story is being updated in real time as negotiations evolve.</p>
-          <div class="latest-update-preview topic-national">
+          <div class="latest-update-preview topic-labor-relations">
             <div class="latest-update-preview__label">🔴 Latest · 7 min ago · Marguerite Graf</div>
             <p class="latest-update-preview__body"><strong>Senate Majority Leader confirms late-night vote on CR</strong> — Senate Majority Leader confirmed moments ago that a vote on the continuing resolution will occur before midnight Friday…</p>
           </div>
           <div class="urgent-banner__meta" style="margin-top: var(--space-3);">
             <span>📌 Pinned</span>
-            <span class="topic-badge topic-national">National</span>
+            <span class="topic-badge topic-labor-relations">Labor Relations</span>
             <span>Started April 8 · 12 updates from 4 contributors</span>
             <span class="post-card__read" style="margin-left:auto;">Read full story →</span>
           </div>
@@ -276,40 +290,40 @@ a.post-card-link .post-card__read {
       </article></a>
 
       <!-- Active story with a few updates -->
-      <a class="post-card-link" href="hub-updates-story.html"><article class="post-card topic-safety">
+      <a class="post-card-link" href="hub-updates-story.html"><article class="post-card topic-safety-technology">
         <div class="post-card__rail"></div>
         <div>
           <div class="post-card__meta">
-            <span class="topic-badge topic-safety">Safety</span>
+            <span class="topic-badge topic-safety-technology">Safety &amp; Technology</span>
             <span class="updates-count">📝 3 updates</span>
             <span>Started Apr 5</span>
           </div>
           <h3 class="post-card__title">Runway Incursion Reporting — ASRS Procedures Update</h3>
-          <p class="post-card__summary">Effective May 1, the Aviation Safety Reporting System will adopt updated guidance for Class A/B/C runway incursions. NATCA's safety team is tracking rollout details as they're announced.</p>
-          <div class="latest-update-preview topic-safety">
+          <p class="post-card__summary">Effective May 1, the Aviation Safety Reporting System will adopt updated guidance for Class A/B/C runway incursions. NATCA's National Safety Committee is tracking rollout details as they're announced.</p>
+          <div class="latest-update-preview topic-safety-technology">
             <div class="latest-update-preview__label">Latest · 2d ago · Steve Hansen</div>
             <p class="latest-update-preview__body"><strong>FAA confirms rollout schedule</strong> — ASRS rollout will begin at Class B facilities on May 1, with Class A and C phasing in throughout June…</p>
           </div>
           <div class="post-card__footer" style="margin-top: var(--space-3);">
-            <span class="post-card__author">👤 Steve Hansen · Safety Committee</span>
+            <span class="post-card__author">👤 Steve Hansen · NSC Chair</span>
             <span class="post-card__read">View full story →</span>
           </div>
         </div>
       </article></a>
 
       <!-- Live story -->
-      <a class="post-card-link" href="hub-updates-story.html"><article class="post-card topic-bargaining">
+      <a class="post-card-link" href="hub-updates-story.html"><article class="post-card topic-labor-relations">
         <div class="post-card__rail"></div>
         <div>
           <div class="post-card__meta">
-            <span class="topic-badge topic-bargaining">Labor Relations</span>
+            <span class="topic-badge topic-labor-relations">Labor Relations</span>
             <span class="story-live-pill">● Rolling</span>
             <span class="updates-count">📝 5 updates</span>
             <span>Started Apr 3</span>
           </div>
           <h3 class="post-card__title">Slate Book Article 35 Interpretation</h3>
-          <p class="post-card__summary">NATCA and the FAA are negotiating a Memorandum of Understanding clarifying the application of Article 35 (Leave) for controllers who transfer during a leave year. Labor Relations unit affected members should follow this story for resolution.</p>
-          <div class="latest-update-preview topic-bargaining">
+          <p class="post-card__summary">NATCA and the FAA are negotiating a Memorandum of Understanding clarifying the application of Article 35 (Leave) for controllers who transfer during a leave year. Affected members should follow this story for resolution.</p>
+          <div class="latest-update-preview topic-labor-relations">
             <div class="latest-update-preview__label">Latest · 1d ago · Drew MacQueen</div>
             <p class="latest-update-preview__body"><strong>MOU draft circulated to affected RVPs</strong> — A draft MOU has been shared with Regional Vice Presidents for feedback. Expected signing next week pending minor language changes…</p>
           </div>
@@ -321,35 +335,35 @@ a.post-card-link .post-card__read {
       </article></a>
 
       <!-- Single-update story (a simple announcement) -->
-      <a class="post-card-link" href="hub-updates-story.html"><article class="post-card topic-training">
+      <a class="post-card-link" href="hub-updates-story.html"><article class="post-card topic-training-education">
         <div class="post-card__rail"></div>
         <div>
           <div class="post-card__meta">
-            <span class="topic-badge topic-training">Training</span>
+            <span class="topic-badge topic-training-education">Training &amp; Education</span>
             <span class="updates-count">📝 1 update</span>
             <span>April 6, 2026</span>
           </div>
-          <h3 class="post-card__title">Registration Open — 2026 Communicating For Safety Conference</h3>
-          <p class="post-card__summary">NATCA's flagship safety training event returns to Las Vegas August 18–20. Early-bird pricing through May 31. Scholarship applications open now.</p>
+          <h3 class="post-card__title">NTC — Spring 2026 Rep Training Cohort</h3>
+          <p class="post-card__summary">National Training Committee announces the Spring rep-training cohort. Applications open through May 5. Sessions held in Las Vegas, June 9–13.</p>
           <div class="post-card__footer">
-            <span class="post-card__author">👤 Training Department</span>
+            <span class="post-card__author">👤 NTC Chair</span>
             <span class="post-card__read">Read announcement →</span>
           </div>
         </div>
       </article></a>
 
-      <a class="post-card-link" href="hub-updates-story.html"><article class="post-card topic-benefits">
+      <a class="post-card-link" href="hub-updates-story.html"><article class="post-card topic-employee-wellness">
         <div class="post-card__rail"></div>
         <div>
           <div class="post-card__meta">
-            <span class="topic-badge topic-benefits">Benefits</span>
+            <span class="topic-badge topic-employee-wellness">Employee Wellness</span>
             <span class="updates-count">📝 2 updates</span>
             <span>Started Apr 5</span>
           </div>
-          <h3 class="post-card__title">NATCA Member Benefits Portal — Spring Enrollment</h3>
-          <p class="post-card__summary">Several changes to member benefits are taking effect this quarter. This story tracks enrollment windows, new partners, and coverage changes.</p>
+          <h3 class="post-card__title">2026 FEHB Open Season — Plan Comparison Posted</h3>
+          <p class="post-card__summary">The Benefits committee published the side-by-side plan comparison for the 2026 plan year. Open Season runs Nov 11 – Dec 9. CISM and EAP coverage notes included.</p>
           <div class="post-card__footer">
-            <span class="post-card__author">👤 Member Services</span>
+            <span class="post-card__author">👤 Benefits Committee Chair</span>
             <span class="post-card__read">View full story →</span>
           </div>
         </div>
@@ -381,14 +395,15 @@ a.post-card-link .post-card__read {
     <aside class="side-panel">
       <h3>Your Subscriptions</h3>
       <ul class="stack-2">
-        <li><a class="side-link" href="hub-updates-preferences.html"><span><span class="topic-badge topic-national">●</span>National</span><span class="side-link__count">On</span></a></li>
         <li><a class="side-link" href="hub-updates-preferences.html"><span><span class="topic-badge topic-legislative">●</span>Legislative</span><span class="side-link__count">On</span></a></li>
-        <li><a class="side-link" href="hub-updates-preferences.html"><span><span class="topic-badge topic-safety">●</span>Safety</span><span class="side-link__count">On</span></a></li>
-        <li><a class="side-link" href="hub-updates-preferences.html"><span><span class="topic-badge topic-bargaining">●</span>Labor Relations</span><span class="side-link__count">Off</span></a></li>
-        <li><a class="side-link" href="hub-updates-preferences.html"><span><span class="topic-badge topic-training">●</span>Training</span><span class="side-link__count">Off</span></a></li>
+        <li><a class="side-link" href="hub-updates-preferences.html"><span><span class="topic-badge topic-labor-relations">●</span>Labor Relations</span><span class="side-link__count">On</span></a></li>
+        <li><a class="side-link" href="hub-updates-preferences.html"><span><span class="topic-badge topic-safety-technology">●</span>Safety &amp; Technology</span><span class="side-link__count">On</span></a></li>
+        <li><a class="side-link" href="hub-updates-preferences.html"><span><span class="topic-badge topic-employee-movement">●</span>Employee Movement</span><span class="side-link__count">On</span></a></li>
+        <li><a class="side-link" href="hub-updates-preferences.html"><span><span class="topic-badge topic-employee-wellness">●</span>Employee Wellness</span><span class="side-link__count">Off</span></a></li>
+        <li><a class="side-link" href="hub-updates-preferences.html"><span><span class="topic-badge topic-events">●</span>Events</span><span class="side-link__count">Off</span></a></li>
       </ul>
       <p class="small muted" style="margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px solid var(--color-border-light);">
-        Subscriptions control <strong>email delivery</strong> only. You can browse all updates here regardless of your subscriptions.
+        Subscriptions control <strong>email delivery</strong> only. You can browse all 16 topics here regardless of your subscriptions.
       </p>
       <a class="mock-btn mock-btn--ghost" style="width:100%; justify-content:center; margin-top: var(--space-3);" href="hub-updates-preferences.html">Manage subscriptions</a>
     </aside>

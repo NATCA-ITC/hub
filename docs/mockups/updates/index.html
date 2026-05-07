@@ -210,10 +210,16 @@ body { padding-top: 40px; } /* space for mockup-nav */
 
 <div class="section-head">Discord Fan-Out</div>
 <div class="mockup-grid">
-  <a class="mockup-tile" href="discord-announcement-channel.html" style="border: 1px solid var(--natca-sky);">
-    <div class="mockup-tile__section" style="color: #4ade80;">Recommended</div>
-    <h3 class="mockup-tile__title">Announcement Channels</h3>
-    <p class="mockup-tile__desc">One <strong>Announcement channel per topic</strong> (<code>#pay</code>, <code>#legislative</code>, <code>#union</code>, etc.). Stories are published embeds that the bot edits to stay current — <strong>edits sync to all following servers</strong>. Updates + discussion live in threads. Read-only broadcast discipline.</p>
+  <a class="mockup-tile" href="discord-forum-channel.html" style="border: 1px solid var(--natca-sky);">
+    <div class="mockup-tile__section" style="color: #4ade80;">Recommended — topic discussion</div>
+    <h3 class="mockup-tile__title">Topic Forum Channels</h3>
+    <p class="mockup-tile__desc">All 16 topics live as <strong>forum channels under a single private TOPICS category</strong> (<code>#training-education</code>, <code>#legislative</code>, <code>#labor-relations</code>, …). Each story becomes a forum post. Updates appear as replies in the post's thread. Permissions are admin-only at launch.</p>
+    <div class="mockup-tile__arrow">View mockup →</div>
+  </a>
+  <a class="mockup-tile" href="discord-announcement-channel.html">
+    <div class="mockup-tile__section">Org-wide broadcast</div>
+    <h3 class="mockup-tile__title">#announcements (top-level)</h3>
+    <p class="mockup-tile__desc">A single top-level Announcement-type channel that crossposts the most important / urgent stories org-wide. Not per-topic — the topic forums handle topic-scoped discussion.</p>
     <div class="mockup-tile__arrow">View mockup →</div>
   </a>
   <a class="mockup-tile" href="discord-post-preview.html">
@@ -228,12 +234,6 @@ body { padding-top: 40px; } /* space for mockup-nav */
     <p class="mockup-tile__desc">Urgent story with @here, red border, action buttons. Same pattern, just with urgent styling.</p>
     <div class="mockup-tile__arrow">View mockup →</div>
   </a>
-  <a class="mockup-tile" href="discord-forum-channel.html" style="opacity: 0.6;">
-    <div class="mockup-tile__section">Considered · Not recommended</div>
-    <h3 class="mockup-tile__title">Forum Channel (archived)</h3>
-    <p class="mockup-tile__desc">Forum channels have a better browse grid but can't be followed cross-server (Discord limitation). Kept as reference for the design decision.</p>
-    <div class="mockup-tile__arrow">View mockup →</div>
-  </a>
 </div>
 
 <div class="notes">
@@ -242,7 +242,7 @@ body { padding-top: 40px; } /* space for mockup-nav */
 
   <h2>Data model — Topic → Story → Update</h2>
   <ul>
-    <li><strong>Topic</strong> — what domain a story belongs to (Pay, Benefits, Working Conditions, Legislative, Safety, Union). Drives Discord channel routing and email list mapping.</li>
+    <li><strong>Topic</strong> — one of 16 entries in <code>updates.topics</code>, organized by <code>type</code> (council / standing-committee / cross-cutting). Drives Discord forum routing under the <code>TOPICS</code> category, email list mapping (future), and content filtering on Hub. See <a href="hub-content-standards.html" style="color:var(--natca-sky);">Content Standards</a> for the full list and grouping.</li>
     <li><strong>Story</strong> — a headline + stable summary that <em>accumulates updates over time</em>. Think news liveblog. One URL. Lifecycle is derived (Developing → Active → Resolved).</li>
     <li><strong>Update</strong> — a timestamped entry under a story. Has a kind (Update / Breaking / Correction / Summary). This is what actually gets posted to Discord and (future) email.</li>
   </ul>
@@ -265,16 +265,38 @@ body { padding-top: 40px; } /* space for mockup-nav */
   <h2>Why liveblog-style stories?</h2>
   <p>The current fragmented approach creates multiple disconnected posts about the same topic (e.g., three separate emails about the same shutdown negotiation). Members can't find the latest state of a story, and older context is lost. A liveblog model — like <a href="https://www.ms.now/liveblog/iran-war-news-today-trump-us-april-10-2026" style="color: var(--natca-sky);">MS.now</a>, Guardian rolling coverage, or NYT live updates — keeps everything about a story on one page, so members always land on the canonical, up-to-date view.</p>
 
-  <h2>Topics (6)</h2>
+  <h2>Topics (16) — by type</h2>
+  <p class="small muted">Originally 6 broad topics; now expanded to 16 to match NATCA's council / standing-committee structure. Each topic maps 1:1 to a Discord forum channel under the <code>TOPICS</code> category.</p>
+
+  <h3 style="font-family: var(--font-display); color: var(--color-text-primary); margin-top: var(--space-4);">Councils (9)</h3>
   <ul>
-    <li><span class="topic-badge topic-national">Pay</span> — raises, locality pay, compensation, premium pay</li>
-    <li><span class="topic-badge topic-benefits">Benefits</span> — health, retirement, TSP, mental health, MAP</li>
-    <li><span class="topic-badge topic-bargaining">Working Conditions</span> — staffing, NCEPT, equipment, scheduling, ABACUS</li>
-    <li><span class="topic-badge topic-legislative">Legislative</span> — bills, reauthorization, political action, Hill visits</li>
-    <li><span class="topic-badge topic-safety">Safety</span> — bulletins, ASRS, incidents, professional standards</li>
-    <li><span class="topic-badge topic-events">Union</span> — CFS, NIW, elections, convention, committees, membership</li>
+    <li><span class="topic-badge topic-training-education">Training &amp; Education</span> — NTC, Reloaded, leadership development, member education</li>
+    <li><span class="topic-badge topic-employee-wellness">Employee Wellness</span> — CISM, EAP, DAC, Childcare, Benefits, Union Synergy</li>
+    <li><span class="topic-badge topic-representation-advocacy">Representation &amp; Advocacy</span> — GRT, Core 30, FacRep groups, Onboarding, NEC/ESC</li>
+    <li><span class="topic-badge topic-collaboration-professionalism">Collaboration &amp; Professionalism</span> — COG, Collaboration Facilitators, RFTS, ProStan</li>
+    <li><span class="topic-badge topic-safety-technology">Safety &amp; Technology</span> — NSTLC, NSC, NAPC, ASI, Security Breach</li>
+    <li><span class="topic-badge topic-employee-movement">Employee Movement</span> — NCEPT, NEST, Hardships, Academy, Reasonable Accommodations</li>
+    <li><span class="topic-badge topic-facility-issues">Facility Issues</span> — OSHA, OWCP, Article 804/76</li>
+    <li><span class="topic-badge topic-metrics">Metrics</span> — ABACUS, NVT</li>
+    <li><span class="topic-badge topic-membership-services">Membership Services</span> — Veterans, Pay Review, Comms, ITC, DRC, RNAV, Seniority</li>
   </ul>
-  <p class="small muted">New topics can be added by inserting a row in <code>updates.topics</code>. Each topic has predefined <strong>Areas</strong> for sub-filtering (e.g., Working Conditions → NCEPT / Employee Movement). See <a href="hub-content-standards.html" style="color:var(--natca-sky);">Content Standards</a> for the full four-axis taxonomy.</p>
+
+  <h3 style="font-family: var(--font-display); color: var(--color-text-primary); margin-top: var(--space-4);">Standing Committees (4)</h3>
+  <ul>
+    <li><span class="topic-badge topic-finance">Finance</span> — budget, audit, financial operations</li>
+    <li><span class="topic-badge topic-organizing">Organizing</span> — new bargaining units, organizing support</li>
+    <li><span class="topic-badge topic-safety-committee">Safety (Standing)</span> — overall safety policy, FAA collaboration</li>
+    <li><span class="topic-badge topic-constitution">Constitution</span> — interpretation and amendments</li>
+  </ul>
+
+  <h3 style="font-family: var(--font-display); color: var(--color-text-primary); margin-top: var(--space-4);">Cross-cutting (3)</h3>
+  <ul>
+    <li><span class="topic-badge topic-legislative">Legislative</span> — bills, NATCA PAC, NIW, calls to action <span class="small muted">(Nick's standing-committee work folds in here)</span></li>
+    <li><span class="topic-badge topic-events">Events</span> — Convention, CFS, NIW, ATX, regional gatherings</li>
+    <li><span class="topic-badge topic-labor-relations">Labor Relations</span> — contract enforcement, grievances, MOUs</li>
+  </ul>
+
+  <p class="small muted">Source of truth: <code>src/data/topics.ts</code>. New topics can be added by inserting a row in <code>updates.topics</code>. Per-topic Areas (sub-filters) are now optional and maintained per topic only as needed — with 16 topics there's less pressure for every one to declare its own sub-list. See <a href="hub-content-standards.html" style="color:var(--natca-sky);">Content Standards</a> for the full four-axis taxonomy.</p>
 </div>
 
 </body>

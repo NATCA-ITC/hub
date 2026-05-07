@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Discord Forum Channel (Option B) — Mockup</title>
+<title>Discord Topic Forum — Mockup</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -234,13 +234,22 @@ body {
 }
 .forum-post-card__tag--urgent { background: #f23f42; }
 .forum-post-card__tag--pinned { background: #faa61a; color: #1e1f22; }
-.forum-post-card__tag--national    { background: #CE0E2D; }
+/* Topic-specific tag colors. With 16 topics we lean on group colors:
+   teal = council, purple = standing committee, orange-family = cross-cutting */
+.forum-post-card__tag--council     { background: #0D9488; }
+.forum-post-card__tag--standing    { background: #8B4FB8; }
+.forum-post-card__tag--cross       { background: #E76F00; }
 .forum-post-card__tag--legislative { background: #8B4FB8; }
-.forum-post-card__tag--safety      { background: #E76F00; }
-.forum-post-card__tag--labor       { background: #0D9488; }
-.forum-post-card__tag--training    { background: #10B981; }
-.forum-post-card__tag--benefits    { background: #EAB308; color: #1e1f22; }
 .forum-post-card__tag--events      { background: #3B82F6; }
+.forum-post-card__tag--labor       { background: #CE0E2D; }
+.forum-post-card__tag--safety-tech { background: #E76F00; }
+.forum-post-card__tag--wellness    { background: #10B981; }
+.forum-post-card__tag--movement    { background: #0EA5E9; }
+/* Legacy aliases — keep older snippets rendering */
+.forum-post-card__tag--national    { background: #CE0E2D; }
+.forum-post-card__tag--safety      { background: #E76F00; }
+.forum-post-card__tag--training    { background: #0D9488; }
+.forum-post-card__tag--benefits    { background: #10B981; color: #1e1f22; }
 
 .forum-post-card__title {
   font-size: 15px;
@@ -397,8 +406,8 @@ body {
 <body>
 
 <div class="mockup-note">
-  📰 Option B — Dedicated Forum channel (recommended). Each story is a <em>forum post</em>, each update is a reply inside it. Discord-native browse + reply pattern.
-  &nbsp;·&nbsp; <a href="index.html">← Back</a> &nbsp;·&nbsp; <a href="discord-story-thread.html">Compare Option A →</a>
+  ✅ Recommended pattern — all 16 NATCA topics live as forum channels under a single private <code>TOPICS</code> category. Each story is a forum post; each update is a reply inside it. Topic-scoped discussion lives here; org-wide broadcasts go to top-level <code>#announcements</code>.
+  &nbsp;·&nbsp; <a href="index.html">← Back</a> &nbsp;·&nbsp; <a href="discord-announcement-channel.html">View #announcements →</a>
 </div>
 
 <div class="discord">
@@ -409,51 +418,58 @@ body {
     <div class="server">+</div>
   </aside>
 
-  <!-- Channel list — note the Updates channel has a forum icon -->
+  <!-- Channel list — top-level #announcements + #verify, plus all 16 forums under TOPICS -->
   <aside class="channels">
-    <div class="channels-header">NATCA Community</div>
+    <div class="channels-header">NATCA National</div>
     <div class="channels-list">
-      <div class="channel-cat">📢 Forum</div>
-      <div class="channel forum active">
-        <svg class="forum-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 01-2 2H6l-4 4V4a2 2 0 012-2h8a2 2 0 012 2z"/><path d="M18 9h2a2 2 0 012 2v11l-4-4h-6a2 2 0 01-2-2v-1"/></svg>
-        updates
-      </div>
-      <div class="channel-cat">💬 General</div>
-      <div class="channel">general</div>
-      <div class="channel">introductions</div>
-      <div class="channel">off-topic</div>
-      <div class="channel-cat">🏢 Facilities</div>
-      <div class="channel">zob-cleveland</div>
-      <div class="channel">zau-chicago</div>
-      <div class="channel">zdc-washington</div>
+      <!-- Top-level (no category) -->
+      <div class="channel">announcements</div>
+      <div class="channel">verify</div>
+
+      <div class="channel-cat">🔒 TOPICS (private)</div>
+      <div class="channel forum"><svg class="forum-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 01-2 2H6l-4 4V4a2 2 0 012-2h8a2 2 0 012 2z"/><path d="M18 9h2a2 2 0 012 2v11l-4-4h-6a2 2 0 01-2-2v-1"/></svg>training-education</div>
+      <div class="channel forum"><svg class="forum-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 01-2 2H6l-4 4V4a2 2 0 012-2h8a2 2 0 012 2z"/><path d="M18 9h2a2 2 0 012 2v11l-4-4h-6a2 2 0 01-2-2v-1"/></svg>employee-wellness</div>
+      <div class="channel forum"><svg class="forum-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 01-2 2H6l-4 4V4a2 2 0 012-2h8a2 2 0 012 2z"/><path d="M18 9h2a2 2 0 012 2v11l-4-4h-6a2 2 0 01-2-2v-1"/></svg>representation-advocacy</div>
+      <div class="channel forum"><svg class="forum-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 01-2 2H6l-4 4V4a2 2 0 012-2h8a2 2 0 012 2z"/><path d="M18 9h2a2 2 0 012 2v11l-4-4h-6a2 2 0 01-2-2v-1"/></svg>collaboration-professionalism</div>
+      <div class="channel forum"><svg class="forum-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 01-2 2H6l-4 4V4a2 2 0 012-2h8a2 2 0 012 2z"/><path d="M18 9h2a2 2 0 012 2v11l-4-4h-6a2 2 0 01-2-2v-1"/></svg>safety-technology</div>
+      <div class="channel forum"><svg class="forum-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 01-2 2H6l-4 4V4a2 2 0 012-2h8a2 2 0 012 2z"/><path d="M18 9h2a2 2 0 012 2v11l-4-4h-6a2 2 0 01-2-2v-1"/></svg>employee-movement</div>
+      <div class="channel forum"><svg class="forum-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 01-2 2H6l-4 4V4a2 2 0 012-2h8a2 2 0 012 2z"/><path d="M18 9h2a2 2 0 012 2v11l-4-4h-6a2 2 0 01-2-2v-1"/></svg>facility-issues</div>
+      <div class="channel forum"><svg class="forum-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 01-2 2H6l-4 4V4a2 2 0 012-2h8a2 2 0 012 2z"/><path d="M18 9h2a2 2 0 012 2v11l-4-4h-6a2 2 0 01-2-2v-1"/></svg>metrics</div>
+      <div class="channel forum"><svg class="forum-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 01-2 2H6l-4 4V4a2 2 0 012-2h8a2 2 0 012 2z"/><path d="M18 9h2a2 2 0 012 2v11l-4-4h-6a2 2 0 01-2-2v-1"/></svg>membership-services</div>
+      <div class="channel forum"><svg class="forum-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 01-2 2H6l-4 4V4a2 2 0 012-2h8a2 2 0 012 2z"/><path d="M18 9h2a2 2 0 012 2v11l-4-4h-6a2 2 0 01-2-2v-1"/></svg>finance</div>
+      <div class="channel forum"><svg class="forum-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 01-2 2H6l-4 4V4a2 2 0 012-2h8a2 2 0 012 2z"/><path d="M18 9h2a2 2 0 012 2v11l-4-4h-6a2 2 0 01-2-2v-1"/></svg>organizing</div>
+      <div class="channel forum"><svg class="forum-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 01-2 2H6l-4 4V4a2 2 0 012-2h8a2 2 0 012 2z"/><path d="M18 9h2a2 2 0 012 2v11l-4-4h-6a2 2 0 01-2-2v-1"/></svg>safety-committee</div>
+      <div class="channel forum"><svg class="forum-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 01-2 2H6l-4 4V4a2 2 0 012-2h8a2 2 0 012 2z"/><path d="M18 9h2a2 2 0 012 2v11l-4-4h-6a2 2 0 01-2-2v-1"/></svg>constitution</div>
+      <div class="channel forum"><svg class="forum-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 01-2 2H6l-4 4V4a2 2 0 012-2h8a2 2 0 012 2z"/><path d="M18 9h2a2 2 0 012 2v11l-4-4h-6a2 2 0 01-2-2v-1"/></svg>legislative</div>
+      <div class="channel forum"><svg class="forum-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 01-2 2H6l-4 4V4a2 2 0 012-2h8a2 2 0 012 2z"/><path d="M18 9h2a2 2 0 012 2v11l-4-4h-6a2 2 0 01-2-2v-1"/></svg>events</div>
+      <div class="channel forum active"><svg class="forum-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 01-2 2H6l-4 4V4a2 2 0 012-2h8a2 2 0 012 2z"/><path d="M18 9h2a2 2 0 012 2v11l-4-4h-6a2 2 0 01-2-2v-1"/></svg>labor-relations</div>
     </div>
   </aside>
 
-  <!-- Forum view -->
+  <!-- Forum view: showing #labor-relations as a representative topic forum -->
   <main class="forum-view">
     <header class="forum-header">
       <h1>
         <svg class="forum-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 01-2 2H6l-4 4V4a2 2 0 012-2h8a2 2 0 012 2z"/><path d="M18 9h2a2 2 0 012 2v11l-4-4h-6a2 2 0 01-2-2v-1"/></svg>
-        updates
+        labor-relations
       </h1>
-      <span class="forum-header__topic">Rolling coverage, announcements, bulletins — all stories from NATCA Hub</span>
+      <span class="forum-header__topic">Cross-cutting topic — contract enforcement, grievances, MOUs, FAA labor-relations posture</span>
       <div class="forum-header__actions">
         <input class="forum-search" placeholder="🔍 Search posts…">
         <button class="forum-btn-new">+ New Post</button>
       </div>
     </header>
 
-    <!-- Tag filter row (each topic is a forum tag) -->
+    <!-- Tag filter row — Discord forum tags are kind/lifecycle, not topic
+         (the channel itself is the topic). -->
     <div class="forum-tags-row">
       <span class="forum-tags-row__label">Filter by tag:</span>
       <span class="forum-tag active">All</span>
-      <span class="forum-tag forum-tag-national"><span class="dot"></span>National</span>
-      <span class="forum-tag forum-tag-legislative"><span class="dot"></span>Legislative</span>
-      <span class="forum-tag forum-tag-safety"><span class="dot"></span>Safety</span>
-      <span class="forum-tag forum-tag-labor"><span class="dot"></span>Labor Relations</span>
-      <span class="forum-tag forum-tag-training"><span class="dot"></span>Training</span>
-      <span class="forum-tag forum-tag-benefits"><span class="dot"></span>Benefits</span>
-      <span class="forum-tag forum-tag-events"><span class="dot"></span>Events</span>
+      <span class="forum-tag forum-tag-labor"><span class="dot"></span>🚨 Urgent</span>
+      <span class="forum-tag forum-tag-labor"><span class="dot"></span>● Rolling</span>
+      <span class="forum-tag forum-tag-labor"><span class="dot"></span>📋 Document</span>
+      <span class="forum-tag forum-tag-labor"><span class="dot"></span>⚡ Action Needed</span>
+      <span class="forum-tag forum-tag-labor"><span class="dot"></span>✅ Resolved</span>
     </div>
 
     <!-- Split body: grid left, opened post right -->
@@ -467,7 +483,7 @@ body {
           <div class="forum-post-card__tags">
             <span class="forum-post-card__tag forum-post-card__tag--urgent">🚨 Urgent</span>
             <span class="forum-post-card__tag forum-post-card__tag--pinned">📌 Pinned</span>
-            <span class="forum-post-card__tag forum-post-card__tag--national">National</span>
+            <span class="forum-post-card__tag forum-post-card__tag--labor">● Rolling</span>
           </div>
           <h3 class="forum-post-card__title">FAA Shutdown 2026 — Rolling Coverage</h3>
           <p class="forum-post-card__preview">Congress is negotiating the FY2026 continuing resolution. NATCA leadership is coordinating contingency operations. This story is being updated in real time…</p>
@@ -482,22 +498,7 @@ body {
 
         <div class="forum-post-card">
           <div class="forum-post-card__tags">
-            <span class="forum-post-card__tag forum-post-card__tag--legislative">Legislative</span>
-          </div>
-          <h3 class="forum-post-card__title">H.R. 4412 — FAA Funding Bill Progress</h3>
-          <p class="forum-post-card__preview">Rolling coverage of the FY2026 FAA reauthorization and funding bill, including committee markups, floor votes, and NATCA advocacy…</p>
-          <div class="forum-post-card__footer">
-            <div class="forum-post-card__author-avatar"></div>
-            <span>NATCA Hub</span>
-            <span class="forum-post-card__stat">💬 18 messages</span>
-            <span class="forum-post-card__stat is-live">● Rolling</span>
-            <span class="forum-post-card__stat">· 2h ago</span>
-          </div>
-        </div>
-
-        <div class="forum-post-card">
-          <div class="forum-post-card__tags">
-            <span class="forum-post-card__tag forum-post-card__tag--labor">Labor Relations</span>
+            <span class="forum-post-card__tag forum-post-card__tag--labor">● Rolling</span>
           </div>
           <h3 class="forum-post-card__title">Slate Book Article 35 Interpretation</h3>
           <p class="forum-post-card__preview">NATCA and the FAA are negotiating an MOU clarifying the application of Article 35 for controllers who transfer during a leave year…</p>
@@ -512,10 +513,10 @@ body {
 
         <div class="forum-post-card">
           <div class="forum-post-card__tags">
-            <span class="forum-post-card__tag forum-post-card__tag--safety">Safety</span>
+            <span class="forum-post-card__tag forum-post-card__tag--labor">📋 Document</span>
           </div>
-          <h3 class="forum-post-card__title">Runway Incursion Reporting — ASRS Update</h3>
-          <p class="forum-post-card__preview">Effective May 1, the Aviation Safety Reporting System will adopt updated guidance for Class A/B/C runway incursions…</p>
+          <h3 class="forum-post-card__title">Article 76 Annual Workload Review — Updated Procedures</h3>
+          <p class="forum-post-card__preview">Updated guidance on the annual workload review process with FAA labor relations. Distribution to all FacReps for the FY26 cycle.</p>
           <div class="forum-post-card__footer">
             <div class="forum-post-card__author-avatar"></div>
             <span>NATCA Hub</span>
@@ -526,10 +527,10 @@ body {
 
         <div class="forum-post-card">
           <div class="forum-post-card__tags">
-            <span class="forum-post-card__tag forum-post-card__tag--events">Events</span>
+            <span class="forum-post-card__tag forum-post-card__tag--labor">● Rolling</span>
           </div>
-          <h3 class="forum-post-card__title">NATCA in Washington 2026</h3>
-          <p class="forum-post-card__preview">The annual legislative fly-in returns May 12–14. Registration, Hill visit assignments, travel coordination, and event updates tracked here.</p>
+          <h3 class="forum-post-card__title">National Grievance Trends — Q1 2026</h3>
+          <p class="forum-post-card__preview">GRT review of national grievance trends for Q1. Increased volume in scheduling and FMLA categories — analysis and FacRep guidance attached.</p>
           <div class="forum-post-card__footer">
             <div class="forum-post-card__author-avatar"></div>
             <span>NATCA Hub</span>
@@ -540,28 +541,14 @@ body {
 
         <div class="forum-post-card">
           <div class="forum-post-card__tags">
-            <span class="forum-post-card__tag forum-post-card__tag--training">Training</span>
+            <span class="forum-post-card__tag forum-post-card__tag--labor">✅ Resolved</span>
           </div>
-          <h3 class="forum-post-card__title">2026 Communicating For Safety Conference</h3>
-          <p class="forum-post-card__preview">NATCA's flagship safety training event returns to Las Vegas August 18–20. Registration, scholarships, and agenda updates…</p>
+          <h3 class="forum-post-card__title">FY2025 Appropriations — Final Passage</h3>
+          <p class="forum-post-card__preview">FY25 appropriations signed. Pay continuity preserved. Story closed; SOP updates filed in DMS.</p>
           <div class="forum-post-card__footer">
             <div class="forum-post-card__author-avatar"></div>
             <span>NATCA Hub</span>
             <span class="forum-post-card__stat">💬 4 messages</span>
-            <span class="forum-post-card__stat">· 5d ago</span>
-          </div>
-        </div>
-
-        <div class="forum-post-card">
-          <div class="forum-post-card__tags">
-            <span class="forum-post-card__tag forum-post-card__tag--national">National</span>
-          </div>
-          <h3 class="forum-post-card__title">President's Monthly Letter — March Roundup</h3>
-          <p class="forum-post-card__preview">A look back at March priorities: Hill meetings, facility visits, and the upcoming CFS conference planning.</p>
-          <div class="forum-post-card__footer">
-            <div class="forum-post-card__author-avatar"></div>
-            <span>NATCA Hub</span>
-            <span class="forum-post-card__stat">💬 1 message</span>
             <span class="forum-post-card__stat">· 1w ago</span>
           </div>
         </div>
@@ -574,7 +561,7 @@ body {
           <div class="forum-post-detail__tags">
             <span class="forum-post-card__tag forum-post-card__tag--urgent">🚨 Urgent</span>
             <span class="forum-post-card__tag forum-post-card__tag--pinned">📌 Pinned</span>
-            <span class="forum-post-card__tag forum-post-card__tag--national">National</span>
+            <span class="forum-post-card__tag forum-post-card__tag--labor">● Rolling</span>
           </div>
           <h2 class="forum-post-detail__title">FAA Shutdown 2026 — Rolling Coverage</h2>
           <div class="forum-post-detail__meta">
