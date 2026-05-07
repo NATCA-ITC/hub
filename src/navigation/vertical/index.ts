@@ -43,7 +43,6 @@ export const topicsSidebar: NatcaNavSection[] = [
     items: [
       { id: 'topic-finance', label: 'Finance', icon: 'mdi-cash', to: '/topics/finance' },
       { id: 'topic-organizing', label: 'Organizing', icon: 'mdi-account-multiple-plus', to: '/topics/organizing' },
-      { id: 'topic-legislative-committee', label: 'Legislative (Standing)', icon: 'mdi-bank-outline', to: '/topics/legislative-committee' },
       { id: 'topic-safety-committee', label: 'Safety (Standing)', icon: 'mdi-shield-outline', to: '/topics/safety-committee' },
       { id: 'topic-constitution', label: 'Constitution', icon: 'mdi-gavel', to: '/topics/constitution' },
     ],
@@ -51,7 +50,6 @@ export const topicsSidebar: NatcaNavSection[] = [
   {
     title: 'Cross-Cutting',
     items: [
-      { id: 'topic-national', label: 'National', icon: 'mdi-flag-variant', to: '/topics/national' },
       { id: 'topic-legislative', label: 'Legislative', icon: 'mdi-bank', to: '/topics/legislative' },
       { id: 'topic-events', label: 'Events', icon: 'mdi-calendar-star', to: '/topics/events' },
       { id: 'topic-labor-relations', label: 'Labor Relations', icon: 'mdi-scale-balance', to: '/topics/labor-relations' },

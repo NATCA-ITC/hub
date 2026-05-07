@@ -68,12 +68,12 @@ _Tracks every page from natca.org's authenticated members section and its migrat
 
 ## Topics
 
-_New surface added 2026-05-06 from Nick's council-structure draft. Each topic mirrors a Discord channel under the TOPICS category. Source data: `src/data/topics.ts`._
+_New surface added 2026-05-06 from Nick's council-structure draft. Each topic mirrors a private **forum** channel under the Discord TOPICS category. Source data: `src/data/topics.ts`._
 
 | Topic | Slug | Hub Route | Status |
 |---|---|---|---|
 | Topics directory | — | `/topics` | **Stub** — searchable, grouped by type (council / standing / cross-cutting) |
-| Per-topic pages (18) | various | `/topics/:slug` | **Stub** — leads + committees rendered, updates/docs/Discord placeholders |
+| Per-topic pages (16) | various | `/topics/:slug` | **Stub** — leads + committees rendered, updates/docs/Discord placeholders |
 | Training & Education Council | `training-education` | `/topics/training-education` | Stub |
 | Employee Wellness Council | `employee-wellness` | `/topics/employee-wellness` | Stub |
 | Representation & Advocacy Council | `representation-advocacy` | `/topics/representation-advocacy` | Stub |
@@ -85,11 +85,9 @@ _New surface added 2026-05-06 from Nick's council-structure draft. Each topic mi
 | Membership Services Council | `membership-services` | `/topics/membership-services` | Stub |
 | Finance (Standing) | `finance` | `/topics/finance` | Stub |
 | Organizing (Standing) | `organizing` | `/topics/organizing` | Stub |
-| Legislative Committee (Standing) | `legislative-committee` | `/topics/legislative-committee` | Stub |
 | Safety Committee (Standing) | `safety-committee` | `/topics/safety-committee` | Stub |
 | Constitution (Standing) | `constitution` | `/topics/constitution` | Stub |
-| National (Cross-cutting) | `national` | `/topics/national` | Stub |
-| Legislative (Cross-cutting) | `legislative` | `/topics/legislative` | Stub |
+| Legislative (Cross-cutting) — includes Nick's standing committee | `legislative` | `/topics/legislative` | Stub |
 | Events (Cross-cutting) | `events` | `/topics/events` | Stub |
 | Labor Relations (Cross-cutting) | `labor-relations` | `/topics/labor-relations` | Stub |
 

@@ -209,14 +209,6 @@ export const topics: Topic[] = [
     leads: [{ role: 'Lead', name: 'Mick' }],
   },
   {
-    slug: 'legislative-committee',
-    name: 'Legislative (Standing Committee)',
-    type: 'standing-committee',
-    icon: 'mdi-bank-outline',
-    description: 'Standing committee — congressional advocacy and legislative strategy.',
-    leads: [{ role: 'Lead', name: 'Nick' }],
-  },
-  {
     slug: 'safety-committee',
     name: 'Safety (Standing Committee)',
     type: 'standing-committee',
@@ -235,18 +227,12 @@ export const topics: Topic[] = [
 
   // ---------------- Cross-cutting Topics ----------------
   {
-    slug: 'national',
-    name: 'National',
-    type: 'cross-cutting',
-    icon: 'mdi-flag-variant',
-    description: 'Member-wide announcements, NEB updates, and organization-level news.',
-  },
-  {
     slug: 'legislative',
     name: 'Legislative',
     type: 'cross-cutting',
     icon: 'mdi-bank',
-    description: 'Broader legislative discussion — bills, calls to action, NATCA PAC, NIW.',
+    description: 'Bills, calls to action, NATCA PAC, NIW, and standing-committee legislative work.',
+    leads: [{ role: 'Standing Committee Lead', name: 'Nick' }],
   },
   {
     slug: 'events',
