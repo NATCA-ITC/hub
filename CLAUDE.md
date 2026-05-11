@@ -50,6 +50,11 @@ Before working in a specific area, read the relevant file from `docs/agent_docs/
 - `architecture.md` — system design and component relationships
 - `platform-integration.md` — how Hub connects through Platform
 
+**Before building or modifying ANY page** (read these first — they're the contract every NATCA app must satisfy):
+- `node_modules/@natca-itc/ui-shell/docs/agent_docs/page-patterns.md` — page anatomy, button sizing, card variants, table chrome, forms, tabs, pills, dialogs, plus the Chrome MCP validation loop. Every UI change has to pass it.
+- `node_modules/@natca-itc/ui-shell/docs/agent_docs/component-usage.md` — when to use Natca primitives vs Vuetify directly, anti-patterns.
+- `node_modules/@natca-itc/ui-shell/docs/agent_docs/architecture.md` — theme, defaults, component layers, three-step setup.
+
 ### Key Technical Details
 
 **UI Shell integration:**

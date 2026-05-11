@@ -20,7 +20,7 @@
     "@fastify/http-proxy": "^11.4.4",
     "@fastify/static": "^9.1.3",
     "@mdi/font": "^7.4.47",
-    "@natca-itc/ui-shell": "0.4.0-beta.2",
+    "@natca-itc/ui-shell": "0.4.0-beta.10",
     "@supabase/supabase-js": "^2.51.0",
     "@unhead/vue": "^3.0.4",
     "@vueuse/core": "10.11.1",
