@@ -1,3 +1,14 @@
+> **Retired 2026-10-01.** There is no separate member hub. The member side of natca.org is being built in
+> [NATCA-ITC/mn](https://github.com/NATCA-ITC/mn) (ADR 0019, `docs/architecture/decisions/0019-member-home-lives-in-mn.md`).
+> No new work lands here.
+>
+> - Plan, inventory and traffic: `mn/docs/member-home/`
+> - Mock-ups for the port: `mn/docs/mockups/member-home/`
+> - The Updates mock-ups from this repo's branches: `mn/docs/mockups/updates/`
+> - The NCEPT, hardship, SSR and NEST page content from `src/pages/employee-movement/`: `mn/docs/member-home/source/hub-2026-04-22/`
+>
+> `docs/hub-migration-plan.md` and `docs/page-inventory.md` in this repo are superseded.
+
 # MyNATCA Hub
 
 Vue.js admin dashboard for the MyNATCA platform providing member management, facility administration, and analytics capabilities.
